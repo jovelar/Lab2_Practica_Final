@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1688908603 source:i:\utn2022\lab2_practica_final\pruebas_varias\main.c
+	<stdio.h>
+	<stdlib.h>
+
