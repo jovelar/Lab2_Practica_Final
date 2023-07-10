@@ -1,0 +1,50 @@
+INSERTAR NODO (LISTA SIMPLE)====================================================================================
+
+nodoDestino* insertarOrdenadoAlfabeticamente(nodoDestino* listaDestinos, nodoDestino *nuevoNodo)
+{
+    if(listaDestinos==NULL){
+        listaDestinos=nuevoNodo;
+    }
+    else
+    {
+        if(strcmp(nuevoNodo->nombre,listaDestinos->nombre)<=0)
+        {
+            nuevoNodo->sig=listaDestinos;
+            listaDestinos=nuevoNodo;
+        }
+        else
+        {
+            nodoDestino *auxiliar=listaDestinos;
+            nodoDestino *anterior=listaDestinos;
+            while( auxiliar!=NULL && strcmp(nuevoNodo->nombre,auxiliar->nombre)>=0)
+            {
+                anterior=auxiliar;
+                auxiliar=auxiliar->sig;
+            }
+            anterior->sig=nuevoNodo;
+            nuevoNodo->sig=auxiliar;
+        }
+
+    }
+
+    return listaDestinos;
+}
+
+
+INSERTAR NODO RECURSIVO (LISTA SIMPLE)==============================================================================
+
+nodoDestino* insertarOrdenadoAlfabeticamenteRecursivo(nodoDestino* listaDestinos, nodoDestino* nuevoNodo) {
+    if (listaDestinos == NULL) {
+        listaDestinos = nuevoNodo;
+    } else {
+        if (strcmp(nuevoNodo->nombre, listaDestinos->nombre) <= 0) {
+            nuevoNodo->sig = listaDestinos;
+            listaDestinos = nuevoNodo;
+        } else {
+            listaDestinos->sig = insertarOrdenadoAlfabeticamenteRecursivo(listaDestinos->sig, nuevoNodo);
+        }
+    }
+
+    return listaDestinos;
+}
+

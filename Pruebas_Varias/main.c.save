@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct
+{
+    int nota;
+    char nombre[40];
+
+}nota;
+
+typedef struct
+{
+    char nombreMateria[20];
+    nota notaAlumno;
+}nodo;
+
+
+
+int main()
+{
+    nodo *nuevoNodo=(nodo*)malloc(sizeof(nodo));
+    nota 
+    
+    return 0;
+}
+
+void prueba_nodo_en_nodo_puntero()
+{
+
+}

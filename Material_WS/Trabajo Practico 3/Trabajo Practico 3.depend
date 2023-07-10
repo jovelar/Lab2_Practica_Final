@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1661973598 source:c:\users\personal computer\desktop\trabajo practico n3 - recursion\trabajo practico 3\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<conio.h>
+	<locale.h>
+
+1661973692 source:g:\otros ordenadores\mi portátil\carpeta drive\utn\2º cuatrimestre\programacion\02. recursión (terminado)\trabajo practico n3 - recursion\trabajo practico 3\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<conio.h>
+	<locale.h>
+
