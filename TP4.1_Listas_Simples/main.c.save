@@ -34,7 +34,7 @@ int main()
 int menu()
 {
     int opc=0;
-    printf("1- Pasar registros archivo a lista enlazada \n");
+    printf("1- \n");
     printf("2-Borrar nodo \n");
     printf("3-Mostrar lista \n");
     printf("ESC- para salir \n");
@@ -43,4 +43,5 @@ int menu()
 
 nodo *menuIngresar()
 {
+    printf()
 }

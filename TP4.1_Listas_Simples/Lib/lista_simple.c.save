@@ -58,9 +58,9 @@ nodo *insertarOrdenado(nodo *lista, nodo *nuevo)
 nodo *buscarNodo(nodo *lista,int datoABuscar)
 {
     nodo *resultadoBusqueda=NULL;
-    nodo *auxiliar=lista;
-    if(auxiliar!=NULL)
+    if(lista!=NULL)
     {
+        nodo *auxiliar=lista;
         while(auxiliar!=NULL && resultadoBusqueda==NULL)
         {
             if(auxiliar->dato==datoABuscar)
@@ -116,33 +116,4 @@ void mostrarLista(nodo *lista)
     {
         printf("La lista esta vacia! \n");
     }
-}
-
-nodo *pasarArchivoALista(char nombreArchivo[30])
-{
-    nodo *lista=inicializar();
-
-    FILE *archivo=fopen(nombreArchivo,"r");
-
-    if(archivo)
-    {
-        nodo buffer;
-        while(fread(&buffer,sizeof(nodo),1,archivo)>0)
-        {
-            nodo *nuevo=crearNodo(buffer.dato);
-            lista=insertarAlPrincipio(lista,nuevo);
-        }
-        fclose(archivo);
-    }
-    else
-    {
-        printf("El archivo no existe o no se pudo abrir!");
-    }
-
-    return lista;
-}
-
-void generarArchivoRegistros(char nombreArchivo[30])
-{
-
 }

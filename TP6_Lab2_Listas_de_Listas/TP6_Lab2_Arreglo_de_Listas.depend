@@ -1,16 +1,16 @@
 # depslib dependency file v1.0
-1688941527 source:i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\lib\utilidades.c
+1688947734 source:i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\lib\utilidades.c
 	"utilidades.h"
 
-1688942524 i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\lib\utilidades.h
+1688947734 i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\lib\utilidades.h
 	"ADL.h"
 	<stdio.h>
 
-1688942672 i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\lib\adl.h
+1688947734 i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\lib\adl.h
 	<stdio.h>
 	<string.h>
 
-1688945385 source:i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\main.c
+1688947734 source:i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -18,6 +18,6 @@
 	"Lib/ADL.h"
 	<windows.h>
 
-1688945750 source:i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\lib\adl.c
+1688947734 source:i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\lib\adl.c
 	"ADL.h"
 

@@ -18,7 +18,8 @@ nodo *buscarNodo(nodo *lista,int datoABuscar);
 void *borrarNodo(nodo *lista, int dato);
 void mostrarLista(nodo *lista);
 
-nodo *pasarArchivoALista(char nombreArchivo[30]);
-
-void generarArchivoRegistros(char nombreArchivo[30]);
+nodo *pasarArchivoALista(char nombreArchivo[30])
+{
+    no
+}
 #endif // LISTA_SIMPLE_H
