@@ -1,0 +1,22 @@
+GITHUB Matias
+
+    github.com/matias33pascual/UTN-Laboratorio-2/
+
+Chaldu TDA Listas Enlazadas y Listas Dobles en C
+
+    https://prezi.com/xrelk2yod00q/tda-listas-enlazadas-y-listas-dobles-lenguaje-c/
+
+TDA -PILAS Y COLAS
+
+    prezi.com/b8wehkycdpow/estructura-de-datos-pila-y-cola/
+
+Estructura de Datos PILA y COLA
+
+    prezi.com/b8wehkycdpow/estructuras-de-datos-pila-y-cola/
+
+Arreglo de Listas
+
+    https://prezi.com/lc7ryu3sa5wr/arreglos-de-listas-en-lenguaje-c/
+
+
+CHALDU Arreglo de Listas   https://www.youtube.com/watch?v=tVQY7UJ5oII&ab_channel=YouTics
