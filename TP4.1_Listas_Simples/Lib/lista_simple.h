@@ -2,6 +2,7 @@
 #define LISTA_SIMPLE_H
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct
 {
@@ -19,6 +20,10 @@ void *borrarNodo(nodo *lista, int dato);
 void mostrarLista(nodo *lista);
 
 nodo *pasarArchivoALista(char nombreArchivo[30]);
+nodo *pasarArchivoAListaOrdenado(char nombreArchivo[30]);
 
+int buscarEnListaOrdenada(nodo *lista, int dato);
+int buscarEnListaDesordenada(nodo *lista,int dato);
 void generarArchivoRegistros(char nombreArchivo[30]);
+int numeroRND(int limiteMinimo, int limiteMaximo);
 #endif // LISTA_SIMPLE_H
