@@ -1,8 +1,0 @@
-void mostrarRegistroAprobados(char nombreArchivo[40]);
-void mostrarArregloCeldas(celda arregloCeldas[], int validos);
-void mostrarCelda(celda celdaAVisualizar);
-void mostrarBuffer(registroArchivo buffer);
-void mostrarNota(notaAlumno nota);
-void mostrarListaNotas(nodo *listaNotas);
-void mostrarListaCompleta(celda listaMaterias[],int validos);
-void generarArchivoRegistros(char nombreArchivo[30]);
