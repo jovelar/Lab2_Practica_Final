@@ -2,7 +2,7 @@
 
 void mostrarRegistroAprobados(char nombreArchivo[40])
 {
-    FILE * archivo=fopen(nombreArchivo,"r");
+    FILE * archivo=fopen(nombreArchivo,"rb");
     if(archivo)
     {
         registroArchivo buffer;
@@ -66,7 +66,7 @@ void generarArchivoRegistros(char nombreArchivo[30])
     //ARTE 5
 
 
-    FILE *archivo=fopen(nombreArchivo,"w");
+    FILE *archivo=fopen(nombreArchivo,"wb");
     registroArchivo listaDeAlumnos[]={
         //QUIMICA
         {10,10488,"Mariana Gomez","Quimica",1},

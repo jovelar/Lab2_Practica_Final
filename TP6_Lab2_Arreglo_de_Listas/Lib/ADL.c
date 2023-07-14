@@ -89,63 +89,28 @@ int pasarDeArchivoToADL(celda materias[],int materiasValidas,char nombreArchivo[
     return materiasValidas;
 }
 
-int validaNotaAprobada(nodo *nota, int valorLimite)
-{
-    int aprobado=0; //0 desaprobado 1 aprobado
-
-    return aprobado;
-}
-
 
 void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSalida[40])
 {
+    FILE *archivo=fopen(archivoSalida,"wb");
 
-        registroArchivo buffer;
-        nodo *punteroANota;
-        for(int x=0;x<validos;x++)
-        {
-            punteroANota=listaADL[x].listaDeNotas;
-            while(punteroANota!=NULL)
-            {
-                if(punteroANota->dato.nota>=6)
-                {
-                    buffer.nota=punteroANota->dato.nota;
-                    buffer.legajo=punteroANota->dato.legajo;
-                    strcpy(buffer.nombreApe,punteroANota->dato.nombreApe);
-                    strcpy(buffer.materia,listaADL[x].materia);
-                    buffer.idMateria=listaADL[x].idMateria;
-                    escribirAArchivo(archivoSalida,buffer);
-                }
-                punteroANota=punteroANota->siguiente;
-            }
-        }
-
-}
-
-
-
-/*
-void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSalida[40])
-{
-    FILE *archivo=fopen(archivoSalida,"w");
     if(archivo)
     {
-        registroArchivo buffer;
-        nodo *punteroANota;
         for(int x=0;x<validos;x++)
         {
-            punteroANota=listaADL[x].listaDeNotas;
+
+            nodo *punteroANota=listaADL[x].listaDeNotas;
             while(punteroANota!=NULL)
             {
                 if(punteroANota->dato.nota>=6)
                 {
+                    registroArchivo buffer;
                     buffer.nota=punteroANota->dato.nota;
                     buffer.legajo=punteroANota->dato.legajo;
                     strcpy(buffer.nombreApe,punteroANota->dato.nombreApe);
                     strcpy(buffer.materia,listaADL[x].materia);
                     buffer.idMateria=listaADL[x].idMateria;
-                    //fwrite(&buffer,sizeof(registroArchivo),1,archivo);
-                    escribirAArchivo(archivoSalida,buffer);
+                    fwrite(&buffer,sizeof(registroArchivo),1,archivo);
                 }
                 punteroANota=punteroANota->siguiente;
             }
@@ -155,19 +120,5 @@ void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSa
     else
     {
         printf("El archivo no existe/no se pudo crear!");
-    }
-}
-*/
-void escribirAArchivo(char nombreArchivo[40],registroArchivo registroNuevo)
-{
-    FILE *archivo=fopen(nombreArchivo,"a");
-    if(archivo)
-    {
-        fwrite(&registroNuevo,sizeof(registroArchivo),1,archivo);
-        fclose(archivo);
-    }
-    else
-    {
-        printf("\n El archivo no existe\ no se pudo abrir \n");
     }
 }

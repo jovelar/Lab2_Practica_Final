@@ -96,6 +96,43 @@ int validaNotaAprobada(nodo *nota, int valorLimite)
     return aprobado;
 }
 
+
+void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSalida[40])
+{
+    FILE *archivo=fopen(archivoSalida,"w");
+    if(archivo)
+    {
+        registroArchivo buffer;
+        nodo *punteroANota;
+        for(int x=0;x<validos;x++)
+        {
+            punteroANota=listaADL[x].listaDeNotas;
+            while(punteroANota!=NULL)
+            {
+                if(punteroANota->dato.nota>=6)
+                {
+                    buffer.nota=punteroANota->dato.nota;
+                    buffer.legajo=punteroANota->dato.legajo;
+                    strcpy(buffer.nombreApe,punteroANota->dato.nombreApe);
+                    strcpy(buffer.materia,listaADL[x].materia);
+                    buffer.idMateria=listaADL[x].idMateria;
+                    fwrite(&buffer2,sizeof(registroArchivo),1,archivo);
+                    //escribirAArchivo(archivoSalida,buffer);
+                }
+                punteroANota=punteroANota->siguiente;
+            }
+        }
+        fclose(archivo);
+    }
+    else
+    {
+        printf("El archivo no existe/no se pudo crear!");
+    }
+}
+
+
+
+/*
 void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSalida[40])
 {
     FILE *archivo=fopen(archivoSalida,"w");
@@ -116,7 +153,7 @@ void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSa
                     strcpy(buffer.materia,listaADL[x].materia);
                     buffer.idMateria=listaADL[x].idMateria;
                     //fwrite(&buffer,sizeof(registroArchivo),1,archivo);
-                    
+                    escribirAArchivo(archivoSalida,buffer);
                 }
                 punteroANota=punteroANota->siguiente;
             }
@@ -128,10 +165,10 @@ void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSa
         printf("El archivo no existe/no se pudo crear!");
     }
 }
-
+*/
 void escribirAArchivo(char nombreArchivo[40],registroArchivo registroNuevo)
 {
-    FILE *archivo=fopen(nombreArchivo,"w+");
+    FILE *archivo=fopen(nombreArchivo,"a");
     if(archivo)
     {
         fwrite(&registroNuevo,sizeof(registroArchivo),1,archivo);

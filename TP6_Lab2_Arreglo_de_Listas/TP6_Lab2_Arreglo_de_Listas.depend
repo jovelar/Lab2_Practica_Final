@@ -21,3 +21,25 @@
 1689318269 source:i:\utn2022\lab2_practica_final\tp6_lab2_listas_de_listas\lib\adl.c
 	"ADL.h"
 
+1689345269 source:i:\utn2022\lab2_practica_final\tp6_lab2_arreglo_de_listas\lib\adl.c
+	"ADL.h"
+
+1689355335 i:\utn2022\lab2_practica_final\tp6_lab2_arreglo_de_listas\lib\adl.h
+	<stdio.h>
+	<string.h>
+
+1689345269 source:i:\utn2022\lab2_practica_final\tp6_lab2_arreglo_de_listas\lib\utilidades.c
+	"utilidades.h"
+
+1689318507 i:\utn2022\lab2_practica_final\tp6_lab2_arreglo_de_listas\lib\utilidades.h
+	"ADL.h"
+	<stdio.h>
+
+1689318507 source:i:\utn2022\lab2_practica_final\tp6_lab2_arreglo_de_listas\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Lib/utilidades.h"
+	"Lib/ADL.h"
+	<windows.h>
+
