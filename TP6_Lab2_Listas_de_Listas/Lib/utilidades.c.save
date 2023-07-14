@@ -1,3 +1,4 @@
+#include "utilidades.h"
 
 void mostrarRegistroAprobados(char nombreArchivo[40])
 {
@@ -6,7 +7,9 @@ void mostrarRegistroAprobados(char nombreArchivo[40])
     {
         registroArchivo buffer;
         while(fread(&buffer,sizeof(registroArchivo),1,archivo)>0)
+        while(fread(&))
         {
+            printf("leyendo\n");
             printf("NOTA: %i, LEGAJO: %i, NOMBRE-APELLIDO: %s, MATERIA: %s, ID-MATERIA: %i \n",buffer.nota,buffer.legajo,buffer.nombreApe,buffer.materia,buffer.idMateria);
         }
     }

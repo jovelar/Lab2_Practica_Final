@@ -23,8 +23,8 @@ int main()
         {
             case 49:
                 materiasValidas=pasarDeArchivoToADL(materiasADL,materiasValidas,archivoRegistros);
-                printf("Se genero el archivo %s",archivoRegistros);
-                Sleep(3000);
+                printf("Se cargo el archivo al Arreglo De Listas! \n");
+                system("pause");
                 system("cls");
             break;
 
@@ -36,8 +36,8 @@ int main()
 
             case 51:
                 pasarDeADLToArchivoDeAprobados(materiasADL,materiasValidas,archivoRegistrosAprobados);
-                printf("Se genero el archivo %s",archivoRegistrosAprobados);
-                Sleep(3000);
+                printf("Se genero el archivo %s \n",archivoRegistrosAprobados);
+                system("pause");
                 system("cls");
             break;
 
@@ -49,8 +49,9 @@ int main()
 
             case 53:
                 generarArchivoRegistros(archivoRegistros);
-                printf("Se regenero el archivo %s",archivoRegistros);
-                Sleep(3000);
+                printf("Se regenero el archivo %s \n",archivoRegistros);
+                purgarArchivo(archivoRegistrosAprobados);
+                system("pause");
                 system("cls");
             break;
 
@@ -65,19 +66,6 @@ int main()
 
         }
     }
-
-    /*celda materias[30];
-    int materiasValidas=0;
-    materiasValidas=pasarDeArchivoToADL(materias,materiasValidas,"RegistroAlumnos.bin");
-
-    printf("Registros cargados= %i \n",materiasValidas);
-    //mostrarArregloCeldas(materias,validos);
-
-    mostrarListaCompleta(materias,materiasValidas);
-
-    pasarDeADLToArchivoDeAprobados(materias,materiasValidas,"RegistroAprobados.bin");
-*/
-    //mostrarRegistroAprobados("RegistroAprobados.bin");
     return 0;
 }
 
@@ -88,7 +76,7 @@ int menu()
     printf("2-Mostrar Arreglo de Listas \n");
     printf("3-Pasar alumnos aprobados de Arreglo De Listas a archivo \n");
     printf("4-Mostrar archivo de registro de aprobados \n");
-    printf("5-Regenerar archivo de registros \n");
+    printf("5-Regenerar archivo de registros y eliminar archivo de aprobados \n");
     printf("6-Salir \n");
     opc=getch();
 

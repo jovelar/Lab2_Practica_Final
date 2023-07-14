@@ -1,3 +1,8 @@
+#ifndef UTILIDADES_H
+#define UTILIDADES_H
+#include "ADL.h"
+#include <stdio.h>
+
 void mostrarRegistroAprobados(char nombreArchivo[40]);
 void mostrarArregloCeldas(celda arregloCeldas[], int validos);
 void mostrarCelda(celda celdaAVisualizar);
@@ -6,3 +11,6 @@ void mostrarNota(notaAlumno nota);
 void mostrarListaNotas(nodo *listaNotas);
 void mostrarListaCompleta(celda listaMaterias[],int validos);
 void generarArchivoRegistros(char nombreArchivo[30]);
+void pui
+
+#endif // UTILIDADES_H

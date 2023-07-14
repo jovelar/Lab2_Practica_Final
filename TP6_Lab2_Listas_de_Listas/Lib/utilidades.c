@@ -107,3 +107,14 @@ void generarArchivoRegistros(char nombreArchivo[30])
         fclose(archivo);
 
 }
+
+void purgarArchivo(char nombreArchivo[40])
+{
+    FILE *archivo=fopen(nombreArchivo,"w");
+    {
+        if(archivo)
+        {
+            fclose(archivo);
+        }
+    }
+}

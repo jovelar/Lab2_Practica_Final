@@ -11,5 +11,7 @@ void mostrarNota(notaAlumno nota);
 void mostrarListaNotas(nodo *listaNotas);
 void mostrarListaCompleta(celda listaMaterias[],int validos);
 void generarArchivoRegistros(char nombreArchivo[30]);
+void purgarArchivo(char nombreArchivo[40]);
+
 
 #endif // UTILIDADES_H

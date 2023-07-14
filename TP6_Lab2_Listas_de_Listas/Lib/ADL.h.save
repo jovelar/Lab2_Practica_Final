@@ -42,8 +42,7 @@ int validaNotaAprobada(nodo *nota, int valorLimite);
 void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSalida[40]);
 
 
-void escribirAArchivo(char nombreArchivo[40],registroArchivo registroNuevo);
-
+void escribirAArchivo(arch)
 #endif ADL_C
 
 

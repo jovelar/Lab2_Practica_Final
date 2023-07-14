@@ -1,3 +1,4 @@
+#include "ADL.h"
 
 celda crearCeldaMateria(int idMateria, char materia[40])
 {
@@ -43,7 +44,6 @@ nodo *crearNodo(notaAlumno nuevaNota)
 
 nodo *insertarAlPrincipio(nodo *lista,nodo *nuevo, notaAlumno notaAlumnoNueva)
 {
-    //printf("INSERTANDO % i % i %s \n",notaAlumnoNueva.nota,notaAlumnoNueva.legajo,notaAlumnoNueva.nombreApe);
     if(lista==NULL)
     {
         lista=nuevo;
@@ -65,12 +65,10 @@ int pasarDeArchivoToADL(celda materias[],int materiasValidas,char nombreArchivo[
 
         while(fread(&buffer,sizeof(registroArchivo),1,archivo)>0)
         {
-            //mostrarBuffer(buffer);
             //PRIMERO SIEMPRE SE CREA EL NODO CON LA NOTA A INSERTAR, Y SE BUSCA LA POSICION DE LA MATERIA
             notaAlumno nuevaNota=(notaAlumno){buffer.nota,buffer.legajo,buffer.nombreApe};
             strcpy(nuevaNota.nombreApe,buffer.nombreApe);
             nodo *nuevo=crearNodo(nuevaNota);
-            //nuevo->siguiente=NULL;
             int posicionMateria=buscarCeldaMateria(materias,buffer.materia,materiasValidas);
 
             if(posicionMateria==-1) // SI NO ENCONTRO LA MATERIA O NO EXISTE
@@ -80,7 +78,6 @@ int pasarDeArchivoToADL(celda materias[],int materiasValidas,char nombreArchivo[
                 materiasValidas=insertarCelda(materias,materiasValidas,nuevaMateria);
                 posicionMateria=materiasValidas-1; //ESENCIAL PARA NO PERDER LA PRIMER NOTA AL INSERTAR!!!
             }
-            printf("insertando nodo \n");
             materias[posicionMateria].listaDeNotas=insertarAlPrincipio(materias[posicionMateria].listaDeNotas,nuevo,nuevaNota);
         }
         fclose(archivo);
@@ -105,9 +102,10 @@ void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSa
     if(archivo)
     {
         registroArchivo buffer;
+        nodo *punteroANota;
         for(int x=0;x<validos;x++)
         {
-            nodo *punteroANota=listaADL[x].listaDeNotas;
+            punteroANota=listaADL[x].listaDeNotas;
             while(punteroANota!=NULL)
             {
                 if(punteroANota->dato.nota>=6)
@@ -117,7 +115,8 @@ void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSa
                     strcpy(buffer.nombreApe,punteroANota->dato.nombreApe);
                     strcpy(buffer.materia,listaADL[x].materia);
                     buffer.idMateria=listaADL[x].idMateria;
-                    fwrite(&buffer,sizeof(registroArchivo),1,archivo);
+                    //fwrite(&buffer,sizeof(registroArchivo),1,archivo);
+                    
                 }
                 punteroANota=punteroANota->siguiente;
             }
@@ -127,5 +126,19 @@ void pasarDeADLToArchivoDeAprobados(celda listaADL[],int validos, char archivoSa
     else
     {
         printf("El archivo no existe/no se pudo crear!");
+    }
+}
+
+void escribirAArchivo(char nombreArchivo[40],registroArchivo registroNuevo)
+{
+    FILE *archivo=fopen(nombreArchivo,"w+");
+    if(archivo)
+    {
+        fwrite(&registroNuevo,sizeof(registroArchivo),1,archivo);
+        fclose(archivo);
+    }
+    else
+    {
+        printf("\n El archivo no existe\ no se pudo abrir \n");
     }
 }
