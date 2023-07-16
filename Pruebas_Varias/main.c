@@ -20,6 +20,7 @@ typedef struct
 int main()
 {
     //prueba_nodo_en_nodo_puntero();
+    prueba_ordenamiento_por_seleccion();
 }
 
 void prueba_nodo_en_nodo_puntero()
@@ -43,27 +44,33 @@ void mostrarNotaEnNodoPuntero(nodo *nodoPuntero)
 
 void prueba_ordenamiento_por_seleccion()
 {
-    int numeros[]={6,8,1,2,5,6,7,5,6,4};
+    int numeros[]={6,8,1,2,5,6,7,5,6,4,24,0,366,1200};
+    printf("\n lista original\n");
     for(int x=0;x<9;x++)
     {
         printf("%i ",numeros[x]);
     }
 
-    int posActual=0;
     int posMenor=0;
-    int menor=0;
-    for(int x=0;x<9;x++)
+    int temp=0;
+    for(int x=0;x<14;x++)
     {
-        for(int z=x;z<9;z++)
+        posMenor=x;
+        for(int z=x+1;z<14;z++)
         {
-            if(numeros[z]<numeros[x])
+            if(numeros[z]<=numeros[posMenor])
             {
-                menor=numeros[z];
                 posMenor=z;
             }
-            temp=numeros[x];
-            numeros[menor]=
         }
+            temp=numeros[x];
+            numeros[x]=numeros[posMenor];
+            numeros[posMenor]=temp;
     }
 
+    printf("\n lista ordenada \n");
+    for(int x=0;x<14;x++)
+    {
+        printf("%i ",numeros[x]);
+    }
 }

@@ -65,7 +65,7 @@ int main()
                 nodo *lista=generarListaAleatoria(30,0,30);
                 printf("\n Lista Inicial \n");
                 mostrarListaNumerada(lista,6);
-                lista=reordenarIntercambiandoPunteros(lista);
+                lista=ordenarReasignando(lista);
                 printf("\n lista ordenada reorganizando punteros");
                 mostrarListaNumerada(lista,6);
                 break;

@@ -241,6 +241,7 @@ int buscarEnListaDesordenada(nodo *lista,int dato)
     return flag;
 }
 
+/*
 nodo *buscaMenor(nodo *lista)
 {
     nodo *menor=NULL;
@@ -266,7 +267,24 @@ nodo *buscaMenor(nodo *lista)
     }
     return menor;
 }
+*/
 
+nodo *buscarMenor(nodo *lista)
+{
+    nodo *menor=lista;
+    lista=lista->siguiente;
+    while(lista!=NULL)
+    {
+        if(lista->dato<menor->dato)
+        {
+            menor=lista;
+        }
+        lista=lista->siguiente;
+    }
+    return menor;
+}
+
+/*
 nodo *reordenarIntercambiandoPunteros(nodo *lista)
 {
     nodo *iterador=lista;
@@ -280,7 +298,33 @@ nodo *reordenarIntercambiandoPunteros(nodo *lista)
     }
     return lista;
 }
+*/
 
+nodo *ordenarReasignando(nodo *lista)
+{
+    nodo *menor;
+    nodo *temp;
+    nodo *auxiliar=lista;
+    nodo *anterior=auxiliar;
+    while(auxiliar!=NULL)
+    {
+        menor=buscarMenor(auxiliar);
+        auxiliar=intercambiar(anterior,auxiliar,menor);
+        anterior=auxiliar;
+        auxiliar=auxiliar->siguiente;
+    }
+    return lista;
+}
+
+nodo *intercambiar(nodo *anterior,nodo *iterador, nodo *menor)
+{
+    anterior->siguiente=menor;
+    iterador->siguiente=menor->siguiente;
+    menor->siguiente=iterador;
+    return iterador;
+}
+
+/*
 nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor)
 {
     if(iterador->dato!=menor->dato)
@@ -291,7 +335,7 @@ nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor)
     }
     return iterador;
 }
-
+*/
 nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
 {
     int contador=0;

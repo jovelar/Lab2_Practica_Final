@@ -27,6 +27,7 @@ int buscarEnListaOrdenada(nodo *lista, int dato);
 int buscarEnListaDesordenada(nodo *lista,int dato);
 
 nodo *buscaMenor(nodo *lista);
+nodo *ordenarReasignando(nodo *lista);
 nodo *reordenarIntercambiandoPunteros(nodo *lista);
 nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor);
 
