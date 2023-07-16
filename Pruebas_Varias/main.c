@@ -19,7 +19,7 @@ typedef struct
 
 int main()
 {
-    prueba_nodo_en_nodo_puntero();
+    //prueba_nodo_en_nodo_puntero();
 }
 
 void prueba_nodo_en_nodo_puntero()
@@ -39,4 +39,31 @@ void prueba_nodo_en_nodo_puntero()
 void mostrarNotaEnNodoPuntero(nodo *nodoPuntero)
 {
     printf("MATERIA: %s, NOTA: %i, NOMBRE: %s",nodoPuntero->nombreMateria,nodoPuntero->notaAlumno.nota,nodoPuntero->notaAlumno.nombre);
+}
+
+void prueba_ordenamiento_por_seleccion()
+{
+    int numeros[]={6,8,1,2,5,6,7,5,6,4};
+    for(int x=0;x<9;x++)
+    {
+        printf("%i ",numeros[x]);
+    }
+
+    int posActual=0;
+    int posMenor=0;
+    int menor=0;
+    for(int x=0;x<9;x++)
+    {
+        for(int z=x;z<9;z++)
+        {
+            if(numeros[z]<numeros[x])
+            {
+                menor=numeros[z];
+                posMenor=z;
+            }
+            temp=numeros[x];
+            numeros[menor]=
+        }
+    }
+
 }
