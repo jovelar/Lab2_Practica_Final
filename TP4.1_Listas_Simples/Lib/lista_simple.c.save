@@ -1,4 +1,6 @@
 #include "lista_simple.h"
+
+
 nodo *inicializar()
 {
     return NULL;
@@ -51,6 +53,24 @@ nodo *insertarOrdenado(nodo *lista, nodo *nuevo)
     }
     else
     {
+        if(lista->dato >= nuevo->dato) // SI ES EL PRIMERO
+        {
+            printf("primero \n");
+            nuevo->siguiente=lista;
+            lista=nuevo;
+        }
+        else
+        {
+            nodo *auxiliar=lista;
+            nodo *anterior=lista;
+            while(auxiliar!=NULL && auxiliar->dato < nuevo->dato)
+            {
+                anterior=auxiliar;
+                auxiliar=auxiliar->siguiente;
+            }
+            nuevo->siguiente=auxiliar;
+            anterior->siguiente=nuevo;
+        }
 
     }
     return lista;
@@ -58,9 +78,9 @@ nodo *insertarOrdenado(nodo *lista, nodo *nuevo)
 nodo *buscarNodo(nodo *lista,int datoABuscar)
 {
     nodo *resultadoBusqueda=NULL;
-    if(lista!=NULL)
+    nodo *auxiliar=lista;
+    if(auxiliar!=NULL)
     {
-        nodo *auxiliar=lista;
         while(auxiliar!=NULL && resultadoBusqueda==NULL)
         {
             if(auxiliar->dato==datoABuscar)
@@ -110,6 +130,7 @@ void mostrarLista(nodo *lista)
         while(auxiliar!=NULL)
         {
             printf("NODO: %p, DATO: %i \n",&auxiliar,auxiliar->dato);
+            auxiliar=auxiliar->siguiente;
         }
     }
     else
@@ -117,3 +138,197 @@ void mostrarLista(nodo *lista)
         printf("La lista esta vacia! \n");
     }
 }
+void mostrarListaNumerada(nodo *lista)
+{
+    nodo *auxiliar=lista;
+    while(auxiliar!=NULL)
+    {
+    int contador;
+    printf("NODO %i : %i |");
+    contador++;
+    if(contador==15)
+    {
+        printf("\n");
+        contador=0;
+    }
+        
+    }
+}
+nodo *pasarArchivoALista(char nombreArchivo[30])
+{
+    nodo *lista=inicializar();
+
+    FILE *archivo=fopen(nombreArchivo,"r");
+
+    if(archivo)
+    {
+        nodo buffer;
+        while(fread(&buffer,sizeof(nodo),1,archivo)>0)
+        {
+            nodo *nuevo=crearNodo(buffer.dato);
+            lista=insertarAlPrincipio(lista,nuevo);
+        }
+        fclose(archivo);
+    }
+    else
+    {
+        printf("El archivo no existe o no se pudo abrir!");
+    }
+
+    return lista;
+}
+nodo *pasarArchivoAListaOrdenado(char nombreArchivo[30])
+{
+    nodo *lista=inicializar();
+
+    FILE *archivo=fopen(nombreArchivo,"r");
+
+    if(archivo)
+    {
+        nodo buffer;
+        while(fread(&buffer,sizeof(nodo),1,archivo)>0)
+        {
+            nodo *nuevo=crearNodo(buffer.dato);
+            lista=insertarOrdenado(lista,nuevo);
+            //lista=insertarAlPrincipio(lista,nuevo);
+        }
+        fclose(archivo);
+    }
+    else
+    {
+        printf("El archivo no existe o no se pudo abrir!");
+    }
+    return lista;
+}
+
+
+int buscarEnListaOrdenada(nodo *lista, int dato)
+{
+    int flag=0;
+    if(lista!=NULL)
+    {
+        nodo *auxiliar=lista;
+        while(auxiliar!=NULL && flag==0 && auxiliar->dato<dato)
+        {
+            if(lista->dato==dato)
+            {
+                flag=1;
+            }
+            auxiliar=auxiliar->siguiente;
+        }
+    }
+    return flag;
+}
+
+int buscarEnListaDesordenada(nodo *lista,int dato)
+{
+    int flag=0;
+    if(lista!=NULL)
+    {
+        nodo *auxiliar=lista;
+        while(auxiliar!=NULL && flag==0)
+        {
+            if(dato==lista->dato)
+            {
+                flag=1;
+            }
+            auxiliar=auxiliar->siguiente;
+        }
+    }
+    return flag;
+}
+
+nodo *buscaMenor(nodo *lista)
+{
+    nodo *menor=NULL;
+    nodo *auxiliar=lista;
+
+    if(auxiliar!=NULL)
+    {
+        while(auxiliar!=NULL)
+        {
+            if(menor==NULL)
+            {
+                menor=auxiliar;
+            }
+            else
+            {
+                if(auxiliar->dato<menor->dato)
+                {
+                    menor=auxiliar;
+                }
+            }
+            auxiliar=auxiliar->siguiente;
+        }
+    }
+    return menor;
+}
+
+nodo *reordenarIntercambiandoPunteros(nodo *anterior,nodo *iterador,nodo *siguiente)
+{
+    while(iterador!=NULL)
+    {
+        anterior=iterador;
+        iterador=iterador->siguiente;
+        nodo *menor=buscaMenor(iterador);
+        iterador=intercambiar(anterior,iterador,menor);
+    }
+    return iterador;
+}
+
+nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor)
+{
+    if(iterador->dato!=menor->dato)
+    {
+        anterior->siguiente=menor;
+        iterador->siguiente=menor->siguiente;
+        menor->siguiente=iterador;
+    }
+    return iterador;
+}
+
+nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
+{
+    int contador=0;
+    nodo *listaGenerada;
+    while(contador<=cantNodos)
+    {
+        int valorAzar=numeroRND(limiteInferior,limiteSuperior);
+        nodo *nuevo=(nodo*)malloc(sizeof(nodo));
+        nuevo->dato=valorAzar;
+        listaGenerada=insertarAlFinal(listaGenerada,nuevo);
+        contador++;
+    }
+    return listaGenerada;
+}
+
+void generarArchivoRegistros(char nombreArchivo[30])
+{
+    nodo arreglo[30];
+    for(int x=0;x<30;x++)
+    {
+        nodo buffer;
+        buffer.dato=numeroRND(1,10);
+        buffer.siguiente=NULL;
+        arreglo[x]=buffer;
+    }
+    FILE *archivo=fopen(nombreArchivo,"w");
+    if(archivo)
+    {
+        for(int x=0; x<30;x++)
+        {
+            fwrite(&arreglo[x],sizeof(nodo),1,archivo);
+        }
+        fclose(archivo);
+    }
+    else
+    {
+        printf("El archivo no se pudo crear! \n");
+    }
+}
+
+int numeroRND(int limiteMinimo, int limiteMaximo)
+{
+    return limiteMinimo+ rand()%limiteMaximo;
+}
+

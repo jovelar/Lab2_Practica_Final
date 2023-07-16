@@ -16,7 +16,7 @@ int main()
         switch(opc)
         {
             case 49:; //; PARA EMPTY STATEMENT, NO SE PUEDE DECLARAR VARIABLES DESPUES DE UN LABEL
-
+                      //[1]
                 nodo *listaACargar=inicializar();
                 listaACargar=pasarArchivoALista(nombreArchivo);
                 mostrarLista(listaACargar);
@@ -26,7 +26,7 @@ int main()
 
             break;
 
-            case 50:;
+            case 50:; //[2]
 
                 nodo *listaACargar2=inicializar();
                 listaACargar2=pasarArchivoAListaOrdenado(nombreArchivo);
@@ -37,7 +37,7 @@ int main()
 
             break;
 
-            case 51:
+            case 51: //[3]
                 system("cls");
                 printf("1- lista desordenada \n");\
                 printf("2- Lista ordenada");
@@ -61,6 +61,18 @@ int main()
 
             break;
 
+            case 52:; //[4]
+                nodo *lista=generarListaAleatoria(30,0,30);
+                printf("\n Lista Inicial \n");
+                mostrarListaNumerada(lista,6);
+                lista=reordenarIntercambiandoPunteros(lista);
+                printf("\n lista ordenada reorganizando punteros");
+                mostrarListaNumerada(lista,6);
+                break;
+
+            case 53:
+                break;
+
             case 27:
             break;
 
@@ -79,6 +91,8 @@ int menu()
     printf("1- Pasar registros archivo a lista enlazada \n");
     printf("2- Pasar registros archivo a lista enlazada de forma ordenada \n");
     printf("3-Mostrar lista \n");
+    printf("4-Ordenar fila reasignando punteros \n");
+    printf("5-Opcion 5 \n");
     printf("ESC- para salir \n");
     fflush(stdin);
     opc=getch();

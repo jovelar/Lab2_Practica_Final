@@ -138,7 +138,25 @@ void mostrarLista(nodo *lista)
         printf("La lista esta vacia! \n");
     }
 }
-
+void mostrarListaNumerada(nodo *lista, int maxItemsPorLinea)
+{
+    nodo *auxiliar=lista;
+    int contador=0;
+    int posicion=0;
+    while(auxiliar!=NULL)
+    {
+        printf("NODO %3i : %3i |",posicion,auxiliar->dato);
+        contador++;
+        posicion++;
+        if(contador==maxItemsPorLinea)
+        {
+            printf("\n");
+            contador=0;
+        }
+        auxiliar=auxiliar->siguiente;
+    }
+    printf("\n");
+}
 nodo *pasarArchivoALista(char nombreArchivo[30])
 {
     nodo *lista=inicializar();
@@ -223,6 +241,71 @@ int buscarEnListaDesordenada(nodo *lista,int dato)
     return flag;
 }
 
+nodo *buscaMenor(nodo *lista)
+{
+    nodo *menor=NULL;
+    nodo *auxiliar=lista;
+
+    if(auxiliar!=NULL)
+    {
+        while(auxiliar!=NULL)
+        {
+            if(menor==NULL)
+            {
+                menor=auxiliar;
+            }
+            else
+            {
+                if(auxiliar->dato<menor->dato)
+                {
+                    menor=auxiliar;
+                }
+            }
+            auxiliar=auxiliar->siguiente;
+        }
+    }
+    return menor;
+}
+
+nodo *reordenarIntercambiandoPunteros(nodo *lista)
+{
+    nodo *iterador=lista;
+    nodo *anterior;
+    while(iterador!=NULL)
+    {
+        anterior=iterador;
+        iterador=iterador->siguiente;
+        nodo *menor=buscaMenor(iterador);
+        iterador=intercambiar(anterior,iterador,menor);
+    }
+    return lista;
+}
+
+nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor)
+{
+    if(iterador->dato!=menor->dato)
+    {
+        anterior->siguiente=menor;
+        iterador->siguiente=menor->siguiente;
+        menor->siguiente=iterador;
+    }
+    return iterador;
+}
+
+nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
+{
+    int contador=0;
+    nodo *listaGenerada;
+    while(contador<cantNodos)
+    {
+        int valorAzar=numeroRND(limiteInferior,limiteSuperior);
+        nodo *nuevo=(nodo*)malloc(sizeof(nodo));
+        nuevo->dato=valorAzar;
+        listaGenerada=insertarAlPrincipio(listaGenerada,nuevo);
+        contador++;
+    }
+    return listaGenerada;
+}
 
 void generarArchivoRegistros(char nombreArchivo[30])
 {
