@@ -242,33 +242,7 @@ int buscarEnListaDesordenada(nodo *lista,int dato)
     return flag;
 }
 
-/*
-nodo *buscaMenor(nodo *lista)
-{
-    nodo *menor=NULL;
-    nodo *auxiliar=lista;
 
-    if(auxiliar!=NULL)
-    {
-        while(auxiliar!=NULL)
-        {
-            if(menor==NULL)
-            {
-                menor=auxiliar;
-            }
-            else
-            {
-                if(auxiliar->dato<menor->dato)
-                {
-                    menor=auxiliar;
-                }
-            }
-            auxiliar=auxiliar->siguiente;
-        }
-    }
-    return menor;
-}
-*/
 
 nodo *buscarMenor(nodo *lista)
 {
@@ -285,60 +259,35 @@ nodo *buscarMenor(nodo *lista)
     return menor;
 }
 
-/*
-nodo *reordenarIntercambiandoPunteros(nodo *lista)
+nodo *intercambiar(nodo *anterior,nodo *auxiliar,nodo *menor)
 {
-    nodo *iterador=lista;
-    nodo *anterior;
-    while(iterador!=NULL)
-    {
-        anterior=iterador;
-        iterador=iterador->siguiente;
-        nodo *menor=buscaMenor(iterador);
-        iterador=intercambiar(anterior,iterador,menor);
-    }
-    return lista;
+    anterior->siguiente=menor;
+    auxiliar->siguiente=menor->siguiente;
+    menor->siguiente=auxiliar;
+    return auxiliar;
 }
-*/
 
 nodo *ordenarReasignando(nodo *lista)
 {
-    nodo *menor;
-    nodo *temp;
+    //printf("\ dato nodo : %i \n",lista->dato);
     nodo *auxiliar=lista;
     nodo *anterior=auxiliar;
+    nodo *menor;
+
     while(auxiliar!=NULL)
     {
-        menor=buscarMenor(auxiliar);
-        auxiliar=intercambiar(anterior,auxiliar,menor);
-        mostrarLista(auxiliar);
         anterior=auxiliar;
+
+        menor=buscarMenor(auxiliar);
+        //if(lista->dato!=menor->dato)
+        //{
+            auxiliar=intercambiar(anterior,auxiliar,menor);
+        //}
         auxiliar=auxiliar->siguiente;
     }
     return lista;
 }
 
-nodo *intercambiar(nodo *anterior,nodo *iterador, nodo *menor)
-{
-    anterior->siguiente=menor;
-    printf("\n %i ->siguiente apunta a %i \n",anterior->dato,menor->dato);
-    iterador->siguiente=menor->siguiente;
-    menor->siguiente=iterador;
-    return iterador;
-}
-
-/*
-nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor)
-{
-    if(iterador->dato!=menor->dato)
-    {
-        anterior->siguiente=menor;
-        iterador->siguiente=menor->siguiente;
-        menor->siguiente=iterador;
-    }
-    return iterador;
-}
-*/
 nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
 {
     //srand(time(NULL));

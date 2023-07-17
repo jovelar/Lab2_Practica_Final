@@ -28,7 +28,6 @@ int buscarEnListaDesordenada(nodo *lista,int dato);
 
 nodo *buscarMenor(nodo *lista);
 nodo *ordenarReasignando(nodo *lista);
-nodo *reordenarIntercambiandoPunteros(nodo *lista);
 nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor);
 
 nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior);
