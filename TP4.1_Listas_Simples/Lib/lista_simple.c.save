@@ -138,21 +138,24 @@ void mostrarLista(nodo *lista)
         printf("La lista esta vacia! \n");
     }
 }
-void mostrarListaNumerada(nodo *lista)
+void mostrarListaNumerada(nodo *lista, int maxItemsPorLinea)
 {
     nodo *auxiliar=lista;
+    int contador=0;
+    int posicion=0;
     while(auxiliar!=NULL)
     {
-    int contador;
-    printf("NODO %i : %i |");
-    contador++;
-    if(contador==15)
-    {
-        printf("\n");
-        contador=0;
+        printf("NODO %3i : %3i |",posicion,auxiliar->dato);
+        contador++;
+        posicion++;
+        if(contador==maxItemsPorLinea)
+        {
+            printf("\n");
+            contador=0;
+        }
+        auxiliar=auxiliar->siguiente;
     }
-        
-    }
+    printf("\n");
 }
 nodo *pasarArchivoALista(char nombreArchivo[30])
 {
@@ -238,6 +241,7 @@ int buscarEnListaDesordenada(nodo *lista,int dato)
     return flag;
 }
 
+/*
 nodo *buscaMenor(nodo *lista)
 {
     nodo *menor=NULL;
@@ -263,9 +267,28 @@ nodo *buscaMenor(nodo *lista)
     }
     return menor;
 }
+*/
 
-nodo *reordenarIntercambiandoPunteros(nodo *anterior,nodo *iterador,nodo *siguiente)
+nodo *buscarMenor(nodo *lista)
 {
+    nodo *menor=lista;
+    lista=lista->siguiente;
+    while(lista!=NULL)
+    {
+        if(lista->dato<menor->dato)
+        {
+            menor=lista;
+        }
+        lista=lista->siguiente;
+    }
+    return menor;
+}
+
+/*
+nodo *reordenarIntercambiandoPunteros(nodo *lista)
+{
+    nodo *iterador=lista;
+    nodo *anterior;
     while(iterador!=NULL)
     {
         anterior=iterador;
@@ -273,9 +296,35 @@ nodo *reordenarIntercambiandoPunteros(nodo *anterior,nodo *iterador,nodo *siguie
         nodo *menor=buscaMenor(iterador);
         iterador=intercambiar(anterior,iterador,menor);
     }
+    return lista;
+}
+*/
+
+nodo *ordenarReasignando(nodo *lista)
+{
+    nodo *menor;
+    nodo *temp;
+    nodo *auxiliar=lista;
+    nodo *anterior=auxiliar;
+    while(auxiliar!=NULL)
+    {
+        menor=buscarMenor(auxiliar);
+        auxiliar=intercambiar(anterior,auxiliar,menor);
+        anterior=auxiliar;
+        auxiliar=auxiliar->siguiente;
+    }
+    return lista;
+}
+
+nodo *intercambiar(nodo *anterior,nodo *iterador, nodo *menor)
+{
+    anterior->siguiente=menor;
+    iterador->siguiente=menor->siguiente;
+    menor->siguiente=iterador;
     return iterador;
 }
 
+/*
 nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor)
 {
     if(iterador->dato!=menor->dato)
@@ -286,17 +335,17 @@ nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor)
     }
     return iterador;
 }
-
+*/
 nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
 {
     int contador=0;
-    nodo *listaGenerada;
-    while(contador<=cantNodos)
+    nodo *listaGenerada=inicializar()
+    while(contador<cantNodos)
     {
         int valorAzar=numeroRND(limiteInferior,limiteSuperior);
         nodo *nuevo=(nodo*)malloc(sizeof(nodo));
         nuevo->dato=valorAzar;
-        listaGenerada=insertarAlFinal(listaGenerada,nuevo);
+        listaGenerada=insertarAlPrincipio(listaGenerada,nuevo);
         contador++;
     }
     return listaGenerada;

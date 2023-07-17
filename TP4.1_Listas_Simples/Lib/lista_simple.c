@@ -18,6 +18,7 @@ nodo *insertarAlPrincipio(nodo *lista,nodo *nuevo)
     if(lista==NULL)
     {
         lista=nuevo;
+        nuevo->siguiente=NULL;
     }
     else
     {
@@ -310,6 +311,7 @@ nodo *ordenarReasignando(nodo *lista)
     {
         menor=buscarMenor(auxiliar);
         auxiliar=intercambiar(anterior,auxiliar,menor);
+        mostrarLista(auxiliar);
         anterior=auxiliar;
         auxiliar=auxiliar->siguiente;
     }
@@ -319,6 +321,7 @@ nodo *ordenarReasignando(nodo *lista)
 nodo *intercambiar(nodo *anterior,nodo *iterador, nodo *menor)
 {
     anterior->siguiente=menor;
+    printf("\n %i ->siguiente apunta a %i \n",anterior->dato,menor->dato);
     iterador->siguiente=menor->siguiente;
     menor->siguiente=iterador;
     return iterador;
@@ -338,13 +341,15 @@ nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor)
 */
 nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
 {
+    //srand(time(NULL));
     int contador=0;
-    nodo *listaGenerada;
+    nodo *listaGenerada=NULL;
     while(contador<cantNodos)
     {
         int valorAzar=numeroRND(limiteInferior,limiteSuperior);
         nodo *nuevo=(nodo*)malloc(sizeof(nodo));
         nuevo->dato=valorAzar;
+        nuevo->siguiente=NULL;
         listaGenerada=insertarAlPrincipio(listaGenerada,nuevo);
         contador++;
     }

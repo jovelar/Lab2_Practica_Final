@@ -48,3 +48,46 @@ nodoDestino* insertarOrdenadoAlfabeticamenteRecursivo(nodoDestino* listaDestinos
     return listaDestinos;
 }
 
+ORDENAMIENTO POR SELECCION EN LISTAS SIMPLES (REVISAR)==============================================================
+
+nodo* nuevaListaOrdenada(nodo* lista1,nodo* lista2,nodo* lista3)
+{
+    nodo* seguidora1 = lista1;
+    nodo* seguidora2 = lista2;
+    nodo* aux;
+
+    while(seguidora1 != NULL && seguidora2 != NULL)
+    {
+        if(seguidora1->dato > seguidora2->dato)
+        {
+            aux = seguidora1;
+            seguidora1 = seguidora1->siguiente;
+            aux->siguiente = NULL;
+            lista3 = agregarAlPpio(lista3,aux);
+        }
+        else
+        {
+            aux = seguidora2;
+            seguidora2 = seguidora2->siguiente;
+            aux->siguiente = NULL;
+            lista3 = agregarAlPpio(lista3,aux);
+        }
+
+    }
+    while(seguidora1 != NULL)
+    {
+        aux = seguidora1;
+        seguidora1 = seguidora1->siguiente;
+        aux->siguiente = NULL;
+        lista3 = agregarAlPpio(lista3,aux);
+    }
+    while(seguidora2 != NULL)
+    {
+        aux = seguidora2;
+        seguidora2 = seguidora2->siguiente;
+        aux->siguiente = NULL;
+        lista3 = agregarAlPpio(lista3,aux);
+    }
+
+    return lista3;
+}

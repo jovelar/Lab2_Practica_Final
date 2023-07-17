@@ -65,8 +65,10 @@ int main()
                 nodo *lista=generarListaAleatoria(30,0,30);
                 printf("\n Lista Inicial \n");
                 mostrarListaNumerada(lista,6);
+                //nodo *menor=buscarMenor(lista);
+                //printf(" \n El menor es :%i \n",menor->dato);
                 lista=ordenarReasignando(lista);
-                printf("\n lista ordenada reorganizando punteros");
+                printf("\n lista ordenada reorganizando punteros \n");
                 mostrarListaNumerada(lista,6);
                 break;
 
