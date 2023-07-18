@@ -18,6 +18,7 @@ nodo *insertarAlPrincipio(nodo *lista,nodo *nuevo)
     if(lista==NULL)
     {
         lista=nuevo;
+        nuevo->siguiente=NULL;
     }
     else
     {
@@ -32,6 +33,7 @@ nodo *insertarAlFinal(nodo *lista, nodo *nuevo)
     if(lista==NULL)
     {
         lista=nuevo;
+        //nuevo->siguiente=NULL; //por las dudas
     }
     else
     {
@@ -241,111 +243,62 @@ int buscarEnListaDesordenada(nodo *lista,int dato)
     return flag;
 }
 
-/*
-nodo *buscaMenor(nodo *lista)
-{
-    nodo *menor=NULL;
-    nodo *auxiliar=lista;
 
-    if(auxiliar!=NULL)
-    {
-        while(auxiliar!=NULL)
-        {
-            if(menor==NULL)
-            {
-                menor=auxiliar;
-            }
-            else
-            {
-                if(auxiliar->dato<menor->dato)
-                {
-                    menor=auxiliar;
-                }
-            }
-            auxiliar=auxiliar->siguiente;
-        }
-    }
-    return menor;
-}
-*/
 
 nodo *buscarMenor(nodo *lista)
 {
-    nodo *menor=lista;
-    lista=lista->siguiente;
-    while(lista!=NULL)
+    nodo *menor=lista; //toma el primer elemento de la lista para comparar
+    nodo *iterador=lista;
+    while(iterador!=NULL)
     {
-        if(lista->dato<menor->dato)
+        if(iterador->dato<menor->dato)
         {
-            menor=lista;
+            menor=iterador;
         }
-        lista=lista->siguiente;
+        iterador=iterador->siguiente;
     }
     return menor;
 }
 
-/*
-nodo *reordenarIntercambiandoPunteros(nodo *lista)
+nodo *intercambiar(nodo *anterior,nodo *auxiliar,nodo *menor)
 {
-    nodo *iterador=lista;
-    nodo *anterior;
-    while(iterador!=NULL)
-    {
-        anterior=iterador;
-        iterador=iterador->siguiente;
-        nodo *menor=buscaMenor(iterador);
-        iterador=intercambiar(anterior,iterador,menor);
-    }
-    return lista;
+    if()
+    anterior->siguiente=menor;
+    auxiliar->siguiente=menor->siguiente;
+    menor->siguiente=auxiliar;
+    return auxiliar;
 }
-*/
 
 nodo *ordenarReasignando(nodo *lista)
 {
-    nodo *menor;
-    nodo *temp;
     nodo *auxiliar=lista;
     nodo *anterior=auxiliar;
+    nodo *menor;
+
     while(auxiliar!=NULL)
     {
         menor=buscarMenor(auxiliar);
         auxiliar=intercambiar(anterior,auxiliar,menor);
         anterior=auxiliar;
         auxiliar=auxiliar->siguiente;
+
     }
     return lista;
 }
 
-nodo *intercambiar(nodo *anterior,nodo *iterador, nodo *menor)
-{
-    anterior->siguiente=menor;
-    iterador->siguiente=menor->siguiente;
-    menor->siguiente=iterador;
-    return iterador;
-}
-
-/*
-nodo *intercambiar(nodo *anterior,nodo *iterador,nodo *menor)
-{
-    if(iterador->dato!=menor->dato)
-    {
-        anterior->siguiente=menor;
-        iterador->siguiente=menor->siguiente;
-        menor->siguiente=iterador;
-    }
-    return iterador;
-}
-*/
 nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
 {
+    //srand(time(NULL));
     int contador=0;
-    nodo *listaGenerada=inicializar()
+    nodo *listaGenerada=NULL;
     while(contador<cantNodos)
     {
         int valorAzar=numeroRND(limiteInferior,limiteSuperior);
         nodo *nuevo=(nodo*)malloc(sizeof(nodo));
         nuevo->dato=valorAzar;
-        listaGenerada=insertarAlPrincipio(listaGenerada,nuevo);
+        nuevo->siguiente=NULL;
+        //listaGenerada=insertarAlPrincipio(listaGenerada,nuevo);
+        listaGenerada=insertarAlFinal(listaGenerada,nuevo);
         contador++;
     }
     return listaGenerada;

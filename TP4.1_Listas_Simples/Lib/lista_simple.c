@@ -33,6 +33,7 @@ nodo *insertarAlFinal(nodo *lista, nodo *nuevo)
     if(lista==NULL)
     {
         lista=nuevo;
+        //nuevo->siguiente=NULL; //por las dudas
     }
     else
     {
@@ -246,44 +247,50 @@ int buscarEnListaDesordenada(nodo *lista,int dato)
 
 nodo *buscarMenor(nodo *lista)
 {
-    nodo *menor=lista;
-    lista=lista->siguiente;
-    while(lista!=NULL)
+    nodo *menor=lista; //toma el primer elemento de la lista para comparar
+    nodo *iterador=lista;
+    while(iterador!=NULL)
     {
-        if(lista->dato<menor->dato)
+        if(iterador->dato<menor->dato)
         {
-            menor=lista;
+            menor=iterador;
         }
-        lista=lista->siguiente;
+        iterador=iterador->siguiente;
     }
     return menor;
 }
 
 nodo *intercambiar(nodo *anterior,nodo *auxiliar,nodo *menor)
 {
-    anterior->siguiente=menor;
-    auxiliar->siguiente=menor->siguiente;
-    menor->siguiente=auxiliar;
+    if(auxiliar==anterior)
+    {
+        auxiliar=menor;
+        anterior->siguiente=menor->siguiente;
+        menor->siguiente=auxiliar;
+    }
+    else
+    {
+        anterior->siguiente=menor;
+        auxiliar->siguiente=menor->siguiente;
+        menor->siguiente=auxiliar;
+
+    }
     return auxiliar;
 }
 
 nodo *ordenarReasignando(nodo *lista)
 {
-    //printf("\ dato nodo : %i \n",lista->dato);
     nodo *auxiliar=lista;
     nodo *anterior=auxiliar;
     nodo *menor;
 
     while(auxiliar!=NULL)
     {
-        anterior=auxiliar;
-
         menor=buscarMenor(auxiliar);
-        //if(lista->dato!=menor->dato)
-        //{
-            auxiliar=intercambiar(anterior,auxiliar,menor);
-        //}
+        auxiliar=intercambiar(anterior,auxiliar,menor);
+        anterior=auxiliar;
         auxiliar=auxiliar->siguiente;
+
     }
     return lista;
 }
@@ -299,7 +306,8 @@ nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
         nodo *nuevo=(nodo*)malloc(sizeof(nodo));
         nuevo->dato=valorAzar;
         nuevo->siguiente=NULL;
-        listaGenerada=insertarAlPrincipio(listaGenerada,nuevo);
+        //listaGenerada=insertarAlPrincipio(listaGenerada,nuevo);
+        listaGenerada=insertarAlFinal(listaGenerada,nuevo);
         contador++;
     }
     return listaGenerada;
