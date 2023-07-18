@@ -64,12 +64,21 @@ int main()
             case 52:; //[4]
                 nodo *lista=generarListaAleatoria(4,0,30);
                 printf("\n Lista Inicial \n");
+<<<<<<< HEAD
                 mostrarListaNumerada(lista,4);
+=======
+                mostrarListaNumerada(lista,6);
+>>>>>>> ec6fc10a6b1dba4acc7330bfc8088df9865c9805
                 nodo *menor=buscarMenor(lista);
                 printf(" \n El menor es :%i \n",menor->dato);
                 lista=ordenarReasignando(lista);
                 printf("\n lista ordenada reorganizando punteros \n");
+<<<<<<< HEAD
                 mostrarListaNumerada(lista,4);
+=======
+                mostrarListaNumerada(lista,6);
+                free(lista);
+>>>>>>> ec6fc10a6b1dba4acc7330bfc8088df9865c9805
                 break;
 
             case 53:

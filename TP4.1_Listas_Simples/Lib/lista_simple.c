@@ -33,6 +33,7 @@ nodo *insertarAlFinal(nodo *lista, nodo *nuevo)
     if(lista==NULL)
     {
         lista=nuevo;
+        //nuevo->siguiente=NULL; //por las dudas
     }
     else
     {
@@ -246,6 +247,7 @@ int buscarEnListaDesordenada(nodo *lista,int dato)
 
 nodo *buscarMenor(nodo *lista)
 {
+<<<<<<< HEAD
     nodo *auxiliar=lista;
     nodo *menor=lista;
     while(auxiliar!=NULL)
@@ -255,24 +257,49 @@ nodo *buscarMenor(nodo *lista)
             menor=auxiliar;
         }
         auxiliar=auxiliar->siguiente;
+=======
+    nodo *menor=lista; //toma el primer elemento de la lista para comparar
+    nodo *iterador=lista;
+    while(iterador!=NULL)
+    {
+        if(iterador->dato<menor->dato)
+        {
+            menor=iterador;
+        }
+        iterador=iterador->siguiente;
+>>>>>>> ec6fc10a6b1dba4acc7330bfc8088df9865c9805
     }
     return menor;
 }
 
 nodo *intercambiar(nodo *anterior,nodo *auxiliar,nodo *menor)
 {
+<<<<<<< HEAD
     nodo *auxiliarX=auxiliar;
     if(anterior==auxiliarX)
     {
         auxiliarX=menor;
         anterior->siguiente=menor->siguiente;
         menor->siguiente=auxiliarX;
+=======
+    if(auxiliar==anterior)
+    {
+        auxiliar=menor;
+        anterior->siguiente=menor->siguiente;
+        menor->siguiente=auxiliar;
+>>>>>>> ec6fc10a6b1dba4acc7330bfc8088df9865c9805
     }
     else
     {
         anterior->siguiente=menor;
+<<<<<<< HEAD
         menor->siguiente=auxiliarX;
         auxiliarX->siguiente=menor->siguiente;
+=======
+        auxiliar->siguiente=menor->siguiente;
+        menor->siguiente=auxiliar;
+
+>>>>>>> ec6fc10a6b1dba4acc7330bfc8088df9865c9805
     }
     return auxiliar;
 }
@@ -286,6 +313,7 @@ nodo *ordenarReasignando(nodo *lista)
 
     while(auxiliar!=NULL)
     {
+<<<<<<< HEAD
         anterior=auxiliar;
         auxiliar=auxiliar->siguiente;
         printf("\n buscando menor \n");
@@ -295,6 +323,13 @@ nodo *ordenarReasignando(nodo *lista)
 
         vueltas++;
         printf("\n vuelta N:%i",vueltas);
+=======
+        menor=buscarMenor(auxiliar);
+        auxiliar=intercambiar(anterior,auxiliar,menor);
+        anterior=auxiliar;
+        auxiliar=auxiliar->siguiente;
+
+>>>>>>> ec6fc10a6b1dba4acc7330bfc8088df9865c9805
     }
 
     return lista;
@@ -311,7 +346,8 @@ nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
         nodo *nuevo=(nodo*)malloc(sizeof(nodo));
         nuevo->dato=valorAzar;
         nuevo->siguiente=NULL;
-        listaGenerada=insertarAlPrincipio(listaGenerada,nuevo);
+        //listaGenerada=insertarAlPrincipio(listaGenerada,nuevo);
+        listaGenerada=insertarAlFinal(listaGenerada,nuevo);
         contador++;
     }
     return listaGenerada;
