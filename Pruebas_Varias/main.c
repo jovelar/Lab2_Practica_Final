@@ -15,12 +15,18 @@ typedef struct
     nota notaAlumno;
 }nodo;
 
+typedef struct
+{
+    int numero;
+    struct nodo2 *siguiente;
+}nodoP;
 
 
 int main()
 {
     //prueba_nodo_en_nodo_puntero();
-    prueba_ordenamiento_por_seleccion();
+    //prueba_ordenamiento_por_seleccion();
+    prueba_compara_punteros();
 }
 
 void prueba_nodo_en_nodo_puntero()
@@ -73,4 +79,23 @@ void prueba_ordenamiento_por_seleccion()
     {
         printf("%i ",numeros[x]);
     }
+}
+
+void prueba_compara_punteros()
+{
+    nodoP *base=(nodoP*)malloc(sizeof(nodoP));
+    nodoP *base2=(nodoP*)malloc(sizeof(nodoP));
+    nodoP *puntero1=base;
+    nodoP *puntero2=base;
+
+    if(puntero1==puntero2)
+    {
+        printf("\n Son el mismo nodo! \n");
+    }
+    else
+    {
+        printf("\n No son el mismo nodo \n");
+    }
+
+    printf("Puntero 1: %x | Puntero 2: %x",*puntero1,*puntero2);
 }

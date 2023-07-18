@@ -62,14 +62,14 @@ int main()
             break;
 
             case 52:; //[4]
-                nodo *lista=generarListaAleatoria(30,0,30);
+                nodo *lista=generarListaAleatoria(4,0,30);
                 printf("\n Lista Inicial \n");
-                mostrarListaNumerada(lista,6);
-                //nodo *menor=buscarMenor(lista);
-                //printf(" \n El menor es :%i \n",menor->dato);
+                mostrarListaNumerada(lista,4);
+                nodo *menor=buscarMenor(lista);
+                printf(" \n El menor es :%i \n",menor->dato);
                 lista=ordenarReasignando(lista);
                 printf("\n lista ordenada reorganizando punteros \n");
-                mostrarListaNumerada(lista,6);
+                mostrarListaNumerada(lista,4);
                 break;
 
             case 53:

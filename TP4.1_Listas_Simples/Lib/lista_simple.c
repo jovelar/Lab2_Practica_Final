@@ -130,7 +130,7 @@ void mostrarLista(nodo *lista)
 
         while(auxiliar!=NULL)
         {
-            printf("NODO: %p, DATO: %i \n",&auxiliar,auxiliar->dato);
+            printf("NODO: %x, DATO: %i \n",&auxiliar,auxiliar->dato);
             auxiliar=auxiliar->siguiente;
         }
     }
@@ -146,7 +146,7 @@ void mostrarListaNumerada(nodo *lista, int maxItemsPorLinea)
     int posicion=0;
     while(auxiliar!=NULL)
     {
-        printf("NODO %3i : %3i |",posicion,auxiliar->dato);
+        printf("NODO %2i : %3i P: %x |",posicion,auxiliar->dato,auxiliar);
         contador++;
         posicion++;
         if(contador==maxItemsPorLinea)
@@ -246,45 +246,57 @@ int buscarEnListaDesordenada(nodo *lista,int dato)
 
 nodo *buscarMenor(nodo *lista)
 {
+    nodo *auxiliar=lista;
     nodo *menor=lista;
-    lista=lista->siguiente;
-    while(lista!=NULL)
+    while(auxiliar!=NULL)
     {
-        if(lista->dato<menor->dato)
+        if(auxiliar->dato<=menor->dato)
         {
-            menor=lista;
+            menor=auxiliar;
         }
-        lista=lista->siguiente;
+        auxiliar=auxiliar->siguiente;
     }
     return menor;
 }
 
 nodo *intercambiar(nodo *anterior,nodo *auxiliar,nodo *menor)
 {
-    anterior->siguiente=menor;
-    auxiliar->siguiente=menor->siguiente;
-    menor->siguiente=auxiliar;
+    nodo *auxiliarX=auxiliar;
+    if(anterior==auxiliarX)
+    {
+        auxiliarX=menor;
+        anterior->siguiente=menor->siguiente;
+        menor->siguiente=auxiliarX;
+    }
+    else
+    {
+        anterior->siguiente=menor;
+        menor->siguiente=auxiliarX;
+        auxiliarX->siguiente=menor->siguiente;
+    }
     return auxiliar;
 }
 
 nodo *ordenarReasignando(nodo *lista)
 {
-    //printf("\ dato nodo : %i \n",lista->dato);
     nodo *auxiliar=lista;
     nodo *anterior=auxiliar;
     nodo *menor;
+    int vueltas=0;
 
     while(auxiliar!=NULL)
     {
         anterior=auxiliar;
-
-        menor=buscarMenor(auxiliar);
-        //if(lista->dato!=menor->dato)
-        //{
-            auxiliar=intercambiar(anterior,auxiliar,menor);
-        //}
         auxiliar=auxiliar->siguiente;
+        printf("\n buscando menor \n");
+        menor=buscarMenor(auxiliar);
+        printf("\n menor encontrado: %i",menor->dato);
+        auxiliar=intercambiar(anterior,auxiliar,menor);
+
+        vueltas++;
+        printf("\n vuelta N:%i",vueltas);
     }
+
     return lista;
 }
 
