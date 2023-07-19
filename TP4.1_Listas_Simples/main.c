@@ -23,6 +23,7 @@ int main()
                 printf("\n datos cargados tal cual estaban en el archivo \n");
                 system("pause");
                 free(listaACargar);
+                system("cls");
 
             break;
 
@@ -34,6 +35,7 @@ int main()
                 printf("\n datos cargados de forma ordenada de menor a mayor \n");
                 system("pause");
                 free(listaACargar2);
+                system("cls");
 
             break;
 
@@ -63,22 +65,20 @@ int main()
 
             case 52:; //[4]
                 nodo *lista=generarListaAleatoria(4,0,30);
-                printf("\n Lista Inicial \n");
-<<<<<<< HEAD
-                mostrarListaNumerada(lista,4);
-=======
+                nodo *lista2=generarListaAleatoria(4,10,30);
+                nodo *listaResult;
+                printf("\n Lista 1: \n"),
                 mostrarListaNumerada(lista,6);
->>>>>>> ec6fc10a6b1dba4acc7330bfc8088df9865c9805
-                nodo *menor=buscarMenor(lista);
-                printf(" \n El menor es :%i \n",menor->dato);
-                lista=ordenarReasignando(lista);
-                printf("\n lista ordenada reorganizando punteros \n");
-<<<<<<< HEAD
-                mostrarListaNumerada(lista,4);
-=======
-                mostrarListaNumerada(lista,6);
+                printf("\n Lista 2: \n");
+                mostrarListaNumerada(lista2,6);
+                printf("\n Lista Resultante \n");
+                listaResult=intercalarListas(lista,lista2);
+                mostrarListaNumerada(listaResult,6);
                 free(lista);
->>>>>>> ec6fc10a6b1dba4acc7330bfc8088df9865c9805
+                free(lista2);
+                free(listaResult);
+                system("pause");
+                system("cls");
                 break;
 
             case 53:

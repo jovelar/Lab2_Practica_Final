@@ -1,14 +1,14 @@
 # depslib dependency file v1.0
-1689637822 source:i:\utn2022\lab2_practica_final\tp4.1_listas_simples\main.c
+1689726068 source:i:\utn2022\lab2_practica_final\tp4.1_listas_simples\main.c
 	<stdio.h>
 	<stdlib.h>
 	"Lib/lista_simple.h"
 	<time.h>
 
-1689639825 source:i:\utn2022\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.c
+1689727300 source:i:\utn2022\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.c
 	"lista_simple.h"
 
-1689628963 i:\utn2022\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.h
+1689727300 i:\utn2022\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.h
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
