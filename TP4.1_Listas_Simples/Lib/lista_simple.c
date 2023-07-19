@@ -246,23 +246,26 @@ int buscarEnListaDesordenada(nodo *lista,int dato)
 
 nodo *intercalarListas(nodo *lista1, nodo* lista2)
 {
-    nodo *temp1=lista1;
-    nodo *temp2=lista2;
-    nodo *tempSig=temp1->siguiente;
-    nodo *tempSig2=temp2->siguiente;
-    while(temp1!=NULL)
+nodo *l1=lista1;
+nodo *l2=lista2;
+nodo *intercalada=NULL;
+nodo *aux=NULL;
+
+while(l1!=NULL && l2!=NULL)
+{
+    if(aux==NULL) //si la lista esta vacia
     {
-        if(temp1!=NULL)
+        if(l1->dato<=l2->dato)
         {
-            temp1->siguiente=temp2;
-            tempSig2=tempSig2->siguiente;
-            temp2->siguiente=tempSig;
-            tempSig2=tempSig->siguiente;
-            temp1=tempSig;
-            temp2=tempSig2;
+            aux=l1;
         }
+        else
+        {
+            aux=l2;
+        }
+        intercalada=aux; //define el primer puntero al arreglo de la lista solucion
     }
-    return lista1;
+}
 }
 
 

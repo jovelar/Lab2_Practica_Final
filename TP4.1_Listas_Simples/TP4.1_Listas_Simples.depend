@@ -13,15 +13,15 @@
 	<stdlib.h>
 	<time.h>
 
-1689670830 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.c
+1689756162 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.c
 	"lista_simple.h"
 
-1689578390 c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.h
+1689736123 c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.h
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 
-1689662614 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\main.c
+1689753157 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\main.c
 	<stdio.h>
 	<stdlib.h>
 	"Lib/lista_simple.h"

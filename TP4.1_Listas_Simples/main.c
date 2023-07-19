@@ -66,14 +66,20 @@ int main()
             case 52:; //[4]
                 nodo *lista=generarListaAleatoria(4,0,30);
                 nodo *lista2=generarListaAleatoria(4,10,30);
-                nodo *listaResult;
+                nodo *listaResult=NULL;
                 printf("\n Lista 1: \n"),
                 mostrarListaNumerada(lista,6);
                 printf("\n Lista 2: \n");
                 mostrarListaNumerada(lista2,6);
+
                 printf("\n Lista Resultante \n");
                 listaResult=intercalarListas(lista,lista2);
                 mostrarListaNumerada(listaResult,6);
+
+                printf("\n Lista 1: \n"),
+                mostrarListaNumerada(lista,6);
+                printf("\n Lista 2: \n");
+                mostrarListaNumerada(lista2,6);
                 free(lista);
                 free(lista2);
                 free(listaResult);
