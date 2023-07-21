@@ -45,51 +45,50 @@ int tope(Pila *pila)
 void mostrarPila(Pila *pila)
 {
     Pila *aux=pila;
-    printf("|TOPE");
+    printf("\n|TOPE|");
     while(aux!=NULL)
     {
-        printf(" %i |",pila->valor);
+        printf(" %i |",aux->valor);
         aux=aux->anterior;
     }
-
+    printf("BASE|\n");
 }
 void borrarPila(Pila *pila)
 {
-    Pila *aux;
-    while(aux!=NULL);
+    Pila *auxiliar=pila;
+    Pila *eliminar;
+
+    while(auxiliar!=NULL)
     {
-        aux=pila;
-        pila=pila->anterior;
-        free(aux);
+        eliminar=auxiliar;
+        auxiliar=auxiliar->anterior;
+        free(eliminar);
     }
-    free(pila);
 }
 
 Pila *borrarMenoresAX(Pila *pila, int numeroLimite)
 {
-    Pila *anterior;
-    Pila *aux=pila;
-    Pila *original=pila;
-    while(aux!=NULL)
+    Pila *eliminar;
+    Pila *anterior=pila;
+    Pila *auxiliar=pila;
+    if(auxiliar->valor<numeroLimite) //SI EL ELEMENTO TOPE DE LA PILA ES MENOR A 10
     {
-        if(pila->valor<numeroLimite)
-        {
-            anterior=aux;
-            if(pila->valor==tope(pila))
-            {
-                anterior=aux;
-                aux=aux->anterior;
-                original=aux;
-                free(anterior);
-            }
-            else
-            {
-                anterior->anterior=aux->anterior;
-                free(aux);
-                aux=anterior->anterior;
-            }
-        }
-        aux=aux->anterior;
+        eliminar=auxiliar;
+        auxiliar=auxiliar->anterior;
+        free(eliminar);
     }
-    return original;
+    while(auxiliar!=NULL)
+    {
+        if(auxiliar->valor<=numeroLimite)
+        {
+            eliminar=auxiliar;       //INDICA EL NODO A ELIMINAR
+            anterior->anterior=auxiliar->anterior; //VINCULA EL ANTERIOR CON EL
+            free(eliminar);  //ELIMINA LA PILA     //SIGUIENTE DE LA PILA A ELIMINAR
+            auxiliar=anterior; //VINCULA EL ANTERIOR COMO EL ULTIMO ELEMENTO DE LA PILA
+        }
+        anterior=auxiliar;
+        auxiliar=auxiliar->anterior;
+    }
+
+    return pila;
 }

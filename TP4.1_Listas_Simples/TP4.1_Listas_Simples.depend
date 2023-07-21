@@ -14,19 +14,20 @@
 	<stdlib.h>
 	<time.h>
 
-1689756162 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.c
+1689910739 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.c
 	"lista_simple.h"
 
-1689736123 c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.h
+1689910739 c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\lib\lista_simple.h
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 
-1689753157 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\main.c
+1689926747 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\main.c
 	<stdio.h>
 	<stdlib.h>
 	"Lib/lista_simple.h"
 	<time.h>
+	"Lib/pila_con_lista_simple.h"
 
 1689896568 i:\utn2022\lab2_practica_final\tp4.1_listas_simples\lib\pila_con_lista_simple.h
 	<stdio.h>
@@ -34,4 +35,11 @@
 
 1689896568 source:i:\utn2022\lab2_practica_final\tp4.1_listas_simples\lib\pilas_con_lista_simple.c
 	"pila_con_lista_simple.h"
+
+1689923493 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\lib\pilas_con_lista_simple.c
+	"pila_con_lista_simple.h"
+
+1689910739 c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.1_listas_simples\lib\pila_con_lista_simple.h
+	<stdio.h>
+	<stdlib.h>
 

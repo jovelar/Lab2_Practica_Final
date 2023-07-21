@@ -97,21 +97,29 @@ int main()
                 break;
 
             case 54:;
-                int opc=menuPilas();
                 Pila *pila=init();
-                while(opc!=27)
+                int opcX=10;
+                while(opcX!=27)
                 {
-                    switch(opc)
+                    opcX=menuPilas();
+                    switch(opcX)
                     {
                     case 49:;
-                        int numero=0;
+                        int numero=60;
                         while(numero!=00)
                         {
-                            printf("Ingrese un numero entero a cargar en la pila, 00 para salir: ");
+                            printf("\nIngrese un numero entero a cargar en la pila, 00 para salir: ");
                             scanf("%i",&numero);
                             if(numero!=00)
                             {
-                                pila=apilar(pila,numero);
+                                if(numero%2==0)
+                                {
+                                    pila=apilar(pila,numero);
+                                }
+                                else
+                                {
+                                    printf("\nEl numero no es par!\n");
+                                }
                             }
 
                         }
@@ -123,9 +131,10 @@ int main()
                     case 51:
                         printf("\n pila original \n");
                         mostrarPila(pila);
-                        pila=
-                        break;
-                    case 52:
+                        pila=borrarMenoresAX(pila,10);
+                        mostrarPila(pila);
+                        system("pause");
+                        borrarPila(pila);
                         break;
                     default:
                         printf(" \n Opcion invalida! \n");
@@ -153,9 +162,10 @@ int menu()
     int opc=0;
     printf("1- Pasar registros archivo a lista enlazada \n");
     printf("2- Pasar registros archivo a lista enlazada de forma ordenada \n");
-    printf("3-Mostrar lista \n");
-    printf("4-Intercalar de forma ordenada 2 listas \n");
-    printf("5-Invertir Lista reordenando punteros \n");
+    printf("3- Mostrar lista \n");
+    printf("4- Intercalar de forma ordenada 2 listas \n");
+    printf("5- Invertir Lista reordenando punteros \n");
+    printf("6- Pilas \n");
     printf("ESC- para salir \n");
     fflush(stdin);
     opc=getch();
@@ -170,8 +180,10 @@ nodo *menuIngresar()
 int menuPilas()
 {
     int opc;
-    printf("\n 1- Ingresar valores \n");
+    printf("\n1- Ingresar valores \n");
     printf("2- Mostrar toda la pila \n");
     printf("3- Borrar elementos menores a 10");
-    return getch();
+    printf("\nESC para salir: ");
+    opc=getch();
+    return opc;
 }
