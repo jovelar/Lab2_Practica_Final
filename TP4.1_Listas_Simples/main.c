@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include "Lib/lista_simple.h"
 #include <time.h>
+#include "Lib/pila_con_lista_simple.h"
+
+
+int menuPilas();
 
 int main()
 {
@@ -64,8 +68,8 @@ int main()
             break;
 
             case 52:; //[4]
-                nodo *lista=generarListaAleatoria(4,0,30);
-                nodo *lista2=generarListaAleatoria(4,10,30);
+                nodo *lista=generarListaAleatoria(3,0,30);
+                nodo *lista2=generarListaAleatoria(3,10,30);
                 nodo *listaResult=NULL;
                 printf("\n Lista 1: \n"),
                 mostrarListaNumerada(lista,6);
@@ -75,11 +79,6 @@ int main()
                 printf("\n Lista Resultante \n");
                 listaResult=intercalarListas(lista,lista2);
                 mostrarListaNumerada(listaResult,6);
-
-                printf("\n Lista 1: \n"),
-                mostrarListaNumerada(lista,6);
-                printf("\n Lista 2: \n");
-                mostrarListaNumerada(lista2,6);
                 free(lista);
                 free(lista2);
                 free(listaResult);
@@ -87,7 +86,54 @@ int main()
                 system("cls");
                 break;
 
-            case 53:
+            case 53:;
+                nodo *lista1=generarListaAleatoria(4,1,20);
+                mostrarListaNumerada(lista1,6);
+                nodo *lista22=invertirLista(lista1);
+                mostrarListaNumerada(lista22,6);
+                system("pause");
+                free(lista1);
+                free(lista2);
+                break;
+
+            case 54:;
+                int opc=menuPilas();
+                Pila *pila=init();
+                while(opc!=27)
+                {
+                    switch(opc)
+                    {
+                    case 49:;
+                        int numero=0;
+                        while(numero!=00)
+                        {
+                            printf("Ingrese un numero entero a cargar en la pila, 00 para salir: ");
+                            scanf("%i",&numero);
+                            if(numero!=00)
+                            {
+                                pila=apilar(pila,numero);
+                            }
+
+                        }
+                        break;
+                    case 50:
+                        mostrarPila(pila);
+                        system("pause");
+                        break;
+                    case 51:
+                        printf("\n pila original \n");
+                        mostrarPila(pila);
+                        pila=
+                        break;
+                    case 52:
+                        break;
+                    default:
+                        printf(" \n Opcion invalida! \n");
+                        break;
+                    }
+                }
+
+
                 break;
 
             case 27:
@@ -108,8 +154,8 @@ int menu()
     printf("1- Pasar registros archivo a lista enlazada \n");
     printf("2- Pasar registros archivo a lista enlazada de forma ordenada \n");
     printf("3-Mostrar lista \n");
-    printf("4-Ordenar fila reasignando punteros \n");
-    printf("5-Opcion 5 \n");
+    printf("4-Intercalar de forma ordenada 2 listas \n");
+    printf("5-Invertir Lista reordenando punteros \n");
     printf("ESC- para salir \n");
     fflush(stdin);
     opc=getch();
@@ -118,4 +164,14 @@ int menu()
 
 nodo *menuIngresar()
 {
+
+}
+
+int menuPilas()
+{
+    int opc;
+    printf("\n 1- Ingresar valores \n");
+    printf("2- Mostrar toda la pila \n");
+    printf("3- Borrar elementos menores a 10");
+    return getch();
 }

@@ -35,6 +35,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Lib/lista_simple.h" />
+		<Unit filename="Lib/pila_con_lista_simple.h" />
+		<Unit filename="Lib/pilas_con_lista_simple.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

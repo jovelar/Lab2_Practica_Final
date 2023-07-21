@@ -27,6 +27,9 @@ int buscarEnListaOrdenada(nodo *lista, int dato);
 int buscarEnListaDesordenada(nodo *lista,int dato);
 
 nodo *intercalarListas(nodo *lista1, nodo* lista2);
+nodo *buscarUltimo(nodo *lista);
+
+nodo *invertirLista(nodo *lista);
 
 nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior);
 

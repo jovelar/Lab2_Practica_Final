@@ -253,25 +253,89 @@ nodo *aux=NULL;
 
 while(l1!=NULL && l2!=NULL)
 {
-    if(aux==NULL) //si la lista esta vacia
+    if(aux==NULL && intercalada==NULL) //si la lista esta vacia
     {
         if(l1->dato<=l2->dato)
         {
             aux=l1;
+            l1=l1->siguiente;
         }
         else
         {
             aux=l2;
+            l2=l2->siguiente;
         }
         intercalada=aux; //define el primer puntero al arreglo de la lista solucion
     }
+    else
+    {
+        if(l1->dato<l2->dato)
+        {
+            aux->siguiente=l1;
+            l1=l1->siguiente;
+        }
+        else
+        {
+            aux->siguiente=l2;
+            l2=l2->siguiente;
+        }
+        aux=aux->siguiente;
+    }
+
 }
+//ESTE SEGMENTO APLICA CUANDO UNA LISTA ES MAS LARGA QUE LA OTRA
+if(l1!=NULL) //SI QUEDAN ELEMENTOS EN LA LISTA 1, SUPONIENDO QUE ES MAS LARGA, LAS AGREGA A LA LISTA RESULTANTE.
+{
+    aux->siguiente=l1;
+}
+if(l2!=NULL) //SI QUEDAN ELEMENTOS EN LA LISTA 2, SUPONIENDO QUE ES MAS LARGA, LAS AGREGA A LA LISTA RESULTANTE.
+{
+    aux->siguiente=l2;
+}
+return intercalada;
 }
 
+
+nodo *invertirLista(nodo *lista)
+{
+    nodo *invertido=NULL;
+    nodo *aux=NULL;
+    while(lista!=NULL)
+    {
+        aux=lista;
+        lista=lista->siguiente;
+
+        if(invertido==NULL) //si la lista resultante esta vacia
+        {
+            aux->siguiente=NULL; //los nodos se ingresan al principio, el ultimo puntero
+            invertido=aux;       //de la lista debe finalizar en NULL
+        }
+        else
+        {
+            aux->siguiente=invertido;
+            invertido=aux;
+        }
+    }
+    return invertido;
+}
+
+nodo *buscarUltimo( nodo *lista)
+{
+    nodo *ultimo;
+    nodo *aux=lista;
+    nodo *anterior;
+    while(aux!=NULL)
+    {
+        anterior=aux;
+        aux=aux->siguiente;
+    }
+    ultimo=anterior;
+    anterior->siguiente=NULL;
+    return ultimo;
+}
 
 nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
 {
-    //srand(time(NULL));
     int contador=0;
     nodo *listaGenerada=NULL;
     while(contador<cantNodos)
@@ -280,7 +344,6 @@ nodo *generarListaAleatoria(int cantNodos,int limiteInferior,int limiteSuperior)
         nodo *nuevo=(nodo*)malloc(sizeof(nodo));
         nuevo->dato=valorAzar;
         nuevo->siguiente=NULL;
-        //listaGenerada=insertarAlPrincipio(listaGenerada,nuevo);
         listaGenerada=insertarAlFinal(listaGenerada,nuevo);
         contador++;
     }
