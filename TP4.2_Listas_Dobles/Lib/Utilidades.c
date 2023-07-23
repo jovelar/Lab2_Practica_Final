@@ -16,6 +16,10 @@ Nodo2 *generarListaAleatoria(int cantidadNodos,int numeroBase,int numeroTope)
         resultante=agregarAlFinal(resultante,nuevo);
         contadorNodos++;
     }
+    while(resultante->anterior!=NULL)
+    {
+        resultante=resultante->anterior;
+    }
     return resultante;
 }
 
@@ -23,7 +27,7 @@ void mostrarListaDoble(Nodo2 *lista, int nodosPorLinea)
 {
     Nodo2 *aux=lista;
     int nodos=0;
-    while(aux->siguiente!=NULL)
+    while(aux!=NULL)
     {
         if(nodos==nodosPorLinea)
         {

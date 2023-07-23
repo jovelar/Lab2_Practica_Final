@@ -69,8 +69,8 @@ Nodo2 *insertarNodo(Nodo2 *lista, Nodo2 *nuevoNodo)
         }
         else
         {
-            Nodo2 *seg=lista->siguiente;
             Nodo2 *ante=lista;
+            Nodo2 *seg=lista->siguiente;
             while(seg!=NULL && nuevoNodo->dato>seg->dato)
             {
                 ante=seg;
