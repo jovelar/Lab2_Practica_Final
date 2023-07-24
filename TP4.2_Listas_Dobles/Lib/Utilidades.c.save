@@ -16,6 +16,10 @@ Nodo2 *generarListaAleatoria(int cantidadNodos,int numeroBase,int numeroTope)
         resultante=agregarAlFinal(resultante,nuevo);
         contadorNodos++;
     }
+    while(resultante->anterior!=NULL)
+    {
+        resultante=resultante->anterior;
+    }
     return resultante;
 }
 
@@ -37,5 +41,5 @@ void mostrarListaDoble(Nodo2 *lista, int nodosPorLinea)
 }
 void mostrarNodoDoble(Nodo2 *nodoDoble)
 {
-    printf("N: %4i ANT: %6x SIG: %6x |\n",nodoDoble->dato,nodoDoble->anterior,nodoDoble->siguiente);
+    printf("N: %i ANT: %x SIG: %x |\n",nodoDoble->dato,nodoDoble->anterior,nodoDoble->s);
 }

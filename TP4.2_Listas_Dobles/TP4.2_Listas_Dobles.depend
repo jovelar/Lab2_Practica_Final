@@ -21,3 +21,25 @@
 	<time.h>
 	"Lista_doble.h"
 
+1690158756 source:i:\utn2022\lab2_practica_final\tp4.2_listas_dobles\lib\lista_doble.c
+	"Lista_doble.h"
+	<stdlib.h>
+	<stdio.h>
+
+1690146029 i:\utn2022\lab2_practica_final\tp4.2_listas_dobles\lib\lista_doble.h
+
+1690158835 source:i:\utn2022\lab2_practica_final\tp4.2_listas_dobles\lib\utilidades.c
+	"Utilidades.h"
+
+1690146029 i:\utn2022\lab2_practica_final\tp4.2_listas_dobles\lib\utilidades.h
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"Lista_doble.h"
+
+1690159271 source:i:\utn2022\lab2_practica_final\tp4.2_listas_dobles\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Lib/Lista_doble.h"
+	"Lib/Utilidades.h"
+

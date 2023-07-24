@@ -12,10 +12,21 @@ int main()
         switch(opc)
         {
         case 49:;
-            Nodo2 *listaGenerada=generarListaAleatoria(5,1,50);
-            mostrarListaDoble(listaGenerada,10);
-            //free(lista);
-
+            //Nodo2 *listaGenerada=generarListaAleatoria(5,1,50);
+            //mostrarListaDoble(listaGenerada,4);
+            Nodo2 *lista;
+            Nodo2 *n1=crearNodo(4);
+            Nodo2 *n2=crearNodo(5);
+            Nodo2 *n3=crearNodo(6);
+            Nodo2 *n4=crearNodo(7);
+            lista=agregarAlFinal(n1);
+            lista=agregarAlFinal(n2);
+            lista=agregarAlFinal(n3);
+            lista=agregarAlFinal(n4);
+            
+            mostrarListaDoble(lis)
+            
+            printf("\n");
             system("pause");
             system("cls");
             break;
