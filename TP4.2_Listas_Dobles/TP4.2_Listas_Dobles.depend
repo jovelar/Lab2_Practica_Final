@@ -1,18 +1,18 @@
 # depslib dependency file v1.0
-1690103630 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\main.c
+1690267712 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\main.c
 	<stdio.h>
 	<stdlib.h>
 	"Lib/Lista_doble.h"
 	"Lib/Utilidades.h"
 
-1690103218 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\lib\lista_doble.c
+1690266657 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\lib\lista_doble.c
 	"Lista_doble.h"
 	<stdlib.h>
 	<stdio.h>
 
-1690102814 c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\lib\lista_doble.h
+1690265042 c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\lib\lista_doble.h
 
-1690108854 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\lib\utilidades.c
+1690170299 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\lib\utilidades.c
 	"Utilidades.h"
 
 1690102639 c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\lib\utilidades.h

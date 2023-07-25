@@ -91,25 +91,56 @@ Nodo2 *borrarNodoDoble(Nodo2 *lista, int dato)
 {
     if(lista!=NULL)
     {
-        Nodo2 *anterior=lista;
-        Nodo2 *auxiliar=lista;
-        Nodo2 *proximo;
-
-        while(auxiliar!=NULL)
+        Nodo2 *seg; //VARIABLE SEGUIDORA, ES COMO UNA AUXILIAR
+        if(lista->dato==dato) //SI ENCUENTRA EL DATO EN EL PRIMER NODO
         {
-            if(lista->dato==dato)
+            Nodo2 *aux=lista;
+            lista=lista->siguiente;
+            if(lista!=NULL)
             {
-                anterior->siguiente=auxiliar->siguiente;
-                proximo=auxiliar->siguiente;
-                proximo->anterior=anterior;
-                free(auxiliar);
+                lista->anterior=NULL;
             }
-            anterior=auxiliar;
-            auxiliar=auxiliar->siguiente;
+            free(aux);
+        }
+        else
+        {
+            seg=lista;
+            while((seg!=NULL)&&(seg->dato!=dato))
+            {
+                seg=seg->siguiente;
+            }
+            if(seg!=NULL)
+            {
+                Nodo2 *ante=seg->anterior;
+                ante->siguiente=seg->siguiente;
+                if(seg->siguiente) //SI NO ESTA VACIO/SI HAY ALGO
+                {
+                    Nodo2 *siguiente=seg->siguiente;
+                    siguiente->anterior=ante;
+                }
+                free(seg);
+            }
+        }
+    }
+    return lista;
+}
+
+int capicaRecursivoDoble(Nodo2 *seg, Nodo2 *rev,int resultado)
+{
+    if(seg!=rev)
+    {
+        if(seg->dato==rev->dato)
+        {
+            resultado=capicaRecursivoDoble(seg->siguiente,rev->anterior,resultado);
+        }
+        else
+        {
+            resultado=0;
         }
     }
     else
     {
-        printf("La lista esta vacia! \n");
+        resultado=1;
     }
+    return resultado;
 }
