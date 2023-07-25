@@ -8,10 +8,12 @@ int main()
     int opc=0;
     while(opc!=27)
     {
+        system("cls");
         opc=menu();
         switch(opc)
         {
         case 49:;
+            system("cls");
             Nodo2 *listaGenerada=generarListaAleatoria(5,1,50);
             printf("\n");
             mostrarListaDoble(listaGenerada,10);
@@ -28,6 +30,7 @@ int main()
             break;
 
         case 50:;
+            system("cls");
             Nodo2 *n1=crearNodo(1);
             Nodo2 *n2=crearNodo(2);
             Nodo2 *n3=crearNodo(3);
@@ -64,8 +67,32 @@ int main()
 
             system("pause");
             break;
+
+        case 51:;
+            Nodo2 *listaRandomPar=generarListaAleatoria(6,1,99);
+            Nodo2 *listaRandomImpar=generarListaAleatoria(7,1,99);
+
+            printf("\n\nLista aleatoria par\n");
+            mostrarListaDoble(listaRandomPar,10);
+
+            printf("\nEliminando nodo del medio-superior\n");
+            //int nodos=contarNodos2(listaRandomPar);
+            //printf("\nNodos: %i\n",nodos);
+            listaRandomPar=eliminarNodoDelMedio(listaRandomPar);
+            mostrarListaDoble(listaRandomPar,10);
+
+            printf("\n\nLista aleatoria impar\n");
+            mostrarListaDoble(listaRandomImpar,10);
+            printf("\nEliminando nodo del medio\n");
+            listaRandomImpar=eliminarNodoDelMedio(listaRandomImpar);
+            mostrarListaDoble(listaRandomImpar,10);
+            system("pause");
+            system("cls");
+            break;
+
         case 27:
             break;
+
         default:
             printf("\ Opcion Invalida!");
             break;
@@ -78,6 +105,7 @@ int menu()
 {
     printf("1- Borrar un nodo en lista doble. \n");
     printf("2- Capicua Recursivo \n");
+    printf("3- Eliminar el nodo del medio/medio-superior de una lista doble");
     printf("\nESC para salir");
 
     int opc=getch();

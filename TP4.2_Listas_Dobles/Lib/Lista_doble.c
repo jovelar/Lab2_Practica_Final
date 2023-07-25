@@ -144,3 +144,62 @@ int capicaRecursivoDoble(Nodo2 *seg, Nodo2 *rev,int resultado)
     }
     return resultado;
 }
+
+Nodo2 *eliminarNodoDelMedio(Nodo2 *lista)
+{
+    Nodo2 *aux=lista;
+    int contador=0;
+    if(aux!=NULL)
+    {
+        Nodo2 *ultimo=buscarUltimo(lista);
+        while(aux!=ultimo)
+        {
+            aux=aux->siguiente;
+            contador++;
+            if(aux!=ultimo)
+            {
+                ultimo=ultimo->anterior;
+                contador++;
+            }
+        }
+        if(contador%2==0) // si es impar
+        {
+            Nodo2 *ante=aux->anterior;
+            ultimo=ultimo->siguiente;
+            ante->siguiente=ultimo;
+            //printf("\nNodo ante %x ->sig apunta a %x\n",ante,ante->siguiente);
+            //printf("\nNodo ulti %x ->sig apunta a %x\n",ultimo,ultimo->anterior);
+            ultimo->anterior=ante;
+            free(aux);
+        }
+        else
+        {
+            aux=aux->anterior;
+            Nodo2 *ante=aux->anterior;
+            ante->siguiente=ultimo;
+            ultimo->anterior=ante;
+            free(aux);
+        }
+
+    }
+    return lista;
+}
+
+int contarNodos2(Nodo2 *lista)
+{
+    Nodo2 *aux=lista;
+    int contador=0;
+    while(aux!=NULL)
+    {
+        contador++;
+        aux=aux->siguiente;
+    }
+    return contador;
+}
+
+Nodo2 *eliminarMedio(Nodo2 *lista,int cantNodos)
+{
+    Nodo2 *aux=lista;
+    int contador=0;
+
+}

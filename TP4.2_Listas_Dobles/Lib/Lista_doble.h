@@ -17,5 +17,6 @@ Nodo2 *insertarNodo(Nodo2 *lista, Nodo2 *nuevoNodo);
 Nodo2 *borrarNodoDoble(Nodo2 *lista, int dato);
 
 int capicaRecursivoDoble(Nodo2 *seg, Nodo2 *rev,int resultado);
+Nodo2 *eliminarNodoDelMedio(Nodo2 *lista);
 
 #endif // LISTA_DOBLE_H_INCLUDED
