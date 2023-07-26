@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1690276703 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\main.c
+1690277409 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\main.c
 	<stdio.h>
 	<stdlib.h>
 	"Lib/Lista_doble.h"
@@ -42,4 +42,6 @@
 	<stdlib.h>
 	"Lib/Lista_doble.h"
 	"Lib/Utilidades.h"
+
+1690344909 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp4.2_listas_dobles\lib\fila_lista_doble.c
 

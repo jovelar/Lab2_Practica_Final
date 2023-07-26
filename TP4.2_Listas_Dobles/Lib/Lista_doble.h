@@ -18,5 +18,20 @@ Nodo2 *borrarNodoDoble(Nodo2 *lista, int dato);
 
 int capicaRecursivoDoble(Nodo2 *seg, Nodo2 *rev,int resultado);
 Nodo2 *eliminarNodoDelMedio(Nodo2 *lista);
-
+ ////////PARA FILAS////////
+ Nodo2 *borrarPrimero(Nodo2 *lista)
+ {
+     Nodo2 *aBorrar=lista;
+     if(lista!=NULL)
+     {
+         lista=lista->siguiente;
+         if(lista!=NULL)
+         {
+             lista->anterior=NULL;
+         }
+         free(aBorrar);
+     }
+     return lista;
+ }
+ //////////////////////////
 #endif // LISTA_DOBLE_H_INCLUDED
