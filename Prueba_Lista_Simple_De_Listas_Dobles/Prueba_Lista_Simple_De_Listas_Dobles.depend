@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1690623018 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\prueba_lista_simple_de_listas_dobles\main.c
+	<stdio.h>
+	<stdlib.h>
+
