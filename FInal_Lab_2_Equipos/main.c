@@ -24,6 +24,7 @@ typedef struct
 typedef struct
 {
     Deporte deporte;
+    struct ListaSocio *socios;
     struct ListaDeporte *sig;
 }ListaDeporte;
 ////////////////////////////////////
@@ -66,6 +67,12 @@ ListaSocio *agregarOrdenado();
 ////////FUNCIONES VARIAS////////
 void agregarManual(ListaDeporte *listaDeporte);
 void mostrarTodo(ListaDeporte *listaDeporte);
+
+void mostrarDeporte(ListaDeporte *nodoDeporte);
+void mostrarListaDeporte(ListaDeporte *lista);
+void mostrarSocio(ListaSocio *nodoSocio);
+void mostrarListaSocio(ListaSocio *lista);
+
 void listarDeporteMasPopular(ListaDeporte *listaDeporte);
 void volcarADosArchivos(char nombreArchivoUno[50],char nombreArchivoDos[50]);
 ////////////////////////////////
@@ -74,6 +81,8 @@ int main()
     int opc=0;
     while(opc!=27)
     {
+        printf("\n");
+        opc=menu();
         switch(opc)
         {
         case 27:
@@ -120,17 +129,20 @@ ListaDeporte *pasarRegistrosALDL(char nombreArchivo[50])
     FILE *archivo=fopen(nombreArchivo,"r");
     if(archivo)
     {
+        ListaDeporte *busqueda=inicDepo();
         stClub buffer;
         while(fread(&buffer,sizeof(stClub),1,archivo)>0)
         {
-            //SE CREA PRIMERO EL NODO ALUMNO
-            ListaSocio *nuevo=nuevoSocio(buffer.idSocio,buffer.nya,buffer.UltimaCuotaPaga,buffer.edad);
-            //SE BUSCA EN QUE DEPORTE CORRESPONDE, SI NO EXISTE SE CREA
-            ListaDeporte *posicionDeporte=buscarDeporte(listaDeportes,buffer.NombreDeporte);
-            if(listaDeportes!=NULL)
+            busqueda=buscarDeporte(listaDeportes,buffer.NombreDeporte);
+
+            if(busqueda==NULL) //SI LA LISTA ESTA VACIA O EL DEPORTE NO SE ENCUENTRA CREA EL DEPORTE Y LO AGREGA A LA LISTA
             {
-                listaDeportes->
+                ListaDeporte *deporteNuevo=nuevoDeporte(buffer.idDeporte,buffer.NombreDeporte,buffer.valorCuota);
+                listaDeportes=agregar(listaDeportes,nuevoDeporte);
+                busqueda=deporteNuevo; //GUARDA EL PUNTERO DEL NUEVO NODO DEPORTE PARA INSERTAR LOS SOCIOS
             }
+            ListaSocio *socioNuevo=nuevoSocio(buffer.idSocio,buffer.nya,buffer.UltimaCuotaPaga,buffer.edad);
+            busqueda->socios=agregarOrdenado(busqueda->socios,socioNuevo);
         }
         fclose(archivo);
     }
@@ -228,7 +240,7 @@ ListaSocio *nuevoSocio(int idSocio,char nya[50],int ultimaCuotaPaga,int edad)
 
 int buscaSocio(ListaSocio *lista,int idSocio)
 {
-    ListaSocio aux=lista;
+    ListaSocio *aux=lista;
     int encontrado=0;
     if(aux!=NULL)
     {
@@ -246,7 +258,7 @@ int buscaSocio(ListaSocio *lista,int idSocio)
 
 ListaSocio *agregarOrdenado(ListaSocio *lista,ListaSocio *nuevo)
 {
-    ListaSocio aux=lista;
+    ListaSocio *aux=lista;
     if(aux==NULL)
     {
         lista=nuevo;
@@ -269,7 +281,14 @@ ListaSocio *agregarOrdenado(ListaSocio *lista,ListaSocio *nuevo)
 
 ////////FUNCIONES VARIAS////////
 void agregarManual(ListaDeporte *listaDeporte);
-void mostrarTodo(ListaDeporte *listaDeporte);
+void mostrarTodo(ListaDeporte *listaDeporte)
+{
+    ListaDeporte *auxiliarDeporte=listaDeporte;
+    while(auxiliarDeporte!=NULL)
+    {
+
+    }
+}
 void listarDeporteMasPopular(ListaDeporte *listaDeporte);
 void volcarADosArchivos(char nombreArchivoUno[50],char nombreArchivoDos[50]);
 ////////////////////////////////

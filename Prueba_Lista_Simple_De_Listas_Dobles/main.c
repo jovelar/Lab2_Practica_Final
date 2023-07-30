@@ -18,6 +18,7 @@ typedef struct
 typedef struct
 {
     DatoNodoLS datoNodoLS;
+    struct NodoLD *listaSecundaria;
     struct NodoLS *siguiente;
 }NodoLS;
 
@@ -56,7 +57,7 @@ void mostrarNodoLS(NodoLS *nodo);
 void mostrarLS(NodoLS *lista);
 void mostrarNodoLD(NodoLD *nodo);
 void mostrarLD(NodoLD *lista);
-NodoLD *pasarDeArchivoALDL(char nombreArchivo[50]);
+NodoLS *pasarDeArchivoALDL(char nombreArchivo[50]);
 void generarArchivoRegistros(char nombreArchivo[50]);
 
 int main()
@@ -105,6 +106,25 @@ int menu()
     printf("\n\nESC- SALIR: "); //27
     opc=getch();
     return opc;
+}
+
+NodoLS *pasarDeArchivoALDL(char nombreArchivo[50])
+{
+    FILE *archivo=fopen(nombreArchivo,"r");
+    if(archivo)
+    {
+        NodoLD *nuevaLista=NULL;
+        stRegistro buffer;
+        while(fread(&buffer,sizeof(stRegistro),1,archivo)>0)
+        {
+            if(nuevaLista==NULL)
+            {
+                NodoLS *nuevo=nuevoNodoLS()
+            }
+        }
+    }
+    NodoLD *listaNueva;
+
 }
 
 void generarArchivoRegistros(char nombreArchivo[50])
