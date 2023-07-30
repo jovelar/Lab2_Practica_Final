@@ -61,6 +61,12 @@ ListaDeporte *agregar(ListaDeporte *lista, ListaDeporte *nuevoDeporte);
 ListaSocio *inicSocio();
 ListaSocio *nuevoSocio(int idSocio,char nya[50],int ultimaCuotaPaga,int edad);
 int buscaSocio(ListaSocio *lista,int idSocio);
+
+ListaSocio *agregarAlPrincipioLD(ListaSocio *lista,ListaSocio *nuevo);
+ListaSocio *agregarAlFinalLD(ListaSocio *lista,ListaSocio *nuevo);
+ListaSocio *buscarUltimoLD(ListaSocio *lista);
+
+
 ListaSocio *agregarOrdenado();
 ////////////////////////////////////////////
 
@@ -87,7 +93,13 @@ int main()
         {
         case 27:
             break;
-        case 49:
+        case 49:;
+            ListaDeporte *listaDeportes=inicDepo();
+            char archivo[]="registroClub.dat";
+            listaDeportes=pasarRegistrosALDL(archivo);
+            mostrarTodo(listaDeportes);
+            system("pause");
+            system("cls");
             break;
         case 50:
             break;
@@ -126,7 +138,7 @@ int menu()
 ListaDeporte *pasarRegistrosALDL(char nombreArchivo[50])
 {
     ListaDeporte *listaDeportes=inicDepo();
-    FILE *archivo=fopen(nombreArchivo,"r");
+    FILE *archivo=fopen(nombreArchivo,"rb");
     if(archivo)
     {
         ListaDeporte *busqueda=inicDepo();
@@ -256,24 +268,76 @@ int buscaSocio(ListaSocio *lista,int idSocio)
     return encontrado;
 }
 
-ListaSocio *agregarOrdenado(ListaSocio *lista,ListaSocio *nuevo)
+ListaSocio *agregarAlPrincipioLD(ListaSocio *lista,ListaSocio *nuevo)
 {
-    ListaSocio *aux=lista;
-    if(aux==NULL)
+    nuevo->sig=lista;
+    if(lista!=NULL)
+    {
+        lista->ante=nuevo;
+    }
+    return lista;
+}
+
+ListaSocio *agregarAlFinalLD(ListaSocio *lista,ListaSocio *nuevo)
+{
+    ListaSocio *ultimo=NULL;
+    if(lista!=NULL)
     {
         lista=nuevo;
     }
     else
     {
-        while((strcmp(aux->socio.nya,nuevo->socio.nya)>0)&&aux->sig!=NULL)
+        ultimo=buscarUltimoLD(lista);
+        ultimo->sig=nuevo;
+        nuevo->ante=ultimo;
+    }
+    return lista;
+}
+ListaSocio *buscarUltimoLD(ListaSocio *lista)
+{
+    ListaSocio *rta=lista;
+    if(lista!=NULL)
+    {
+        while(rta->sig!=NULL)
         {
-            aux=aux->sig;
+            rta=rta->sig;
         }
-        ListaSocio *anterior=aux->ante;
-        anterior->sig=nuevo;
-        nuevo->ante=anterior;
-        nuevo->sig=aux;
-        aux->ante=nuevo;
+    }
+    return rta;
+}
+
+ListaSocio *agregarOrdenado(ListaSocio *lista,ListaSocio *nuevo)
+{
+
+    if(lista==NULL)
+    {
+        lista=nuevo;
+    }
+    else
+    {
+        if(strcmp(lista->socio.nya,nuevo->socio.nya)<0) //SI ES EL PRIMERO
+        {
+            lista=agregarAlPrincipioLD(lista,nuevo);
+        }
+        else
+        {
+            ListaSocio *aux=lista->sig; //BUSCO DESDE EL SEGUNDO NODO
+            ListaSocio *anterior=lista;
+            while((strcmp(aux->socio.nya,nuevo->socio.nya)<0)&&aux!=NULL)
+            {
+                anterior=aux;
+                aux=aux->sig;
+            }
+            anterior->sig=nuevo;
+            nuevo->ante=anterior;
+            nuevo->sig=aux;
+            if(aux!=NULL)
+            {
+                aux->sig=nuevo;
+            }
+
+        }
+
     }
     return lista;
 }
@@ -283,12 +347,40 @@ ListaSocio *agregarOrdenado(ListaSocio *lista,ListaSocio *nuevo)
 void agregarManual(ListaDeporte *listaDeporte);
 void mostrarTodo(ListaDeporte *listaDeporte)
 {
-    ListaDeporte *auxiliarDeporte=listaDeporte;
-    while(auxiliarDeporte!=NULL)
+    if(listaDeporte!=NULL)
     {
+        ListaDeporte *auxiliarDeporte=listaDeporte;
+        while(auxiliarDeporte!=NULL)
+        {
 
+        }
+
+    }
+    else
+    {
+        printf("\nLa lista esta vacia!\n");
+        system("pause");
     }
 }
 void listarDeporteMasPopular(ListaDeporte *listaDeporte);
 void volcarADosArchivos(char nombreArchivoUno[50],char nombreArchivoDos[50]);
 ////////////////////////////////
+
+void registroAArchivo(char nombreArchivo[])
+{
+    FILE *archivo=fopen(nombreArchivo,"rb");
+    if(archivo)
+    {
+        FILE *archivoSalida=fopen("Registros.csv","wb");
+        stClub buffer;
+        printf("\n");
+        fprintf(archivoSalida,"idSocio;NyA;UltimaCuotaPaga;ValorCuota;idDeporte;Nombredeporte\n");
+        while(fread(&buffer,sizeof(stClub),1,archivo)>0)
+        {
+            //printf("%i,%s,%i,%0.2f,%i,%i,%s\n",buffer.idSocio,buffer.nya,buffer.UltimaCuotaPaga,buffer.valorCuota,buffer.edad,buffer.idDeporte,buffer.NombreDeporte);
+            fprintf(archivoSalida,"%i;%s;%i;%0.2f;%i;%i;%s\n",buffer.idSocio,buffer.nya,buffer.UltimaCuotaPaga,buffer.valorCuota,buffer.edad,buffer.idDeporte,buffer.NombreDeporte);
+        }
+        fclose(archivo);
+        fclose(archivoSalida);
+    }
+}

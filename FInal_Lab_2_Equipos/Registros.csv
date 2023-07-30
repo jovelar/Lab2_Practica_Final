@@ -1,0 +1,101 @@
+idSocio;NyA;UltimaCuotaPaga;ValorCuota;idDeporte;Nombredeporte
+0;Ildefonso Gil;10;3525.36;50;8;Ping Pong
+1;Arnaldo White;11;2545.33;17;2;Baloncesto
+2;Juan Restinga;6;1825.36;57;7;Boxeo
+3;Anastasio Rodriguez;8;1250.50;47;0;Karate
+4;Jose Mitre;9;3625.36;48;4;Natacion
+5;Anastasio Amenabar;6;1562.36;33;5;Voleybol
+6;Cuchuflito Amenabar;10;1456.34;48;6;Pesas
+7;Benicio Perez;10;2632.85;45;3;Balonmano
+8;Reinaldo Vega;6;1456.34;33;6;Pesas
+9;Ildefonso Comizo;1;1350.25;43;1;Futbol
+10;Benicio San Martin;4;2632.85;37;3;Balonmano
+11;Roberto Vega;7;3625.36;34;4;Natacion
+12;Tamaro Perez;4;1250.50;32;0;Karate
+13;Reinaldo De Antonio;11;3625.36;19;4;Natacion
+14;Jose Andujar;7;1825.36;24;7;Boxeo
+15;Arturo Gomez;5;2545.33;33;2;Baloncesto
+16;Mario Sierra;6;1250.50;49;0;Karate
+17;Ildefonso Torquemada;7;1350.25;21;1;Futbol
+18;Mauro Mitre;9;2545.33;53;2;Baloncesto
+19;Mario Torquemada;4;3525.36;54;8;Ping Pong
+20;Antonio Amenabar;9;1456.34;18;6;Pesas
+21;Benicio Amenabar;8;2632.85;53;3;Balonmano
+22;Jose Fernandez;8;1456.34;47;6;Pesas
+23;Mario Fernandez;9;1456.34;42;6;Pesas
+24;Remilgo Marijuan;10;3525.36;51;8;Ping Pong
+25;Cuchuflito White;10;1350.25;21;1;Futbol
+26;Antonio Rodriguez;2;1825.36;59;7;Boxeo
+27;Antonio Paso;8;1456.34;27;6;Pesas
+28;Juan Anchorena;1;1562.36;48;5;Voleybol
+29;Anastasio Gonzalez;2;2632.85;26;3;Balonmano
+30;Anibal Trapero;7;1456.34;55;6;Pesas
+31;Fernando White;10;3525.36;12;8;Ping Pong
+32;Reinaldo Fernandez;4;2545.33;27;2;Baloncesto
+33;Remilgo Rodriguez;5;1562.36;32;5;Voleybol
+34;Mario Fernandez;3;1456.34;25;6;Pesas
+35;Arturo Perez;1;3625.36;38;4;Natacion
+36;Juan Restinga;10;2632.85;24;3;Balonmano
+37;Mauro Comizo;5;3525.36;37;8;Ping Pong
+38;Roberto San Martin;9;1562.36;48;5;Voleybol
+39;Mariano Perez;7;1350.25;48;1;Futbol
+40;Antonio Vega;5;3525.36;21;8;Ping Pong
+41;Anibal Amenabar;9;1250.50;33;0;Karate
+42;Alfredo De Antonio;4;3625.36;54;4;Natacion
+43;Cuchuflito Blanco;4;1456.34;18;6;Pesas
+44;Roberto Paso;11;1562.36;48;5;Voleybol
+45;Arnaldo San Martin;8;1562.36;15;5;Voleybol
+46;Arturo Paso;10;1350.25;13;1;Futbol
+47;Benicio Borges;6;1825.36;8;7;Boxeo
+48;Adolfo Gaboto;8;2545.33;17;2;Baloncesto
+49;Fernando Comizo;9;1250.50;21;0;Karate
+50;Mario San Martin;7;1456.34;40;6;Pesas
+51;Alfredo Black;3;2545.33;15;2;Baloncesto
+52;Arnaldo Alvarez;8;2545.33;46;2;Baloncesto
+53;Anibal Vega;7;2545.33;16;2;Baloncesto
+54;Arnaldo Spinetta;8;3525.36;29;8;Ping Pong
+55;Benicio Gil;3;3625.36;53;4;Natacion
+56;Pedro San Martin;4;1250.50;59;0;Karate
+57;Juan Gomez;4;1825.36;42;7;Boxeo
+58;Benicio De Antonio;7;3625.36;57;4;Natacion
+59;Remilgo Anchorena;10;3525.36;41;8;Ping Pong
+60;Adolfo Torquemada;4;1562.36;42;5;Voleybol
+61;Miguel Vega;6;3525.36;21;8;Ping Pong
+62;Arnaldo De Antonio;5;2545.33;18;2;Baloncesto
+63;Antonio Rodriguez;4;1350.25;27;1;Futbol
+64;Arturo Comizo;1;3625.36;29;4;Natacion
+65;Tamaro Gil;1;3625.36;21;4;Natacion
+66;Mauro Torquemada;4;1456.34;54;6;Pesas
+67;Benicio Lloret;3;1562.36;16;5;Voleybol
+68;Adolfo Perez;1;2632.85;38;3;Balonmano
+69;Miguel Anchorena;2;1250.50;28;0;Karate
+70;Anastasio Perez;8;3625.36;47;4;Natacion
+71;Fernando Vega;5;1350.25;39;1;Futbol
+72;Arnaldo Vargas;9;2545.33;21;2;Baloncesto
+73;Mauro Alvarez;7;3525.36;43;8;Ping Pong
+74;Antonio Vega;5;1350.25;29;1;Futbol
+75;Mario Torquemada;6;1562.36;28;5;Voleybol
+76;Cuchuflito Gonzalez;7;1562.36;26;5;Voleybol
+77;Alfredo Vargas;4;2632.85;24;3;Balonmano
+78;Arturo Latorre;8;1825.36;34;7;Boxeo
+79;Mario Andujar;6;1562.36;43;5;Voleybol
+80;Benicio Latorre;4;2545.33;33;2;Baloncesto
+81;Juan Bautista;11;3625.36;13;4;Natacion
+82;Ildefonso Black;3;3625.36;45;4;Natacion
+83;Arnaldo Suarez;9;1456.34;31;6;Pesas
+84;Reinaldo Latorre;5;1250.50;43;0;Karate
+85;Pedro Torquemada;11;2545.33;12;2;Baloncesto
+86;Amalio Anchorena;4;2632.85;5;3;Balonmano
+87;Mauro Rodriguez;10;3525.36;20;8;Ping Pong
+88;Amalio Comizo;10;3625.36;52;4;Natacion
+89;Arnaldo Gil;11;1456.34;5;6;Pesas
+90;Anibal Linares;1;1562.36;29;5;Voleybol
+91;Pedro Anchorena;5;2632.85;8;3;Balonmano
+92;Amalio Cortez;7;1562.36;34;5;Voleybol
+93;Alfredo Comizo;4;1250.50;45;0;Karate
+94;Benicio Perez;7;1250.50;25;0;Karate
+95;Anibal Gaboto;11;1456.34;19;6;Pesas
+96;Mauro Gaboto;9;2632.85;27;3;Balonmano
+97;Jose Perez;9;1562.36;24;5;Voleybol
+98;Anastasio Andujar;6;1456.34;7;6;Pesas
+99;Arturo Marijuan;7;3525.36;25;8;Ping Pong
