@@ -14,14 +14,14 @@ typedef struct
 }stClub;
 
 ////////ESTRUCTURA PRINCIPAL////////
-typedef struct
+typedef struct Deporte
 {
     char nombreDeporte[50];
     int idDeporte;
     float valorCuota;
 }Deporte;
 
-typedef struct
+typedef struct ListaDeporte
 {
     Deporte deporte;
     struct ListaSocio *socios;
@@ -30,7 +30,7 @@ typedef struct
 ////////////////////////////////////
 
 ////////ESTRUCTURA SECUNDARIA////////
-typedef struct
+typedef struct Socio
 {
     int idSocio;
     char nya[50];
@@ -38,7 +38,7 @@ typedef struct
     int edad;
 }Socio;
 
-typedef struct
+typedef struct ListaSocio
 {
     Socio socio;
     struct ListaSocio *ante;
@@ -55,6 +55,7 @@ ListaDeporte *inicDepo();
 ListaDeporte *nuevoDeporte(int idDeporte,char nombreDeporte[50],float valorCuota);
 //int buscarDeporte(ListaDeporte *lista,char nombreDeporte[50]);
 ListaDeporte *buscarDeporte(ListaDeporte *lista, char nombreDeporte[50]);
+ListaDeporte *buscarUltimoLS(ListaDeporte *lista);
 ListaDeporte *agregar(ListaDeporte *lista, ListaDeporte *nuevoDeporte);
 
 /////////LISTA SECUNDARIA (LISTAS DOBLE)/////
@@ -94,7 +95,7 @@ int main()
         case 27:
             break;
         case 49:;
-            ListaDeporte *listaDeportes=inicDepo();
+            ListaDeporte *listaDeportes=NULL;
             char archivo[]="registroClub.dat";
             listaDeportes=pasarRegistrosALDL(archivo);
             mostrarTodo(listaDeportes);
@@ -137,7 +138,7 @@ int menu()
 ////////LECTURA DE REGISTROS////////
 ListaDeporte *pasarRegistrosALDL(char nombreArchivo[50])
 {
-    ListaDeporte *listaDeportes=inicDepo();
+    ListaDeporte *listaDeportes=NULL;
     FILE *archivo=fopen(nombreArchivo,"rb");
     if(archivo)
     {
@@ -145,17 +146,25 @@ ListaDeporte *pasarRegistrosALDL(char nombreArchivo[50])
         stClub buffer;
         while(fread(&buffer,sizeof(stClub),1,archivo)>0)
         {
+            ListaSocio *socioNuevo=nuevoSocio(buffer.idSocio,buffer.nya,buffer.UltimaCuotaPaga,buffer.edad);
+            printf("\n %s \n",socioNuevo->socio.nya);
             busqueda=buscarDeporte(listaDeportes,buffer.NombreDeporte);
 
             if(busqueda==NULL) //SI LA LISTA ESTA VACIA O EL DEPORTE NO SE ENCUENTRA CREA EL DEPORTE Y LO AGREGA A LA LISTA
             {
                 ListaDeporte *deporteNuevo=nuevoDeporte(buffer.idDeporte,buffer.NombreDeporte,buffer.valorCuota);
-                listaDeportes=agregar(listaDeportes,nuevoDeporte);
-                busqueda=deporteNuevo; //GUARDA EL PUNTERO DEL NUEVO NODO DEPORTE PARA INSERTAR LOS SOCIOS
+                listaDeportes=agregar(listaDeportes,deporteNuevo);
+                ListaDeporte *ultimo=buscarUltimoLS(listaDeportes);
+                busqueda=ultimo; //GUARDA EL PUNTERO DEL NUEVO NODO DEPORTE PARA INSERTAR LOS SOCIOS
+                busqueda->socios=NULL;
             }
-            ListaSocio *socioNuevo=nuevoSocio(buffer.idSocio,buffer.nya,buffer.UltimaCuotaPaga,buffer.edad);
-            busqueda->socios=agregarOrdenado(busqueda->socios,socioNuevo);
+
+                //busqueda->socios=agregarAlPrincipioLD(busqueda->socios,socioNuevo);  //AGREGA EL SOCIO EN LA LISTA DE DEPORTE, APUNTADA POR "BUSQUEDA"busq
+
+              busqueda->socios=agregarOrdenado(busqueda->socios,socioNuevo);  //AGREGA EL SOCIO EN LA LISTA DE DEPORTE, APUNTADA POR "BUSQUEDA"busq
+            //busqueda->socios=agregarAlFinalLD(busqueda->socios,socioNuevo);  //AGREGA EL SOCIO EN LA LISTA DE DEPORTE, APUNTADA POR "BUSQUEDA"busq
         }
+
         fclose(archivo);
     }
     else
@@ -181,31 +190,14 @@ ListaDeporte *nuevoDeporte(int idDeporte,char nombreDeporte[50],float valorCuota
     return nuevo;
 }
 
-/*int buscarDeporte(ListaDeporte *lista,char nombreDeporte[50])
-{
-    int encontrado=0;
-    ListaDeporte *aux=lista;
-    if(aux!=NULL)
-    {
-        while(aux!=NULL)
-        {
-            if(strcmp(aux->deporte.nombreDeporte,nombreDeporte)==0)
-            {
-                encontrado=1;
-            }
-            aux=aux->sig;
-        }
-    }
-    return encontrado;
-}
-*/
+
 ListaDeporte *buscarDeporte(ListaDeporte *lista, char nombreDeporte[50])
 {
     ListaDeporte *resultado=inicDepo();
     if(lista!=NULL)
     {
         ListaDeporte *aux=lista;
-        while(aux!=NULL)
+        while(aux!=NULL && resultado==NULL)
         {
             if(strcmp(aux->deporte.nombreDeporte,nombreDeporte)==0)
             {
@@ -234,6 +226,20 @@ ListaDeporte *agregar(ListaDeporte *lista, ListaDeporte *nuevoDeporte)
     return lista;
 }
 
+ListaDeporte *buscarUltimoLS(ListaDeporte *lista)
+{
+    ListaDeporte *resultante=NULL;
+    if(lista!=NULL)
+    {
+        ListaDeporte *aux=lista;
+        while(aux->sig!=NULL)
+        {
+            aux=aux->sig;
+        }
+        resultante=aux;
+    }
+    return resultante;
+}
 /////////LISTA SECUNDARIA (LISTAS DOBLE)/////
 ListaSocio *inicSocio()
 {
@@ -247,6 +253,8 @@ ListaSocio *nuevoSocio(int idSocio,char nya[50],int ultimaCuotaPaga,int edad)
     nuevo->socio.idSocio=idSocio;
     nuevo->socio.edad=edad;
     nuevo->socio.ultimaCuotaPaga=ultimaCuotaPaga;
+    nuevo->sig=NULL;
+    nuevo->ante=NULL;
     return nuevo;
 }
 
@@ -270,26 +278,34 @@ int buscaSocio(ListaSocio *lista,int idSocio)
 
 ListaSocio *agregarAlPrincipioLD(ListaSocio *lista,ListaSocio *nuevo)
 {
-    nuevo->sig=lista;
-    if(lista!=NULL)
-    {
-        lista->ante=nuevo;
-    }
-    return lista;
-}
-
-ListaSocio *agregarAlFinalLD(ListaSocio *lista,ListaSocio *nuevo)
-{
-    ListaSocio *ultimo=NULL;
-    if(lista!=NULL)
+    if(lista==NULL)
     {
         lista=nuevo;
     }
     else
     {
-        ultimo=buscarUltimoLD(lista);
-        ultimo->sig=nuevo;
-        nuevo->ante=ultimo;
+        nuevo->sig=lista;
+        lista->ante=nuevo;
+    }
+
+    return nuevo;
+}
+
+ListaSocio *agregarAlFinalLD(ListaSocio *lista,ListaSocio *nuevo)
+{
+    if(lista!=NULL)
+    {
+        ListaSocio *seg=lista;
+        while(seg->sig)
+        {
+            seg=seg->sig;
+        }
+        seg->sig=nuevo;
+        nuevo->ante=seg;
+    }
+    else
+    {
+        lista=nuevo;
     }
     return lista;
 }
@@ -308,32 +324,35 @@ ListaSocio *buscarUltimoLD(ListaSocio *lista)
 
 ListaSocio *agregarOrdenado(ListaSocio *lista,ListaSocio *nuevo)
 {
-
     if(lista==NULL)
     {
         lista=nuevo;
     }
     else
     {
-        if(strcmp(lista->socio.nya,nuevo->socio.nya)<0) //SI ES EL PRIMERO
+        if(strcmp(lista->socio.nya,nuevo->socio.nya)>0) //SI ES EL PRIMERO
         {
             lista=agregarAlPrincipioLD(lista,nuevo);
         }
         else
         {
             ListaSocio *aux=lista->sig; //BUSCO DESDE EL SEGUNDO NODO
-            ListaSocio *anterior=lista;
-            while((strcmp(aux->socio.nya,nuevo->socio.nya)<0)&&aux!=NULL)
+            while(aux!=NULL && strcmp(aux->socio.nya,nuevo->socio.nya)<0)
             {
-                anterior=aux;
                 aux=aux->sig;
             }
-            anterior->sig=nuevo;
-            nuevo->ante=anterior;
-            nuevo->sig=aux;
-            if(aux!=NULL)
+            if(aux==NULL) ////AL FINAL
             {
-                aux->sig=nuevo;
+                lista=agregarAlFinalLD(lista,nuevo);
+            }
+            else ///EN EL MEDIO
+            {
+                ListaSocio *anterior=aux->ante;
+                ListaSocio *siguiente=aux->sig;
+                anterior->sig=nuevo;
+                nuevo->ante=anterior;
+                nuevo->sig=aux;
+                aux->ante=nuevo;
             }
 
         }
@@ -341,18 +360,42 @@ ListaSocio *agregarOrdenado(ListaSocio *lista,ListaSocio *nuevo)
     }
     return lista;
 }
+
+void mostrarListaSocio(ListaSocio *lista)
+{
+    if(lista!=NULL)
+    {
+        ListaSocio *aux=lista;
+        while(aux!=NULL)
+        {
+            printf("%s |",aux->socio.nya);
+            aux=aux->sig;
+        }
+    }
+    else
+    {
+        printf("\nLa lista esta vacia!\n");
+    }
+}
 ////////////////////////////////////////////
 
 ////////FUNCIONES VARIAS////////
 void agregarManual(ListaDeporte *listaDeporte);
 void mostrarTodo(ListaDeporte *listaDeporte)
 {
+    int socPorLin=6;
     if(listaDeporte!=NULL)
     {
         ListaDeporte *auxiliarDeporte=listaDeporte;
         while(auxiliarDeporte!=NULL)
         {
-
+            int contador=0;
+            ListaSocio *auxiliarSocios=listaDeporte->socios;
+            printf("\n");
+            printf("\n %s \n",auxiliarDeporte->deporte.nombreDeporte);
+            printf("\n");
+            mostrarListaSocio(auxiliarDeporte->socios);
+            auxiliarDeporte=auxiliarDeporte->sig;
         }
 
     }
