@@ -158,11 +158,8 @@ ListaDeporte *pasarRegistrosALDL(char nombreArchivo[50])
                 busqueda=ultimo; //GUARDA EL PUNTERO DEL NUEVO NODO DEPORTE PARA INSERTAR LOS SOCIOS
                 busqueda->socios=NULL;
             }
-
-                //busqueda->socios=agregarAlPrincipioLD(busqueda->socios,socioNuevo);  //AGREGA EL SOCIO EN LA LISTA DE DEPORTE, APUNTADA POR "BUSQUEDA"busq
-
               busqueda->socios=agregarOrdenado(busqueda->socios,socioNuevo);  //AGREGA EL SOCIO EN LA LISTA DE DEPORTE, APUNTADA POR "BUSQUEDA"busq
-            //busqueda->socios=agregarAlFinalLD(busqueda->socios,socioNuevo);  //AGREGA EL SOCIO EN LA LISTA DE DEPORTE, APUNTADA POR "BUSQUEDA"busq
+
         }
 
         fclose(archivo);
@@ -189,8 +186,6 @@ ListaDeporte *nuevoDeporte(int idDeporte,char nombreDeporte[50],float valorCuota
     nuevo->sig=NULL;
     return nuevo;
 }
-
-
 ListaDeporte *buscarDeporte(ListaDeporte *lista, char nombreDeporte[50])
 {
     ListaDeporte *resultado=inicDepo();
@@ -240,6 +235,9 @@ ListaDeporte *buscarUltimoLS(ListaDeporte *lista)
     }
     return resultante;
 }
+
+
+
 /////////LISTA SECUNDARIA (LISTAS DOBLE)/////
 ListaSocio *inicSocio()
 {
@@ -426,4 +424,41 @@ void registroAArchivo(char nombreArchivo[])
         fclose(archivo);
         fclose(archivoSalida);
     }
+}
+
+void agregarManual(ListaDeporte *listaDeporte)
+{
+    ListaSocio *socioNuevo=inicSocio();
+    printf("\nIngrese el ID del nuevo socio\n");
+    scanf("%d",socioNuevo->socio.idSocio);
+    printf("\nIngrese el nombre y apellido\n");
+    scanf("%s",socioNuevo->socio.nya);
+    printf("\Ingrese la edad\n");
+    scanf("%d",socioNuevo->socio.edad);
+    printf("\nIngrese la ultima cuota que pago\n");
+    scanf("%d",socioNuevo->socio.ultimaCuotaPaga);
+    printf("Ingrese en que deporte desea incorporarse");
+    char deporte[50];
+    scanf("%d",&deporte);
+
+
+}
+int buscarSiguienteDeporteId(ListaDeporte *deportes)
+{
+    int id=-1; //POR DEFECTO SI NO ENCUENTRA NADA DEVUELVE -1
+    if(deportes!=NULL)
+    {
+        while(deportes!=NULL)
+        {
+            if(deportes->deporte.idDeporte>id)
+            {
+                id=deportes->deporte.idDeporte;
+            }
+        }
+    }
+    if(id!=-1) //SI ENCONTRO ALGO
+    {
+        id++; //SUMA UN DIGITO AL ID ENCONTRADO MAS GRANDE PARA EVITAR QUE SE REPITA
+    }
+    return id;
 }

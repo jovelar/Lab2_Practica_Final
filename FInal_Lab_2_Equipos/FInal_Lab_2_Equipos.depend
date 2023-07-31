@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1690754539 source:i:\utn2022\lab2_practica_final\final_lab_2_equipos\main.c
+1690772775 source:i:\utn2022\lab2_practica_final\final_lab_2_equipos\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
