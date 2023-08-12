@@ -72,3 +72,9 @@ Nodo2 *insertarEnOrden(Nodo2 *lista,Nodo2 *nuevoNodo)
 		}
 	}
 }
+
+
+
+
+
+
