@@ -82,6 +82,11 @@ NodoArbol *pasarADLAArbol(NodoSucursal *listaSucursal);
 
 void mostrarArbolAscendente(NodoArbol *arbol);
 
+///////////////PUNTO 5//////////////////////////////////
+
+NodoArbol *buscarPorNombYGen(NodoArbol *arbol,char nombreDisfraz[],char genero[]);
+
+
 int main()
 {
     int opcion=0;
@@ -113,8 +118,32 @@ int main()
             system("pause");
             system("cls");
             break;
-        case 52:
-            pasarRegistrosACSV("archivoRegistrosDisfraces.bin");
+        case 52:;
+            NodoSucursal *listaDeListasP4=inicSucursal();
+            listaDeListasP4=pasarArchivoALDL("archivoRegistrosDisfraces.bin");
+            NodoArbol *nuevoArbol2=inicArbol();
+            nuevoArbol2=pasarADLAArbol(listaDeListasP4);
+
+            mostrarArbolAscendente(nuevoArbol2);
+            printf("\nIngrese el nombre del disfraz a buscar: ");
+            fflush(stdin);
+            char nombreDisfraz[25];
+            //scanf("%s",&nombreDisfraz);
+            gets(&nombreDisfraz);
+            printf("\nIngrese el genero del disfra a buscar :");
+            char generoDisfraz[25];
+            scanf("%s",&generoDisfraz);
+            NodoArbol *resultadoBusqueda=buscarPorNombYGen(nuevoArbol2,nombreDisfraz,generoDisfraz);
+
+            if(resultadoBusqueda==NULL)
+            {
+                printf("La lista esta vacia!");
+            }
+            else
+            {
+                //printf("\n%s|%s",resultadoBusqueda->registroDisfraz.nombreDisfraz,resultadoBusqueda->registroDisfraz.generoDisfraz);
+            }
+
             break;
         default:
             printf("\nOpcion Invalida!\n");
@@ -442,7 +471,7 @@ NodoArbol *pasarADLAArbol(NodoSucursal *listaSucursal)
             while(aux2!=NULL)
             {
                 NodoArbol *nuevo=nuevoNodoArbol(aux->sucursal.idSucursal,aux->sucursal.nombreSucursal,aux2->disfraz.nombreDisfraz,aux2->disfraz.generoDisfraz,aux2->disfraz.stockDisfraz);
-                //printf("\n%i|%s|%s|%s|%i",nuevo->registroDisfraz.idSucursal,nuevo->registroDisfraz.nombreSucursal,nuevo->registroDisfraz.nombreDisfraz,nuevo->registroDisfraz.generoDisfraz,nuevo->registroDisfraz.stockDisfraz);
+                printf("\n%-2i|%-25s|%-25s|%-25s|%-2i",nuevo->registroDisfraz.idSucursal,nuevo->registroDisfraz.nombreSucursal,nuevo->registroDisfraz.nombreDisfraz,nuevo->registroDisfraz.generoDisfraz,nuevo->registroDisfraz.stockDisfraz);
                 arbol=insertarOrdenadoArbol(arbol,nuevo);
                 aux2=aux2->sig;
             }
@@ -459,7 +488,45 @@ void mostrarArbolAscendente(NodoArbol *arbol) //INORDER
     if(arbol!=NULL)
     {
         mostrarArbolAscendente(arbol->izq);
-        printf("\n%s|%s|%s",arbol->registroDisfraz.nombreDisfraz,arbol->registroDisfraz.generoDisfraz,arbol->registroDisfraz.nombreSucursal);
+        printf("\n%-25s|%-10s|%-15s",arbol->registroDisfraz.nombreDisfraz,arbol->registroDisfraz.generoDisfraz,arbol->registroDisfraz.nombreSucursal);
         mostrarArbolAscendente(arbol->der);
     }
+}
+
+///////////////PUNTO 5//////////////////////////////////
+
+NodoArbol *buscarPorNombYGen(NodoArbol *arbol,char nombreDisfraz[],char genero[])
+{
+    NodoArbol *resultado=inicArbol();
+    if(arbol!=NULL)
+    {
+        /*if(strstr(arbol->registroDisfraz.nombreDisfraz,nombreDisfraz))
+        {
+            if(strstr(arbol->registroDisfraz.generoDisfraz,genero))
+            {
+                resultado=arbol;
+                printf("\n%s|%s\n",arbol->registroDisfraz.nombreDisfraz,arbol->registroDisfraz.generoDisfraz);
+            }*/
+
+        if(strcasecmp(arbol->registroDisfraz.nombreDisfraz,nombreDisfraz)==0)
+        {
+            if(strcasecmp(arbol->registroDisfraz.generoDisfraz,genero)==0)
+            {
+                resultado=arbol;
+                printf("\n%s|%s\n",arbol->registroDisfraz.nombreDisfraz,arbol->registroDisfraz.generoDisfraz);
+            }
+        }
+        else
+        {
+            if(strcasecmp(nombreDisfraz,arbol->registroDisfraz.nombreDisfraz)>=0)
+            {
+                resultado=buscarPorNombYGen(arbol->der,nombreDisfraz,genero);
+            }
+            else
+            {
+                resultado=buscarPorNombYGen(arbol->izq,nombreDisfraz,genero);
+            }
+        }
+    }
+    return resultado;
 }
