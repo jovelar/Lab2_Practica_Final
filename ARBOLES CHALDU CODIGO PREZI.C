@@ -103,3 +103,28 @@ void postOrder(nodoArbol *arbol)
     }
 }
 
+////////////BUSCAR EN UN ARBOL//////////////
+
+nodoArbol *buscar(nodoArbol * arbol, int dato)
+{
+    nodoArbol *rta=NULL;
+    if(arbol!=NULL)
+    {
+        if(dato==arbol->dato)
+        {
+            rta=arbol;
+        }
+        else
+        {
+            if(dato > arbol->dato)
+            {
+                rta=buscar(arbol->der,dato);
+            }
+            else
+            {
+                rta=buscar(arbol->izq,dato);
+            }
+        }
+    }
+    return rta;
+}

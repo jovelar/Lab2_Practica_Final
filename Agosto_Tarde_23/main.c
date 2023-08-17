@@ -109,6 +109,9 @@ int main()
             NodoArbol *nuevoArbol=inicArbol();
             nuevoArbol=pasarADLAArbol(listaDeListasP3);
             mostrarArbolAscendente(nuevoArbol);
+            printf("\n");
+            system("pause");
+            system("cls");
             break;
         case 52:
             pasarRegistrosACSV("archivoRegistrosDisfraces.bin");
@@ -153,15 +156,16 @@ NodoSucursal *nuevoNodoSucursal(int idSucursal, char nombreSucursal[25])
 NodoSucursal *buscarSucursal(NodoSucursal *listaSucursal,char nombreSucursal[25])
 {
     NodoSucursal *resultante=NULL;
-    if(listaSucursal!=NULL)
+    NodoSucursal *aux=listaSucursal;
+    if(aux!=NULL)
     {
-        while(listaSucursal!=NULL)
+        while(aux!=NULL)
         {
-            if(strcmp(listaSucursal->sucursal.nombreSucursal,nombreSucursal)==0)
+            if(strcasecmp(aux->sucursal.nombreSucursal,nombreSucursal)==0)
             {
-                resultante=listaSucursal;
+                resultante=aux;
             }
-            listaSucursal=listaSucursal->sig;
+            aux=aux->sig;
         }
     }
     return resultante;
@@ -278,7 +282,7 @@ NodoDisfraz *insertarOrdenadoDisfraz(NodoDisfraz *listaDisfraz,NodoDisfraz *nuev
     else
     {
         //if(strcmp(listaDisfraz->disfraz.nombreDisfraz,nuevoDisfraz->disfraz.nombreDisfraz)>0)
-        if(strcasecmp(listaDisfraz->disfraz.nombreDisfraz,nuevoDisfraz->disfraz.nombreDisfraz)<0)
+        if(strcasecmp(listaDisfraz->disfraz.nombreDisfraz,nuevoDisfraz->disfraz.nombreDisfraz)>=0)
         {
             nuevoDisfraz->sig=listaDisfraz;
             listaDisfraz=nuevoDisfraz;
@@ -288,7 +292,7 @@ NodoDisfraz *insertarOrdenadoDisfraz(NodoDisfraz *listaDisfraz,NodoDisfraz *nuev
             NodoDisfraz *ante;
             NodoDisfraz *aux=listaDisfraz;
             //while(aux!=NULL && strcmp(aux->disfraz.nombreDisfraz,nuevoDisfraz->disfraz.nombreDisfraz)<0)
-            while(aux!=NULL && strcasecmp(aux->disfraz.nombreDisfraz,nuevoDisfraz->disfraz.nombreDisfraz)<0)
+            while(aux!=NULL && strcasecmp(aux->disfraz.nombreDisfraz,nuevoDisfraz->disfraz.nombreDisfraz)<=0)
             {
                 ante=aux;
                 aux=aux->sig;
@@ -427,6 +431,10 @@ NodoArbol *pasarADLAArbol(NodoSucursal *listaSucursal)
     if(listaSucursal!=NULL)
     {
         NodoSucursal *aux=listaSucursal;
+        while(aux->sig!=NULL)
+        {
+            aux=aux->sig;
+        }
         while(aux!=NULL)
         {
             NodoDisfraz *aux2=aux->disFrazes;
@@ -434,10 +442,11 @@ NodoArbol *pasarADLAArbol(NodoSucursal *listaSucursal)
             while(aux2!=NULL)
             {
                 NodoArbol *nuevo=nuevoNodoArbol(aux->sucursal.idSucursal,aux->sucursal.nombreSucursal,aux2->disfraz.nombreDisfraz,aux2->disfraz.generoDisfraz,aux2->disfraz.stockDisfraz);
+                //printf("\n%i|%s|%s|%s|%i",nuevo->registroDisfraz.idSucursal,nuevo->registroDisfraz.nombreSucursal,nuevo->registroDisfraz.nombreDisfraz,nuevo->registroDisfraz.generoDisfraz,nuevo->registroDisfraz.stockDisfraz);
                 arbol=insertarOrdenadoArbol(arbol,nuevo);
                 aux2=aux2->sig;
             }
-            aux=aux->sig;
+            aux=aux->ante;
         }
     }
     return arbol;
@@ -445,12 +454,12 @@ NodoArbol *pasarADLAArbol(NodoSucursal *listaSucursal)
 
 ///////////////PUNTO 4//////////////////////////////////
 
-void mostrarArbolAscendente(NodoArbol *arbol)
+void mostrarArbolAscendente(NodoArbol *arbol) //INORDER
 {
     if(arbol!=NULL)
     {
-        printf("\n%s|%s|%s",arbol->registroDisfraz.nombreDisfraz,arbol->registroDisfraz.generoDisfraz,arbol->registroDisfraz.nombreSucursal);
         mostrarArbolAscendente(arbol->izq);
+        printf("\n%s|%s|%s",arbol->registroDisfraz.nombreDisfraz,arbol->registroDisfraz.generoDisfraz,arbol->registroDisfraz.nombreSucursal);
         mostrarArbolAscendente(arbol->der);
     }
 }
