@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1690667385 source:c:\users\sofia\documents\programacion 2\finallab2julio23tn\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

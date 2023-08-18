@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1636739895 source:e:\usuarios\mantobani\desktop\examen mantobani matias\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"file1.h"
+
+1636727899 e:\usuarios\mantobani\desktop\examen mantobani matias\file1.h
+
+1636727984 source:e:\usuarios\mantobani\desktop\examen mantobani matias\file1.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"file1.h"
+
+1636727984 source:e:\utn\2. cuatri\programación & laboratorio ii\modelos examen lab 2\mi parcial\file1.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"file1.h"
+
+1636727899 e:\utn\2. cuatri\programación & laboratorio ii\modelos examen lab 2\mi parcial\file1.h
+

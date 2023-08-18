@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1636658260 source:c:\users\rodri\documents\facultad\tsp\2021\programacion ii\parciales\repaso-2do-parcial\parcial-c9-resuelto\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<string.h>
+
+1636658685 source:e:\usuarios\mantobani\desktop\resueltos - 2do parcial lab 2\parcial-c9-resuelto\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<string.h>
+
+1636658685 source:e:\utn\2. cuatri\programación & laboratorio ii\modelos examen\2do parcial lab- c9\resueltos - 2do parcial lab 2\parcial-c9-resuelto\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<string.h>
+

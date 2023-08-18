@@ -1,0 +1,7 @@
+En arreglo de listas:
+
+coleccion principal = nodo celda = celda
+
+colleccion secundaria = nodo lista = lista
+
+siempre con 2 estructuras
