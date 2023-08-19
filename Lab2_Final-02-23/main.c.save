@@ -143,16 +143,9 @@ nodoOrigen *pasarALDL(char nombreArchivo[])
         while(fread(&buffer,sizeof(registroEnvios),1,archivo)>0)
         {
             nodoDestino *nuevo=nuevoDestino(buffer.destino,buffer.costo,buffer.tiempoViaje);
-
+            
             nodoOrigen *posicionAInsertar=buscar(nodoOrigen *nuevaLista,buffer.origen);
-
-            if(posicionAInsertar==NULL)
-            {
-                nodoOrigen *nuevo=nuevoOrigen(buffer.origen);
-                nuevaLista=insertarOrdenadoRec(nuevaLista,nuevo);
-                posicionAInsertar=nuevo;
-            }
-            if()
+            
         }
     }
     else
