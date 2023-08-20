@@ -41,3 +41,27 @@ nodo *borrarNodoR(nodo *lista,int dato)
 	}
 	return lista;
 }
+
+nodo *insertarEnOrdenR(nodo *lista, nodo *nuevo)
+{
+    if(lista==NULL)
+    {
+        lista=nuevo;
+    }
+    else
+    {
+        if(nuevo->dato < lista->dato)
+        {
+            nuevo->siguiente=lista;
+            lista=nuevo;  
+        }
+        else
+        {
+            lista->siguiente=insertarEnOrdenR(lista->siguiente,nuevo);
+        }
+
+    }
+    return lista;
+}
+
++

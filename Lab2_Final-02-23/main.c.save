@@ -32,7 +32,7 @@ nodoDestino *nuevoDestino(char nombre[],float costo,int tiempoViaje);
 nodoDestino *insertarAlFinal(nodoDestino *lista, nodoDestino *nuevo);
 
 nodoOrigen *inicOrigen();
-nodoOrigen *nuevoOrigen(char nombre);
+nodoOrigen *nuevoOrigen(char nombre[]);
 nodoOrigen *insertarOrdenadoRec(nodoOrigen *lista, nodoOrigen *nuevo);
 nodoOrigen *buscar(nodoOrigen *lista, char nombreOrigen[]);
 
@@ -40,10 +40,42 @@ nodoOrigen *pasarALDL(char nombreArchivo[]);
 
 void mostrarListaOrigen(nodoOrigen *lista);
 void mostrarListaDestino(nodoDestino *lista);
+int menu();
 
+////////PUNTO 2 ////////
+float promedioTiempoViaje(nodoDestino *lista,char ubicacion[],int sumatoria,int contador);
 
+void pasarACSV(char nombreArchivo[]);
 int main()
 {
+    int opcion=0;
+    while(opcion!=27)
+    {
+        opcion=menu();
+        switch(opcion)
+        {
+        case 27:
+            break;
+        case 49:;
+            nodoDestino *listaDestinos=pasarALDL("registroEnvios.bin");
+            mostrarListaOrigen(listaDestinos);
+            system("pause");
+            break;
+        case 50:
+            break;
+        case 51:
+            break;
+        case 52:
+            break;
+        case 53:
+            break;
+        default:
+            printf("\nOpcion invalida!\n");
+            system("pause");
+            break;
+        }
+    }
+    //pasarACSV("registroEnvios.bin");
     return 0;
 }
 
@@ -86,12 +118,13 @@ nodoOrigen *inicOrigen()
     return NULL;
 }
 
-nodoOrigen *nuevoOrigen(char nombre)
+nodoOrigen *nuevoOrigen(char nombre[])
 {
     nodoOrigen *nuevo=(nodoOrigen*)malloc(sizeof(nodoOrigen));
     strcpy(nuevo->nombre,nombre);
     nuevo->destinosAereos=NULL;
     nuevo->destinosFerro=NULL;
+    nuevo->sig=NULL;
 
     return nuevo;
 }
@@ -103,7 +136,7 @@ nodoOrigen *insertarOrdenadoRec(nodoOrigen *lista, nodoOrigen *nuevo)
     }
     else
     {
-        if(strcasecmp(nuevo->nombre,lista->nombre)<0)
+        if(strcmp(nuevo->nombre,lista->nombre)<0)
         {
             nuevo->sig=lista;
             lista=nuevo;
@@ -119,15 +152,16 @@ nodoOrigen *insertarOrdenadoRec(nodoOrigen *lista, nodoOrigen *nuevo)
 nodoOrigen *buscar(nodoOrigen *lista, char nombreOrigen[])
 {
     nodoDestino *resultado=NULL;
-    if(lista!NULL)
+    if(lista!=NULL)
     {
-        nodoDestino *aux=lista;
-        while(aux!=NULL && resultado==null)
+        nodoOrigen *aux=lista;
+        while(aux!=NULL && resultado==NULL)
         {
-            if(strcasecmp(lista->nombre,nombreOrigen)==0)
+            if(strcmp(aux->nombre,nombreOrigen)==0)
             {
                 resultado=aux;
             }
+            aux=aux->sig;
         }
     }
     return resultado;
@@ -142,16 +176,31 @@ nodoOrigen *pasarALDL(char nombreArchivo[])
         registroEnvios buffer;
         while(fread(&buffer,sizeof(registroEnvios),1,archivo)>0)
         {
-            nodoDestino *nuevo=nuevoDestino(buffer.destino,buffer.costo,buffer.tiempoViaje);
-            
-            nodoOrigen *posicionAInsertar=buscar(nodoOrigen *nuevaLista,buffer.origen);
-            
+            nodoDestino *nuevoDest=nuevoDestino(buffer.destino,buffer.costo,buffer.tiempoViaje);
+
+            nodoOrigen *posicionAInsertar=buscar(nuevaLista,buffer.origen);
+
+            if(posicionAInsertar==NULL)
+            {
+                nodoOrigen *nuevoOr=nuevoOrigen(buffer.origen);
+                nuevaLista=insertarOrdenadoRec(nuevaLista,nuevoOr);
+                posicionAInsertar=nuevoOr;
+            }
+            if(strcasecmp(buffer.tipo,"aereo")==0)
+            {
+                posicionAInsertar->destinosAereos=insertarAlFinal(posicionAInsertar->destinosAereos,nuevoDest);
+            }
+            else
+            {
+                posicionAInsertar->destinosFerro=insertarAlFinal(posicionAInsertar->destinosFerro,nuevoDest);
+            }
         }
     }
     else
     {
         printf("El archivo no se pudo abrir/ encontrar");
     }
+    return nuevaLista;
 }
 
 void mostrarListaOrigen(nodoOrigen *lista)
@@ -189,5 +238,55 @@ void mostrarListaDestino(nodoDestino *lista)
     else
     {
         printf("\No hay destinos!");
+    }
+}
+
+int menu()
+{
+    system("cls");
+    printf("1-Pasar registros a lista de listas\n");
+    printf("2-\n");
+    printf("3-\n");
+    printf("4-\n");
+    printf("5-\n");
+    printf("\n\nESC- Salir :");
+    int opc;
+    opc=getch();
+    return opc;
+}
+
+////////PUNTO 2 ////////
+float promedioTiempoViaje(nodoDestino *lista,char ubicacion[],int sumatoria,int contador)
+{
+    float promedio=0;
+    if(lista!=NULL)
+    {
+        if(strcmp(lista->nombre,ubicacion)==0)
+        {
+            
+        }
+    }
+    return (float)sumatoria/contador;
+}
+
+void pasarACSV(char nombreArchivo[])
+{
+
+    FILE *archivo=fopen(nombreArchivo,"rb");
+    if(archivo)
+    {
+        registroEnvios buffer;
+        FILE *archivoSalida=fopen("registrosCSV.csv","wb");
+
+        while(fread(&buffer,sizeof(registroEnvios),1,archivo))
+        {
+            fprintf(archivoSalida,"%s;%s;%s;%0.2f;%i\n",buffer.origen,buffer.destino,buffer.tipo,buffer.costo,buffer.tiempoViaje);
+        }
+        fclose(archivo);
+        fclose(archivoSalida);
+    }
+    else
+    {
+        printf("\nNo se pudo abrir/encontrar el archivo!\n");
     }
 }
