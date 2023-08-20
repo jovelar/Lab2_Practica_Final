@@ -44,6 +44,7 @@ int menu();
 
 ////////PUNTO 2 ////////
 float promedioTiempoViaje(nodoDestino *lista,char ubicacion[],int sumatoria,int contador);
+float promedioTiempoIT(nodoOrigen *listaOrigen,char ubicacion[]);
 
 void pasarACSV(char nombreArchivo[]);
 int main()
@@ -62,6 +63,15 @@ int main()
             system("pause");
             break;
         case 50:
+            printf("\nIngrese el nombre de la localidad destino a buscar: ");
+            char localidad[25];
+            scanf("%s",&localidad);
+            float promedio=0;
+            nodoDestino *listaDestinos2=pasarALDL("registroEnvios.bin");
+            //promedio=promedioTiempoViaje(listaDestinos2,localidad,0,0);
+            promedio=promedioTiempoIT(listaDestinos2,localidad);
+            printf("El promedio es de %0.2f \n ",promedio);
+            system("pause");
             break;
         case 51:
             break;
@@ -258,15 +268,38 @@ int menu()
 ////////PUNTO 2 ////////
 float promedioTiempoViaje(nodoDestino *lista,char ubicacion[],int sumatoria,int contador)
 {
-    float promedio=0;
+    float promedio=0.f;
     if(lista!=NULL)
     {
-        if(strcmp(lista->nombre,ubicacion)==0)
-        {
-
-        }
+       // promedio=promedioTiempoViaje(lista->sig,ubicacion,sumatoria+lista->,contador+1);
     }
     return (float)sumatoria/contador;
+}
+
+float promedioTiempoIT(nodoOrigen *listaOrigen,char ubicacion[])
+{
+    int contador=0;
+    int sumatoria=0;
+    if(listaOrigen!=NULL)
+    {
+        nodoOrigen *aux=listaOrigen;
+        while(aux!=NULL && contador==0) //SI CONTADOR !=0 ES POR QUE LO ENCONTRO.
+        {
+            if(strcasecmp(ubicacion,aux->nombre)==0)
+            {
+                nodoDestino *auxAereo=aux->destinosAereos;
+                while(auxAereo!=NULL)
+                {
+                    printf("\n%i|%i\n",sumatoria,auxAereo->tiempoViaje);
+                    sumatoria=sumatoria+auxAereo->tiempoViaje;
+                    contador++;
+                    auxAereo=auxAereo->sig;
+                }
+            }
+            aux=aux->sig;
+        }
+    }
+    return (float)(sumatoria/contador);
 }
 
 void pasarACSV(char nombreArchivo[])
