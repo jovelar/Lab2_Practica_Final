@@ -43,7 +43,8 @@ void mostrarListaDestino(nodoDestino *lista);
 int menu();
 
 ////////PUNTO 2 ////////
-float promedioTiempoViaje(nodoDestino *lista,char ubicacion[],int sumatoria,int contador);
+float promedioTiempoViaje(nodoOrigen *lista,nodoDestino *destino,char ubicacion[],int sumatoria,int contador);
+//float promedioTiempoViaje(nodoOrigen *lista,char ubicacion[],int sumatoria,int contador);
 float promedioTiempoIT(nodoOrigen *listaOrigen,char ubicacion[]);
 
 void pasarACSV(char nombreArchivo[]);
@@ -58,7 +59,8 @@ int main()
         case 27:
             break;
         case 49:;
-            nodoDestino *listaDestinos=pasarALDL("registroEnvios.bin");
+            //nodoDestino *listaDestinos=pasarALDL("registroEnvios.bin");
+            nodoOrigen *listaDestinos=pasarALDL("registroEnvios.bin");
             mostrarListaOrigen(listaDestinos);
             system("pause");
             break;
@@ -67,9 +69,10 @@ int main()
             char localidad[25];
             scanf("%s",&localidad);
             float promedio=0;
-            nodoDestino *listaDestinos2=pasarALDL("registroEnvios.bin");
+            nodoOrigen *listaDestinos2=pasarALDL("registroEnvios.bin");
+            promedio=promedioTiempoViaje(listaDestinos2,listaDestinos2->destinosAereos,localidad,0,0);
             //promedio=promedioTiempoViaje(listaDestinos2,localidad,0,0);
-            promedio=promedioTiempoIT(listaDestinos2,localidad);
+            //promedio=promedioTiempoIT(listaDestinos2,localidad);
             printf("El promedio es de %0.2f \n ",promedio);
             system("pause");
             break;
@@ -266,14 +269,66 @@ int menu()
 }
 
 ////////PUNTO 2 ////////
+/*
 float promedioTiempoViaje(nodoDestino *lista,char ubicacion[],int sumatoria,int contador)
 {
-    float promedio=0.f;
+    float promedio=0;
     if(lista!=NULL)
     {
-       // promedio=promedioTiempoViaje(lista->sig,ubicacion,sumatoria+lista->,contador+1);
+        if(strcasecmp(lista->nombre,ubicacion)==0)
+        {
+            if(lista->destinosAereos!=NULL)
+            {
+                promedio=promedio+promedioTiempoViaje()
+            }
+        }
+        else
+        {
+            promedio=promedioTiempoViaje(lista->sig,ubicacion,sumatoria,contador);
+        }
     }
-    return (float)sumatoria/contador;
+    return 0.f;//(float)sumatoria/contador;
+}*/
+/*
+float promedioTiempoViaje(nodoOrigen *lista,char ubicacion[],int sumatoria,int contador)
+{
+    float promedio=0;
+    if(lista!=NULL)
+    {
+        if(strcasecmp(lista->nombre,ubicacion)==0)
+        {
+            if(lista->destinosAereos!=NULL)
+            {
+                promedio=promedio+promedioTiempoViaje(lista,ubicacion,sumatoria + lista->destinosAereos->sig->tiempoViaje,contador+1);
+            }
+        }
+        else
+        {
+            promedio=promedioTiempoViaje(lista->sig,ubicacion,sumatoria,contador);
+        }
+    }
+    return promedio;
+}
+*/
+
+float promedioTiempoViaje(nodoOrigen *lista,nodoDestino *destino,char ubicacion[],int sumatoria,int contador)
+{
+    //float promedio=0;
+    if(lista!=NULL)
+    {
+        if(strcasecmp(lista->nombre,ubicacion)==0)
+        {
+            if(destino!=NULL)
+            {
+                sumatoria=promedioTiempoViaje(lista,destino->sig,ubicacion,sumatoria + destino->tiempoViaje,contador+1);
+            }
+        }
+        else
+        {
+            sumatoria=promedioTiempoViaje(lista->sig,lista->destinosAereos,ubicacion,sumatoria,contador);
+        }
+    }
+    return sumatoria;
 }
 
 float promedioTiempoIT(nodoOrigen *listaOrigen,char ubicacion[])
