@@ -26,6 +26,20 @@ typedef struct nodoOrigen
    struct nodoOrigen* sig;
 }nodoOrigen;
 
+typedef struct {
+     int cantDestinosAereos;
+     char ciudadOrigen[30];
+     float costoPromedioAereo;
+     float tiempoPromedioAereo;
+}destinosAereos;
+
+typedef struct {
+     int cantDestinosFerro;;
+     char ciudadOrigen[30];
+     float costoPromedioFerro;
+     float tiempoPromedioFerro;
+}destinosFerro;
+
 ////////PUNTO 1 ////////
 nodoDestino *inicDestino();
 nodoDestino *nuevoDestino(char nombre[],float costo,int tiempoViaje);
@@ -43,9 +57,12 @@ void mostrarListaDestino(nodoDestino *lista);
 int menu();
 
 ////////PUNTO 2 ////////
-float promedioTiempoViaje(nodoOrigen *lista,nodoDestino *destino,char ubicacion[],int sumatoria,int contador);
-//float promedioTiempoViaje(nodoOrigen *lista,char ubicacion[],int sumatoria,int contador);
+float promedioTiempoViaje(nodoOrigen *lista,nodoDestino *destino,char ubicacion[],float sumatoria,int contador);
 float promedioTiempoIT(nodoOrigen *listaOrigen,char ubicacion[]);
+
+////////PUNTO 3 ////////
+
+void persistirEnDosRegistros(char nombreArchivoRegistros[],char archivoSalidaUno[],char archivoSalidaDos[]);
 
 void pasarACSV(char nombreArchivo[]);
 int main()
@@ -59,7 +76,6 @@ int main()
         case 27:
             break;
         case 49:;
-            //nodoDestino *listaDestinos=pasarALDL("registroEnvios.bin");
             nodoOrigen *listaDestinos=pasarALDL("registroEnvios.bin");
             mostrarListaOrigen(listaDestinos);
             system("pause");
@@ -67,13 +83,13 @@ int main()
         case 50:
             printf("\nIngrese el nombre de la localidad destino a buscar: ");
             char localidad[25];
-            scanf("%s",&localidad);
+            fflush(stdin);
+            gets(localidad);
+            fflush(stdin);
             float promedio=0;
             nodoOrigen *listaDestinos2=pasarALDL("registroEnvios.bin");
             promedio=promedioTiempoViaje(listaDestinos2,listaDestinos2->destinosAereos,localidad,0,0);
-            //promedio=promedioTiempoViaje(listaDestinos2,localidad,0,0);
-            //promedio=promedioTiempoIT(listaDestinos2,localidad);
-            printf("El promedio es de %0.2f \n ",promedio);
+            printf("El promedio es de %f \n ",promedio);
             system("pause");
             break;
         case 51:
@@ -269,51 +285,9 @@ int menu()
 }
 
 ////////PUNTO 2 ////////
-/*
-float promedioTiempoViaje(nodoDestino *lista,char ubicacion[],int sumatoria,int contador)
-{
-    float promedio=0;
-    if(lista!=NULL)
-    {
-        if(strcasecmp(lista->nombre,ubicacion)==0)
-        {
-            if(lista->destinosAereos!=NULL)
-            {
-                promedio=promedio+promedioTiempoViaje()
-            }
-        }
-        else
-        {
-            promedio=promedioTiempoViaje(lista->sig,ubicacion,sumatoria,contador);
-        }
-    }
-    return 0.f;//(float)sumatoria/contador;
-}*/
-/*
-float promedioTiempoViaje(nodoOrigen *lista,char ubicacion[],int sumatoria,int contador)
-{
-    float promedio=0;
-    if(lista!=NULL)
-    {
-        if(strcasecmp(lista->nombre,ubicacion)==0)
-        {
-            if(lista->destinosAereos!=NULL)
-            {
-                promedio=promedio+promedioTiempoViaje(lista,ubicacion,sumatoria + lista->destinosAereos->sig->tiempoViaje,contador+1);
-            }
-        }
-        else
-        {
-            promedio=promedioTiempoViaje(lista->sig,ubicacion,sumatoria,contador);
-        }
-    }
-    return promedio;
-}
-*/
 
-float promedioTiempoViaje(nodoOrigen *lista,nodoDestino *destino,char ubicacion[],int sumatoria,int contador)
+float promedioTiempoViaje(nodoOrigen *lista,nodoDestino *destino,char ubicacion[],float sumatoria,int contador)
 {
-    //float promedio=0;
     if(lista!=NULL)
     {
         if(strcasecmp(lista->nombre,ubicacion)==0)
@@ -322,14 +296,17 @@ float promedioTiempoViaje(nodoOrigen *lista,nodoDestino *destino,char ubicacion[
             {
                 sumatoria=promedioTiempoViaje(lista,destino->sig,ubicacion,sumatoria + destino->tiempoViaje,contador+1);
             }
+            else
+            {
+                sumatoria=sumatoria/contador;
+            }
         }
         else
         {
             sumatoria=promedioTiempoViaje(lista->sig,lista->destinosAereos,ubicacion,sumatoria,contador);
         }
     }
-    //return (float)(sumatoria/contador);
-    return sumatoria
+    return sumatoria;
 }
 
 float promedioTiempoIT(nodoOrigen *listaOrigen,char ubicacion[])
@@ -358,6 +335,33 @@ float promedioTiempoIT(nodoOrigen *listaOrigen,char ubicacion[])
     return (float)(sumatoria/contador);
 }
 
+////////PUNTO 3 ////////
+
+void persistirEnDosRegistros(char nombreArchivoRegistros[],char archivoSalidaUno[],char archivoSalidaDos[])
+{
+    FILE *archivoRegistros=fopen(nombreArchivoRegistros,"rb");
+    if(archivo)
+    {
+        FILE *archivoSalidaUno=fopen("DestinosAereos.bin","wb");
+        FILE *archivoSalidaDos=fopen("DestinosFerro.bin","wb");
+
+        registroEnvios bufferRegistros;
+        destinosAereos bufferAereo;
+        destinosFerro bufferFerro;
+
+        while(fread(&bufferRegistros,sizeof(registroEnvios),1,archivoRegistros));
+        {
+            
+        }
+
+    }
+    else
+    {
+        printf("\nEl archivo no se pudo abrir/no existe!\n");
+    }
+}
+
+//NO FORMA PARTE DEL FINAL, SOLO SIRVE PARA OBTENER UNA LISTA LEIBLE PARA DEBUGGING.
 void pasarACSV(char nombreArchivo[])
 {
 
