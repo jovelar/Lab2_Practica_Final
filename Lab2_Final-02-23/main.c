@@ -40,6 +40,20 @@ typedef struct {
      float tiempoPromedioFerro;
 }destinosFerro;
 
+typedef struct
+{
+    int dato;
+    struct Pila *siguiente;
+}Pila;
+
+Pila *inicPila();
+Pila *apilar(Pila *pila, int dato);
+int tope(Pila *pila);
+int desapilar(Pila *pila);
+int pilaVacia(Pila *pila);
+void leer(Pila *pila);
+void mostrarPila(Pila *pila);
+
 ////////PUNTO 1 ////////
 nodoDestino *inicDestino();
 nodoDestino *nuevoDestino(char nombre[],float costo,int tiempoViaje);
@@ -61,8 +75,13 @@ float promedioTiempoViaje(nodoOrigen *lista,nodoDestino *destino,char ubicacion[
 float promedioTiempoIT(nodoOrigen *listaOrigen,char ubicacion[]);
 
 ////////PUNTO 3 ////////
+void pasarLDLADosRegistros(nodoOrigen *listaDL,char archivoUno[],char archivoDos[]);
 
-void persistirEnDosRegistros(char nombreArchivoRegistros[],char archivoSalidaUno[],char archivoSalidaDos[]);
+destinosAereos *resumenAereo(nodoDestino *lista,char origen[]);
+destinosFerro *resumenFerro(nodoDestino *lista,char origen[]);
+
+void mostrarBinAereo(char archivoAereo[30]);
+void mostrarBinFerro(char archivoFerro[30]);
 
 void pasarACSV(char nombreArchivo[]);
 int main()
@@ -92,7 +111,16 @@ int main()
             printf("El promedio es de %f \n ",promedio);
             system("pause");
             break;
-        case 51:
+        case 51:;
+            nodoOrigen *listaDestinos3=pasarALDL("registroEnvios.bin");
+            pasarLDLADosRegistros(listaDestinos3,"DestinosAereos.bin","destinosFerro.bin");
+            printf("\n DESTINOS AEREOS PROMEDIO\n");
+            mostrarBinAereo("DestinosAereos.bin");
+
+            printf("\n DESTINOS FERRO PROMEDIO\n");
+            mostrarBinFerro("DestinosFerro.bin");
+            printf("\Se pasaron los archivos a 2 registros!");
+            system("pause");
             break;
         case 52:
             break;
@@ -274,8 +302,8 @@ int menu()
 {
     system("cls");
     printf("1-Pasar registros a lista de listas\n");
-    printf("2-\n");
-    printf("3-\n");
+    printf("2-Mostrar promedio aereo de la ciudad ingresada\n");
+    printf("3-Pasar LDL a archivos\n");
     printf("4-\n");
     printf("5-\n");
     printf("\n\nESC- Salir :");
@@ -336,30 +364,114 @@ float promedioTiempoIT(nodoOrigen *listaOrigen,char ubicacion[])
 }
 
 ////////PUNTO 3 ////////
-
-void persistirEnDosRegistros(char nombreArchivoRegistros[],char archivoSalidaUno[],char archivoSalidaDos[])
+void pasarLDLADosRegistros(nodoOrigen *listaDL,char archivoUno[],char archivoDos[])
 {
-    FILE *archivoRegistros=fopen(nombreArchivoRegistros,"rb");
+    if(listaDL!=NULL)
+    {
+        FILE *archivo1=fopen(archivoUno,"wb");
+        FILE *archivo2=fopen(archivoDos,"wb");
+        nodoOrigen *auxOrigen=listaDL;
+        destinosAereos *aereo=NULL;
+        destinosFerro *ferro=NULL;
+
+        while(auxOrigen!=NULL)
+        {
+            aereo=resumenAereo(auxOrigen->destinosAereos,auxOrigen->nombre);
+            ferro=resumenFerro(auxOrigen->destinosFerro,auxOrigen->nombre);
+
+            if(aereo!=NULL)
+            {
+                fwrite(aereo,sizeof(destinosAereos),1,archivo1);
+            }
+            if(ferro!=NULL)
+            {
+                fwrite(ferro,sizeof(destinosFerro),1,archivo2);
+            }
+            auxOrigen=auxOrigen->sig;
+        }
+        fclose(archivo1);
+        fclose(archivo2);
+    }
+}
+
+destinosAereos *resumenAereo(nodoDestino *lista,char origen[])
+{
+    destinosAereos *resultante=NULL;
+    if(lista!=NULL)
+    {
+        resultante=(destinosAereos*)malloc(sizeof(destinosAereos));
+        strcpy(resultante->ciudadOrigen,origen);
+        nodoDestino *aux=lista;
+        while(aux!=NULL)
+        {
+            resultante->cantDestinosAereos+=1;
+            resultante->costoPromedioAereo+=aux->costo;
+            resultante->tiempoPromedioAereo+=aux->tiempoViaje;
+            aux=aux->sig;
+        }
+        resultante->costoPromedioAereo=resultante->costoPromedioAereo/resultante->cantDestinosAereos;
+        resultante->tiempoPromedioAereo=resultante->tiempoPromedioAereo/resultante->cantDestinosAereos;
+    }
+    return resultante;
+}
+
+destinosFerro *resumenFerro(nodoDestino *lista,char origen[])
+{
+    destinosFerro *resultante=NULL;
+    if(lista!=NULL)
+    {
+        resultante=(destinosFerro*)malloc(sizeof(destinosFerro));
+        strcpy(resultante->ciudadOrigen,origen);
+        nodoDestino *aux=lista;
+        while(aux!=NULL)
+        {
+            resultante->cantDestinosFerro+=1;
+            resultante->costoPromedioFerro+=aux->costo;
+            resultante->costoPromedioFerro+=aux->tiempoViaje;
+            aux=aux->sig;
+        }
+        resultante->costoPromedioFerro=resultante->costoPromedioFerro/resultante->cantDestinosFerro;
+        resultante->tiempoPromedioFerro=resultante->tiempoPromedioFerro/resultante->cantDestinosFerro;
+    }
+    return resultante;
+}
+
+void mostrarBinAereo(char archivoAereo[30])
+{
+    FILE *archivo=fopen(archivoAereo,"rb");
     if(archivo)
     {
-        FILE *archivoSalidaUno=fopen("DestinosAereos.bin","wb");
-        FILE *archivoSalidaDos=fopen("DestinosFerro.bin","wb");
-
-        registroEnvios bufferRegistros;
-        destinosAereos bufferAereo;
-        destinosFerro bufferFerro;
-
-        while(fread(&bufferRegistros,sizeof(registroEnvios),1,archivoRegistros));
+        destinosAereos buffer;
+        while(fread(&buffer,sizeof(destinosAereos),1,archivo))
         {
-
+            printf("\nN:%i|Origen:%s|Prom Costo:%0.2f|Prom Tiempo:%0.2f\n",buffer.cantDestinosAereos,buffer.ciudadOrigen,buffer.costoPromedioAereo,buffer.tiempoPromedioAereo);
         }
-
+        fclose(archivo);
     }
     else
     {
-        printf("\nEl archivo no se pudo abrir/no existe!\n");
+        printf("\El archivo no existe/no se puede abrir\n");
     }
 }
+
+void mostrarBinFerro(char archivoFerro[30])
+{
+    FILE *archivo=fopen(archivoFerro,"rb");
+    if(archivo)
+    {
+        destinosFerro buffer;
+        while(fread(&buffer,sizeof(destinosFerro),1,archivo))
+        {
+            printf("\nN:%i|Origen:%s|Prom Costo:%0.2f|Prom Tiempo:%0.2f\n",buffer.cantDestinosFerro,buffer.ciudadOrigen,buffer.costoPromedioFerro,buffer.tiempoPromedioFerro);
+        }
+        fclose(archivo);
+    }
+    else
+    {
+        printf("\El archivo no existe/no se puede abrir\n");
+    }
+}
+void mostrarBinFerro(char archivoFerro[30]);
 
 //NO FORMA PARTE DEL FINAL, SOLO SIRVE PARA OBTENER UNA LISTA LEIBLE PARA DEBUGGING.
 void pasarACSV(char nombreArchivo[])
@@ -381,5 +493,89 @@ void pasarACSV(char nombreArchivo[])
     else
     {
         printf("\nNo se pudo abrir/encontrar el archivo!\n");
+    }
+}
+
+Pila *inicPila()
+{
+    return NULL;
+}
+
+Pila *apilar(Pila *pila, int dato)
+{
+    Pila *nuevo=(Pila*)malloc(sizeof(Pila));
+    nuevo->dato=dato;
+    nuevo->siguiente=NULL;
+
+    if(pila==NULL)
+    {
+        pila=nuevo;
+    }
+    else
+    {
+        pila->siguiente=nuevo;
+    }
+    return pila;
+}
+
+int tope(Pila *pila)
+{
+    Pila *aux=pila;
+
+    while(aux->siguiente!=NULL)
+    {
+        aux=aux->siguiente;
+    }
+    return aux->dato;
+}
+
+int pilaVacia(Pila *pila)
+{
+    int estado=0;
+    if (pila==NULL)
+    {
+        estado=1;
+    }
+    return estado;
+}
+
+int desapilar(Pila *pila)
+{
+    int dato=0;
+    if(pilaVacia(pila)==0)
+    {
+        Pila *aux=pila;
+        Pila *anterior;
+
+        while(aux!=NULL)
+        {
+            anterior=aux;
+            aux=aux->siguiente;
+        }
+        dato=aux->dato;
+        anterior->siguiente=NULL;
+        free(aux);
+    }
+    return dato;
+}
+
+
+void mostrarPila(Pila *pila)
+{
+    if(pila!=NULL)
+    {
+        Pila *aux=pila;
+        Pila *invertida=NULL;
+
+        while(aux!=NULL)
+        {
+            apilar(invertida,aux->dato);
+            aux=aux->siguiente;
+        }
+        while(invertida!=NULL)
+        {
+            printf("\n%i\n");
+            invertida=invertida->siguiente;
+        }
     }
 }
