@@ -68,6 +68,9 @@ int *desapilar(Pila *pila)
         {
             Pila *aux=pila;
             Pila *ante=aux;
+
+
+            ////
             while(aux->siguiente!=NULL)
             {
                 ante=aux;
