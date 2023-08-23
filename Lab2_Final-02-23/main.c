@@ -579,3 +579,44 @@ void mostrarPila(Pila *pila)
         }
     }
 }
+
+nodoOrigen purgarAereosM3(nodoOrigen *listaOrigen)
+{
+    if(listaOrigen!=NULL)
+    {
+
+    }
+    else
+    {
+        printf("\nLa lista esta vacia!\n");
+    }
+}
+
+void extraerMenoresATres(nodoDestino *lista, Pila *pila)
+{
+    if(lista!=NULL)
+    {
+        nodoDestino *aux=lista;
+        if(aux->tiempoViaje<=3)
+        {
+            apilar(pila,aux->tiempoViaje);
+            lista=aux->sig;
+            free(aux);
+        }
+        else
+        {
+            nodoDestino *ante=lista;
+            aux=lista->sig;
+            while(aux!=NULL)
+            {
+                if(aux->tiempoViaje<=3)
+                {
+                    apilar(pila,aux->tiempoViaje);
+                    ante->sig=aux->sig;
+                    free(aux);
+                    aux=ante;
+                }
+            }
+        }
+    }
+}
