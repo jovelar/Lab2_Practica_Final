@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1692858370 source:i:\utn2022\lab2_practica_final\pila_con_fila\lib\pilalistasimple.c
+	"PilaListaSimple.h"
+	<stdio.h>
+
+1692858227 i:\utn2022\lab2_practica_final\pila_con_fila\lib\pilalistasimple.h
+
+1692858329 source:i:\utn2022\lab2_practica_final\pila_con_fila\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Lib/PilaListaSimple.h"
+
+1692858370 source:i:\utn2022\lab2_practica_final\pila_con_lista_simple\lib\pilalistasimple.c
+	"PilaListaSimple.h"
+	<stdio.h>
+
+1692858227 i:\utn2022\lab2_practica_final\pila_con_lista_simple\lib\pilalistasimple.h
+
+1692858329 source:i:\utn2022\lab2_practica_final\pila_con_lista_simple\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Lib/PilaListaSimple.h"
+

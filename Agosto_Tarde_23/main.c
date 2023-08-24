@@ -156,10 +156,10 @@ int main()
 int menu()
 {
     int opcion;
-    printf("1-Pasar lista a Lista de Listas\n");
-    printf("2-Pasar lista a Lista de Listas\n");
-    printf("3-Pasar lista a Lista de Listas\n");
-    printf("4-Pasar lista a Lista de Listas\n");
+    printf("1-Pasar lista a Lista de Listas (y mostrar propio\n"); //MUESTRA CON FUNCION MOSTRAR PROPIA
+    printf("2-Mostrar LDL (segun consigna) \n"); //MUESTRA SEGUN CONSIGNA
+    printf("3-Mostrar Arbol\n");
+    printf("4-Buscar Disfraz por nombre y tipo\n");
     printf("\n\nESC-Salir: ");
     opcion=getch();
     return opcion;

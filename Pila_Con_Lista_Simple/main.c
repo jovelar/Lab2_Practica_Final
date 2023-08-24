@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Lib/PilaFila.h"
+#include "Lib/PilaListaSimple.h"
 
 int menu();
 int main()
@@ -26,7 +26,7 @@ int main()
                 break;
 
             case 51:;
-                int dato=desapilar(pila);
+                int dato=desapilar(&pila);
                 printf("\nSe removio el dato %i \n",dato);
                 break;
 

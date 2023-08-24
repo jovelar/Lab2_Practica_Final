@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Pila_Con_Fila" />
+		<Option title="Pila_Con_Lista_Simple" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -31,10 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="Lib/PilaFila.c">
+		<Unit filename="Lib/PilaListaSimple.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Lib/PilaFila.h" />
+		<Unit filename="Lib/PilaListaSimple.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
