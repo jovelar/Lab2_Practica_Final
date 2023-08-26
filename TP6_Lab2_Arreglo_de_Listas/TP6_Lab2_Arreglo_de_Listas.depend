@@ -43,3 +43,22 @@
 	"Lib/ADL.h"
 	<windows.h>
 
+1689478272 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp6_lab2_arreglo_de_listas\lib\utilidades.c
+	"utilidades.h"
+
+1689478272 c:\utn2022\lab2_repaso_final\lab2_practica_final\tp6_lab2_arreglo_de_listas\lib\utilidades.h
+	"ADL.h"
+	<stdio.h>
+
+1689478272 c:\utn2022\lab2_repaso_final\lab2_practica_final\tp6_lab2_arreglo_de_listas\lib\adl.h
+	<stdio.h>
+	<string.h>
+
+1689478272 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\tp6_lab2_arreglo_de_listas\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Lib/utilidades.h"
+	"Lib/ADL.h"
+	<windows.h>
+

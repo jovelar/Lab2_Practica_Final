@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1693043016 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\final 2-08-23\final_lab_ 2_02_08_23\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
