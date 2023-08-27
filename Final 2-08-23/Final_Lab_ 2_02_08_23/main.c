@@ -19,11 +19,11 @@ typedef struct
 
 typedef struct
 {
-    Nodo2 *inicio;
-    Nodo2 *fin;
+    struct Nodo2 *inicio;
+    struct Nodo2 *fin;
 }Fila;
 
-void inicFila(Fila **fila);
+Fila *inicFila(Fila *fila);
 Fila *nuevaFila();
 
 Fila *insertarAlFinal(Fila *fila,Nodo2 *nuevo);
@@ -73,7 +73,7 @@ Nodo2 *inicNodo2()
 int main()
 {
     Fila *fila;
-    inicFila(&fila);
+    inicFila(fila);
     int opcion=0;
     while(opcion!=27)
     {
@@ -115,18 +115,19 @@ int menu()
     return opcion;
 }
 
-Fila *nuevaFila()
+Fila *nuevaFila(Fila *nuevo)
 {
-    Fila *nuevo=(Fila*)malloc(sizeof(Fila));
+    //Fila *nuevo=(Fila*)malloc(sizeof(Fila));
     nuevo->inicio=NULL;
     nuevo->fin=NULL;
     return nuevo;
 }
 
-void inicFila(Fila **fila)
+Fila *inicFila(Fila *fila)
 {
-    (*fila)->inicio=inicNodo2();
-    (*fila)->fin=inicNodo2();
+    fila->inicio=NULL;
+    fila->fin=NULL;
+    return fila;
 }
 
 Fila *pasarAFila(char nombreArchivo[])
