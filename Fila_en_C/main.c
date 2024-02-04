@@ -8,7 +8,7 @@ typedef struct
     char palabra[40];
 }Dato;
 
-typedef struct
+typedef struct Nodo2
 {
     struct Nodo2 *anterior;
     struct Nodo2 *siguiente;
@@ -32,70 +32,12 @@ void inicFila(Fila *fila)
     fila->fin=inicNodo2();
 }
 
-Nodo2 *insertarOrdenado(Nodo2 *lista, Nodo2 *nuevo)
+void mostrarFila(Fila *fila)
 {
-    if(lista==NULL)
+    if(fila->inicio!=NULL)
     {
-        lista=nuevo;
-    }
-    else
-    {
-        if(strcmpi(nuevo->dato.palabra,lista->dato.palabra)<0)
-        {
-            nuevo->siguiente=lista;
-            lista->anterior=nuevo;
-            lista=nuevo;
-        }
-        else
-        {
-            Nodo2 *aux=lista;
-            Nodo2 *ante=aux;
-            aux=aux->siguiente;
-
-            while(aux->siguiente!=NULL && strcmpi(nuevo->dato.palabra,aux->dato.palabra)>0)
-            {
-                ante=aux;
-                aux=aux->siguiente;
-            }
-            ante->siguiente=nuevo;
-            nuevo->anterior=ante;
-
-            if(aux==NULL)
-            {
-                nuevo->siguiente=NULL;
-            }
-            else
-            {
-                nuevo->siguiente=aux;
-                aux->anterior=nuevo;
-            }
-
-        }
-    }
-    return nuevo;
-}
-
-Nodo2 *buscarUltimoNodo2(Nodo2 *lista)
-{
-    Nodo2 *resultado=NULL;
-
-    if(lista!=NULL)
-    {
-        Nodo2 *aux=lista;
-        while(lista->siguiente!=NULL)
-        {
-            aux=aux->siguiente;
-        }
-        aux=resultado;
-    }
-    return resultado;
-}
-
-void mostrarFila(Fila fila)
-{
-    if(fila.inicio!=NULL)
-    {
-        Nodo2 *aux=fila.inicio;
+        printf("\n\n");
+        Nodo2 *aux=fila->inicio;
         while(aux!=NULL)
         {
             printf("%i|%s\n",aux->dato.numero,aux->dato.palabra);
@@ -106,12 +48,169 @@ void mostrarFila(Fila fila)
     {
         printf("\nLa fila esta vacia!\n");
     }
-}int menu()kkkklk
+}
 
+Nodo2 *agregarAlFinal(Nodo2 *lista, Nodo2 *nuevo)
+{
+    if(lista==NULL)
+    {
+        lista=nuevo;
+    }
+    else
+    {
+        lista->siguiente=nuevo;
+        nuevo->anterior=lista;
+    }
+    return lista;
+}
+
+void insertarEnFila(Fila *fila, Nodo2 *nuevo)
+{
+    if(fila->fin==NULL)
+    {
+        fila->fin=nuevo;
+        fila->inicio=fila->fin;
+    }
+    else
+    {
+        fila->fin->siguiente=nuevo;
+        nuevo->anterior=fila->fin->anterior;
+        fila->fin=nuevo;
+        fila->fin->siguiente=NULL;
+    }
+}
+
+Nodo2 *buscarNodoPorPalabra(Fila *fila,char palabra[])
+{
+    int nodo1=1;
+    Nodo2 *resultado=NULL;
+    if(fila->inicio!=NULL)
+    {
+        Nodo2 *aux=fila->inicio;
+        while(aux!=NULL && resultado==NULL)
+        {
+            printf("\nLeyendo Nodo %i\n",nodo1);
+            if(strcmp(palabra,aux->dato.palabra)==0)
+            {
+                resultado=aux;
+            }
+            aux=aux->siguiente;
+            nodo1++;
+        }
+    }
+    return resultado;
+}
+
+
+
+int menu()
+{
+    int opcion;
+    printf("\n1-Cargar datos a la fila\n");
+    printf("2-Mostrar la fila\n");
+    printf("3-Buscar elemento por palabra\n");
+    printf("4-Borrar elemento por palabra\n");
+    printf("\n\nESC-Salir: ");
+    opcion=getch();
+}
+
+Nodo2 *nuevoNodo2(int numero, char palabra[])
+{
+    Nodo2 *nuevo=(Nodo2*)malloc(sizeof(Nodo2));
+    nuevo->dato.numero=numero;
+    strcpy(nuevo->dato.palabra,palabra);
+    nuevo->anterior=NULL;
+    nuevo->siguiente=NULL;
+    return nuevo;
+}
+
+void mostrarNodo(Nodo2 *nodo)
+{
+    if(nodo!=NULL)
+    {
+        printf("\n%i|%s\n",nodo->dato.numero,nodo->dato.palabra);
+    }
+    else
+    {
+        printf("\nLa lista esta vacia!\n");
+    }
+}
+
+Nodo2 *extraer(Fila *fila)
+{
+    Nodo2 *extraido=NULL;
+
+    if(fila->inicio!=NULL)
+    {
+        extraido=fila->inicio;
+        fila->inicio=fila->inicio->siguiente;
+        fila->fin->anterior=NULL;
+    }
+
+    return extraido;
+}
 
 int main()
 {
-    Fila nuevo;
-    inicFila(&nuevo);
+    Fila nuevaFila;
+    inicFila(&nuevaFila);
+
+    int opcion=0;
+    while(opcion!=27)
+    {
+        opcion=menu();
+        switch(opcion)
+        {
+        case 27:
+
+            break;
+
+        case 49:;
+            int dato=69;
+            while(dato!=-1)
+            {
+                printf("\n");
+                printf("Ingrese un numero para cargar (-1 para cancelar y salir): ");
+                scanf("%d",&dato);
+                if(dato!=-1)
+                {
+                    char palabra[30];
+                    printf("Ingrese una palabra para ingresar");
+                    scanf("%s",palabra);
+                    Nodo2 *nuevo=nuevoNodo2(dato,palabra);
+                    insertarEnFila(&nuevaFila,nuevo);
+                }
+            }
+            break;
+        case 50:
+            mostrarFila(&nuevaFila);
+            break;
+        case 51:
+            printf("\nIngrese la palabra a buscar: ");
+            char palabra[50];
+            scanf("%s",palabra);
+            Nodo2 *resultado=buscarNodoPorPalabra(&nuevaFila,palabra);
+            mostrarNodo(resultado);
+
+            break;
+        case 52:;
+            Nodo2 *extraido=NULL;
+            extraido=extraer(&nuevaFila);
+            if(extraido!=NULL)
+            {
+                printf("\nSe extrajo %i|%s\n",extraido->dato.numero,extraido->dato.palabra);
+            }
+            else
+            {
+                printf("\nLa lista esta vacia!\n");
+            }
+
+            break;
+        default:
+
+            printf("\nOpcion invalida!\n");
+            break;
+        }
+    }
     return 0;
 }
