@@ -125,6 +125,7 @@ Fila *nuevaFila(Fila *nuevo)
 
 Fila *inicFila(Fila *fila)
 {
+    fila.
     fila->inicio=NULL;
     fila->fin=NULL;
     return fila;
