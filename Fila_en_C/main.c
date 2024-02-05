@@ -136,15 +136,24 @@ void mostrarNodo(Nodo2 *nodo)
     }
 }
 
+//Extrae siempre desde el princincipio de la fila, dado que es FIFO, es decir, inicio-
 Nodo2 *extraer(Fila *fila)
 {
     Nodo2 *extraido=NULL;
 
     if(fila->inicio!=NULL)
     {
-        extraido=fila->inicio;
-        fila->inicio=fila->inicio->siguiente;
-        fila->fin->anterior=NULL;
+        if(fila->inicio==fila->fin) //SI SE ELIMINA EL ULTIMO ELEMENTO DE LA FILA (CUANDO
+        {                           //EL NODO INICIO ES IGUAL AL DE FIN), HAY QUE  DEFINIR
+            extraido=fila->inicio;  //LOS PUNTEROS A NULL, PARA EVITAR QUE SE ROMPA SI SE DECIDE
+            fila->inicio=NULL;      //VOLVER A INSERTAR ELEMENTOS
+            fila->fin=NULL;
+        }
+        else
+        {
+            extraido=fila->inicio;
+            fila->inicio=fila->inicio->siguiente;
+        }
     }
 
     return extraido;
