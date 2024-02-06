@@ -143,17 +143,17 @@ Nodo2 *extraer(Fila *fila)
 
     if(fila->inicio!=NULL)
     {
-        extraido=fila->inicio;      //LOS PUNTEROS A NULL, PARA EVITAR QUE SE ROMPA SI SE DECIDE
         if(fila->inicio==fila->fin) //SI SE ELIMINA EL ULTIMO ELEMENTO DE LA FILA (CUANDO
         {                           //EL NODO INICIO ES IGUAL AL DE FIN), HAY QUE REDEFINIR
+            extraido=fila->inicio;  //LOS PUNTEROS A NULL, PARA EVITAR QUE SE ROMPA SI SE DECIDE
             fila->inicio=NULL;      //VOLVER A INSERTAR ELEMENTOS
             fila->fin=NULL;
         }
         else
         {
+            extraido=fila->inicio;
             fila->inicio=fila->inicio->siguiente;
         }
-        free(extraido);
     }
 
     return extraido;
