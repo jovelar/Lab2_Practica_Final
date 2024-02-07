@@ -31,7 +31,7 @@ int main()
         opcion=menu();
         switch(opcion)
         {
-            case 49:
+            case 49: //AGREGAR ORDENADO
                 system("cls");
                 int dato;
                 printf("Ingrese un numero :");
@@ -41,23 +41,55 @@ int main()
                 printf("Numero Agregado! \n");
                 system("pause");
                 break;
-            case 50:
+
+            case 50: // AGREGAR AL PRINCIPIO
+                system("cls");
+                int dato2;
+                printf("Ingrese un numero :");
+                scanf("%d",&dato2);
+                nodo *nuevo2=crearNuevoNodo(dato2);
+                lista=agregarAlPrincipio(lista,nuevo2);
+                printf("Numero Agregado! \n");
+                system("pause");
                 break;
-            case 51:
+
+            case 51: // AGREGAR AL FINAL
+                system("cls");
+                int dato3;
+                printf("Ingrese un numero :");
+                scanf("%d",&dato3);
+                nodo *nuevo3=crearNuevoNodo(dato3);
+                lista=agregarAlFinal(lista,nuevo3);
+                printf("Numero Agregado! \n");
+                system("pause");
                 break;
-            case 52:
+
+            case 52: // BORRAR BUSCANDO UN DATO
+                system("cls");
+                int dato4;
+                printf("Ingrese un numero :");
+                scanf("%d",&dato4);
+                lista=borrarBuscando(lista,dato4);
                 break;
-            case 53:
+
+            case 53: //BORRAR EL PRIMERO
+                lista=borrarAlPrincipio(lista);
                 break;
-            case 54:
+
+            case 54: //BORRAR EL ULTIMO
+                lista=borrarAlFinal(lista);
                 break;
-            case 55:
+
+            case 55: //MOSTRAR LA LISTA
                 mostrarLista(lista);
                 system("pause");
                 break;
-            case 56:
+
+            case 56: //BUSCAR UN DATO
                 break;
-            case 57:
+
+            case 57: //SALIR
+                printf("\n SALIENDO! \n");
                 break;
 
             default:
@@ -115,7 +147,7 @@ nodo *agregarOrdenado(nodo *lista, nodo *nuevo)
         {
             nodo *anterior;
             nodo *iterador=lista;
-            while(iterador!=NULL)
+            while(iterador!=NULL && iterador->dato < nuevo->dato)
             {
                 anterior=iterador;
                 iterador=iterador->siguiente;
@@ -177,7 +209,32 @@ nodo *agregarAlFinal(nodo *lista, nodo*nuevo)
     }
     return lista;
 }
-nodo *borrarBuscando(nodo *lista, int dato);
+nodo *borrarBuscando(nodo *lista, int dato)
+{
+    if(lista!=NULL && lista->dato==dato) //SI LA LISTA NO ESTA VACIA Y ESTA EN EL PRIMERO
+    {
+        nodo *nodoABorrar=lista;
+        lista=lista->siguiente;
+        free(nodoABorrar);
+    }
+    else
+    {
+        nodo *iterador=lista;
+        nodo *anterior=iterador;
+        while(iterador!=NULL && iterador->dato!=dato)
+        {
+            anterior=iterador;
+            iterador=iterador->siguiente;
+        }
+        if(iterador!=NULL) //SI NO LLEGO AL FINAL QUIERE DECIR QUE LO ENCONTRO
+        {
+            anterior->siguiente=iterador->siguiente;
+            free(iterador);
+        }
+
+    }
+    return lista;
+}
 
 nodo *borrarAlPrincipio(nodo *lista)
 {
