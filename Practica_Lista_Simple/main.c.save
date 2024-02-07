@@ -16,7 +16,8 @@ nodo *borrarBuscando(nodo *lista, int dato);
 nodo *borrarAlPrincipio(nodo *lista);
 nodo *borrarAlFinal(nodo *lista);
 void *mostrarLista(nodo *lista);
-int buscarNumero(nodo *lista, int numero);
+nodo *buscarNodo(nodo *lista, int numero);
+void *borrarTodaLaLista(nodo *lista);
 
 
 
@@ -24,12 +25,16 @@ int buscarNumero(nodo *lista, int numero);
 int main()
 {
     int opcion=0;
-    while(opcion!=57)
+    while(opcion!=57 && opcion!=27)
     {
         opcion=menu();
         switch(opcion)
         {
             case 49:
+                system("cls");
+                int dato;
+                printf("Ingrese un numero :");
+                scanf("%d",dato)
                 break;
             case 50:
                 break;
@@ -52,6 +57,7 @@ int main()
                 printf("opcion invalida! \n");
             break;
         }
+        system("cls");
     }
     return 0;
 }
@@ -124,7 +130,7 @@ nodo *agregarOrdenado(nodo *lista, nodo *nuevo)
 
 nodo *agregarAlPrincipio(nodo *lista, nodo *nuevo)
 {
-    if(lista) //SI NO ESTA VACIA LA LISTA
+    if(lista)
     {
         nuevo->siguiente=lista;
         lista=nuevo;
@@ -138,57 +144,49 @@ nodo *agregarAlPrincipio(nodo *lista, nodo *nuevo)
 
 nodo *agregarAlFinal(nodo *lista, nodo*nuevo)
 {
-    if(lista) //SI NO ESTA VACIA LA LISTA
+    if(lista) //SI NO ESTA VACIA
     {
-        nodo *anterior;
-        nodo *iterador=lista;
-        while(iterador)
+        if(lista->siguiente==NULL)//SI HAY UN SOLO NODO EN LA LISTA
         {
-            anterior=iterador;
-            iterador=iterador->siguiente;
+            lista->siguiente=nuevo;
         }
-        anterior->siguiente=nuevo;
+        else //SE DEBE RECORRER HASTA EL FINAL
+        {
+            nodo *iterador=lista;
+            nodo *anterior=iterador;
+            {
+                while(iterador)
+                {
+                    anterior=iterador;
+                    iterador=iterador->siguiente;
+                }
+            }
+            anterior->siguiente=nuevo;
+        }
     }
-    else
+    else //SI LA LISTA ESTA VACIA
     {
         lista=nuevo;
     }
     return lista;
 }
-
-nodo *borrarBuscando(nodo *lista, int dato)
-{
-    int buscado=0;
-    if(lista)
-    {
-        nodo *iterador;
-        nodo *anterior;
-        iterador=lista;
-        while(iterador && buscado==0)
-        {
-            if(iterador->dato==dato) //SI ES EL PRIMER NODO DE LA LISTA
-            {
-                iterador=borrarAlPrincipio(iterador);
-                buscado=1;
-            }
-            else
-            {
-                
-            }
-            iterador=iterador->siguiente;
-        }
-    }
-    
-    return lista;
-}
+nodo *borrarBuscando(nodo *lista, int dato);
 
 nodo *borrarAlPrincipio(nodo *lista)
 {
-    if (lista)
+    if(lista)
     {
-        nodo *eliminar=lista;
-        lista=lista->siguiente;
-        free(eliminar);
+        if(lista->siguiente=NULL) //SI SOLO HAY UN NODO
+        {
+            free(lista);
+            lista=NULL;
+        }
+        else
+        {
+            nodo *aEliminar=lista;
+            lista=lista->siguiente;
+            free(aEliminar);
+        }
     }
     return lista;
 }
@@ -197,19 +195,92 @@ nodo *borrarAlFinal(nodo *lista)
 {
     if(lista)
     {
-        nodo *iterador=lista;
-        nodo *anterior=iterador;
-        while(iterador->siguiente)
+        if(lista->siguiente==NULL) //SI ES EL PRIMERO
         {
-            anterior=iterador;
-            iterador=iterador->siguiente;
+            free(lista);
+            lista=NULL;
         }
-        anterior->siguiente=NULL;
-        free(iterador);
+        else
+        {
+            nodo *iterador=lista;
+            nodo *anterior=iterador;
+            while(iterador)
+            {
+                anterior=iterador;
+                iterador=iterador->siguiente;
+            }
+            anterior->siguiente=NULL;
+            free(iterador);
+        }
     }
     return lista;
 }
+void *mostrarLista(nodo *lista)
+{
+    if(lista)
+    {
+        nodo *iterador=lista;
+        int contador=1;
+        while(iterador)
+        {
+            printf("Nodo %i: Valor %i",contador,iterador->dato);
+            contador++;
+        }
+    }
+    else
+    {
+        printf("La lista esta vacia!");
+    }
+}
 
-void *mostrarLista(nodo *lista);
-int buscarNumero(nodo *lista, int numero);
-
+nodo *buscarNodo(nodo *lista, int numero)
+{
+    nodo *resultado=NULL;
+    {
+        if(lista)
+        {
+            if(lista->dato==numero) //SI ESTA EN LA PRIMERA POSICION
+            {
+                resultado=lista;
+            }
+            else
+            {
+                nodo *iterador=lista;
+                while(iterador!=NULL &&  resultado==NULL)
+                {
+                    if(iterador->dato==numero)
+                    {
+                        resultado=iterador;
+                    }
+                    iterador=iterador->siguiente;
+                }
+            }
+        }
+    }
+    return resultado;
+}
+void *borrarTodaLaLista(nodo *lista)
+{
+    if(lista)
+    {
+        if(lista->siguiente==NULL)
+        {
+            free(lista);
+        }
+        else
+        {
+            nodo *anterior=lista;
+            lista=lista->siguiente;
+            while(lista)
+            {
+                anterior=lista;
+                lista=lista->siguiente;
+                free(anterior);
+            }
+        }
+    }
+    else
+    {
+        printf("La lista ya esta vacia! \n");
+    }
+}
