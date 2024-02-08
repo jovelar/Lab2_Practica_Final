@@ -257,12 +257,12 @@ nodo *borrarAlPrincipio(nodo *lista)
 
 nodo *borrarAlFinal(nodo *lista)
 {
-    if(lista)
+    if(lista!=NULL)
     {
         if(lista->siguiente==NULL) //SI ES EL PRIMERO
         {
-            free(lista);
-            lista=NULL;
+            nodo *aEliminar=lista;
+
         }
         else
         {
