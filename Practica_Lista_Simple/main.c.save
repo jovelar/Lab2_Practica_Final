@@ -73,21 +73,11 @@ int main()
                 break;
 
             case 53: //BORRAR EL PRIMERO
-                break;
-                system("cls");
-                int dato5;
-                printf("Ingrese un numero :");
-                scanf("%d",&dato5);
-                lista=borrarAlPrincipio(lista,dato5);
+                lista=borrarAlPrincipio(lista);
                 break;
 
             case 54: //BORRAR EL ULTIMO
-                break;
-                system("cls");
-                int dato5;
-                printf("Ingrese un numero :");
-                scanf("%d",&dato5);
-                lista=borrarAlPrincipio(lista,dato5);
+                lista=borrarAlFinal(lista);
                 break;
 
             case 55: //MOSTRAR LA LISTA
@@ -248,44 +238,28 @@ nodo *borrarBuscando(nodo *lista, int dato)
 
 nodo *borrarAlPrincipio(nodo *lista)
 {
-    if(lista)
+    if(lista!=NULL)
     {
-        if(lista->siguiente=NULL) //SI SOLO HAY UN NODO
-        {
-            free(lista);
-            lista=NULL;
-        }
-        else
-        {
-            nodo *aEliminar=lista;
-            lista=lista->siguiente;
-            free(aEliminar);
-        }
+        nodo *aBorrar=lista;
+        lista=lista->siguiente;
+        free(aBorrar);
     }
     return lista;
 }
 
 nodo *borrarAlFinal(nodo *lista)
 {
-    if(lista)
+    if(lista!=NULL)
     {
-        if(lista->siguiente==NULL) //SI ES EL PRIMERO
+        nodo *iterador=lista;
+        nodo *anterior=lista;
+        
+        while(iterador!=NULL)
         {
-            free(lista);
-            lista=NULL;
+            anterior=iterador;
+            iterador=iterador->siguiente;
         }
-        else
-        {
-            nodo *iterador=lista;
-            nodo *anterior=iterador;
-            while(iterador)
-            {
-                anterior=iterador;
-                iterador=iterador->siguiente;
-            }
-            anterior->siguiente=NULL;
-            free(iterador);
-        }
+        free(anterior);
     }
     return lista;
 }

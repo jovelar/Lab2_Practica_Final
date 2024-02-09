@@ -238,19 +238,11 @@ nodo *borrarBuscando(nodo *lista, int dato)
 
 nodo *borrarAlPrincipio(nodo *lista)
 {
-    if(lista)
+    if(lista!=NULL)
     {
-        if(lista->siguiente=NULL) //SI SOLO HAY UN NODO
-        {
-            free(lista);
-            lista=NULL;
-        }
-        else
-        {
-            nodo *aEliminar=lista;
-            lista=lista->siguiente;
-            free(aEliminar);
-        }
+        nodo *aBorrar=lista;
+        lista=lista->siguiente;
+        free(aBorrar);
     }
     return lista;
 }
@@ -259,22 +251,23 @@ nodo *borrarAlFinal(nodo *lista)
 {
     if(lista!=NULL)
     {
-        if(lista->siguiente==NULL) //SI ES EL PRIMERO
+        if(lista->siguiente==NULL) //SI ES EL UNICO NODO DE LA LISTA
         {
-            nodo *aEliminar=lista;
-
+            nodo *aBorrar=lista;
+            lista=lista->siguiente;
+            free(aBorrar);
         }
         else
         {
             nodo *iterador=lista;
             nodo *anterior=iterador;
-            while(iterador)
+            while(iterador->siguiente!=NULL)
             {
                 anterior=iterador;
                 iterador=iterador->siguiente;
             }
-            anterior->siguiente=NULL;
             free(iterador);
+            anterior->siguiente=NULL;
         }
     }
     return lista;
