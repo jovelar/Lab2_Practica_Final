@@ -26,7 +26,7 @@ int main()
 {
     int opcion=0;
     nodo *lista=inicializar();
-    while(opcion!=57 && opcion!=27)
+    while(opcion!=27 && opcion!=120) //TECLAS 9, ESC, x
     {
         opcion=menu();
         switch(opcion)
@@ -88,9 +88,14 @@ int main()
             case 56: //BUSCAR UN DATO
                 break;
 
-            case 57: //SALIR
+            case 57: //BORRAR TODA LA LISTA
+                lista=borrarTodaLaLista(lista);
+                break;
+
+            case 120: //SALIR
                 printf("\n SALIENDO! \n");
                 break;
+
 
             default:
                 printf("opcion invalida! \n");
@@ -112,7 +117,8 @@ int menu()
     printf("6- Borrar desde el final \n");
     printf("7- Mostrar la lista \n");
     printf("8- Buscar un numero \n");
-    printf("9- SALIR: \n");
+    printf("9- Borrar toda la lista \n");
+    printf("x- Salir \n");
     opcion=getch();
     return opcion;
 }
@@ -323,17 +329,17 @@ void *borrarTodaLaLista(nodo *lista)
     {
         if(lista->siguiente==NULL)
         {
+            nodo *siguiente=lista->siguiente;
             free(lista);
+            lista=siguiente;
         }
         else
         {
-            nodo *anterior=lista;
-            lista=lista->siguiente;
-            while(lista)
+            while(lista->siguiente!=NULL)
             {
-                anterior=lista;
-                lista=lista->siguiente;
-                free(anterior);
+                nodo *siguiente=lista->siguiente;
+                free(lista);
+                lista=siguiente;
             }
         }
     }
