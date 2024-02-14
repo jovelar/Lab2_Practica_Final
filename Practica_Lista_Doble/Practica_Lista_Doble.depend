@@ -1,7 +1,7 @@
 # depslib dependency file v1.0
-1707690858 source:i:\utn2022\lab2_practica_final\practica_lista_doble\main.c
+1707870716 source:i:\utn2022\lab2_practica_final\practica_lista_doble\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdio.h>
-	<stdlib.h>
+	<windows.h>
 
