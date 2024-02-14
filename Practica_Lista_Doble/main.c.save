@@ -79,7 +79,7 @@ int main()
             break;
 
         case 55://7- MOSTRAR LA LISTA
-            mostrar2(lista);
+            mostrarTodo(lista);
             //mostrarLista(lista);
             system("pause");
             break;
@@ -305,7 +305,7 @@ nodo2 *borrarAlPrincipio(nodo2 *lista) //VERSION INDEPENDIENTE DE BUSCAR Y BORRA
 {
     if(lista)
     {
-        if(lista->siguiente=NULL)
+        if(lista->siguiente==NULL)
         {
             free(lista);
             lista=NULL;
@@ -315,6 +315,7 @@ nodo2 *borrarAlPrincipio(nodo2 *lista) //VERSION INDEPENDIENTE DE BUSCAR Y BORRA
             nodo2 *temp=lista->siguiente;
             free(lista);
             lista=temp;
+            lista->anterior=NULL;
         }
     }
     return lista;

@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1707941049 source:i:\utn2022\lab2_practica_final\practica_arboles\main.c
+	<stdio.h>
+	<stdlib.h>
+
