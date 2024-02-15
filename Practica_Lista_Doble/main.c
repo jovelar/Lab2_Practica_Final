@@ -21,7 +21,7 @@ nodo2 *borrarAlFinal(nodo2 *lista);
 void mostrarLista(nodo2 *lista);
 void mostrarTodo(nodo2 *lista);
 nodo2 *buscarNodo(nodo2 *lista, int numero);
-void *borrarTodaLaLista(nodo2 *lista);
+void borrarTodaLaLista(nodo2 **lista);
 
 
 int main()
@@ -49,11 +49,8 @@ int main()
             scanf("%d",&numero2);
             nodo2 *nuevoNodo2=crearNuevoNodo(numero2);
             lista=agregarAlPrincipio(lista,nuevoNodo2);
-<<<<<<< Updated upstream
             printf("\n Cargado al principio");
             Sleep(800);
-=======
->>>>>>> Stashed changes
             break;
 
         case 51:;//3- AGREGAR DATOS AL FINAL
@@ -62,11 +59,8 @@ int main()
             scanf("%d",&numero3);
             nodo2 *nuevoNodo3=crearNuevoNodo(numero3);
             lista=agregarAlFinal(lista,nuevoNodo3);
-<<<<<<< Updated upstream
             printf("\n Cargado al final");
             Sleep(800);
-=======
->>>>>>> Stashed changes
             break;
 
         case 52:;//4- BORRAR BUSCANDO UN NODO
@@ -94,7 +88,8 @@ int main()
             break;
 
         case 57://9- BORRAR TODA LA LISTA
-            borrarTodaLaLista(lista);
+            borrarTodaLaLista(&lista);
+            system("pause");
             break;
 
         case 120://X SALIR
@@ -411,16 +406,18 @@ void mostrarTodo(nodo2 *lista)
 
 nodo2 *buscarNodo(nodo2 *lista, int numero);
 
-void *borrarTodaLaLista(nodo2 *lista)
+void borrarTodaLaLista(nodo2 **lista)
 {
-    if(lista)
+    if(*lista)
     {
         nodo2 *sig;
-        while(lista)
+
+        while(*lista)
         {
-            sig=lista->siguiente;
-            free(lista);
-            lista=sig;
+            sig=(*lista)->siguiente;
+            printf("\n Borrando %i ",(*lista)->dato);
+            free(*lista);
+            *lista=sig;
         }
     }
 }
