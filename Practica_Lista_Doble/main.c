@@ -49,8 +49,11 @@ int main()
             scanf("%d",&numero2);
             nodo2 *nuevoNodo2=crearNuevoNodo(numero2);
             lista=agregarAlPrincipio(lista,nuevoNodo2);
+<<<<<<< Updated upstream
             printf("\n Cargado al principio");
             Sleep(800);
+=======
+>>>>>>> Stashed changes
             break;
 
         case 51:;//3- AGREGAR DATOS AL FINAL
@@ -59,8 +62,11 @@ int main()
             scanf("%d",&numero3);
             nodo2 *nuevoNodo3=crearNuevoNodo(numero3);
             lista=agregarAlFinal(lista,nuevoNodo3);
+<<<<<<< Updated upstream
             printf("\n Cargado al final");
             Sleep(800);
+=======
+>>>>>>> Stashed changes
             break;
 
         case 52:;//4- BORRAR BUSCANDO UN NODO
