@@ -21,7 +21,16 @@ nodo2 *borrarAlFinal(nodo2 *lista);
 void mostrarLista(nodo2 *lista);
 void mostrarTodo(nodo2 *lista);
 nodo2 *buscarNodo(nodo2 *lista, int numero);
+
+//////////////////FUNCIONES CON PUNTERO DOBLE//////////////////
 void borrarTodaLaLista(nodo2 **lista);
+void agregarOrdenadoPD(nodo2 **lista, nodo2 *nuevo);
+void agregarAlPrincipioPD(nodo2 **lista, nodo2 *nuevo);
+void agregarAlFinalPD(nodo2 **lista, nodo2 *nuevo);
+void borrarBuscandoPD(nodo2 **lista, int dato);
+void borrarAlPrincipioPD(nodo2 **lista);
+void borrarAlFinalPD(nodo2 **lista);
+void buscarNodoPD(nodo2 **lista, int numero, nodo2 *resultado);
 
 
 int main()
@@ -33,12 +42,17 @@ int main()
         opc=menu();
         switch(opc)
         {
+        case 27:
+            printf("\n Borrando y saliendo.");
+            borrarTodaLaLista(&lista);
+            break;
         case 49:;//1- Agregar ordenado
             int numero;
             printf("Ingrese un numero para cargar: ");
             scanf("%d",&numero);
             nodo2 *nuevoNodo=crearNuevoNodo(numero);
-            lista=agregarOrdenado(lista,nuevoNodo);
+            //lista=agregarOrdenado(lista,nuevoNodo);
+            agregarOrdenadoPD(&lista,nuevoNodo);
             printf("\n \t CARGADO! \n");
             Sleep(800);
             break;
@@ -48,7 +62,8 @@ int main()
             printf("\n Ingrese un numero a cargar: ");
             scanf("%d",&numero2);
             nodo2 *nuevoNodo2=crearNuevoNodo(numero2);
-            lista=agregarAlPrincipio(lista,nuevoNodo2);
+            //lista=agregarAlPrincipio(lista,nuevoNodo2);
+            agregarAlPrincipioPD(&lista,nuevoNodo2);
             printf("\n Cargado al principio");
             Sleep(800);
             break;
@@ -58,7 +73,8 @@ int main()
             printf("\n Ingrese un numero para cargar al final: ");
             scanf("%d",&numero3);
             nodo2 *nuevoNodo3=crearNuevoNodo(numero3);
-            lista=agregarAlFinal(lista,nuevoNodo3);
+            //lista=agregarAlFinal(lista,nuevoNodo3);
+            agregarAlFinalPD(&lista,nuevoNodo3);
             printf("\n Cargado al final");
             Sleep(800);
             break;
@@ -67,15 +83,18 @@ int main()
             int numero4;
             printf("\n Ingrese el numero a borrar: ");
             scanf("%d",&numero4);
-            lista=borrarBuscando(lista,numero4);
+            //lista=borrarBuscando(lista,numero4);
+            borrarBuscandoPD(&lista,numero4);
             break;
 
         case 53:; //5- BORRAR DESDE EL PRINCIPIO
-            lista=borrarAlPrincipio(lista);
+            //lista=borrarAlPrincipio(lista);
+            borrarAlPrincipioPD(&lista);
             break;
 
         case 54: //6- BORRAR DESDE EL FINAL
-            lista=borrarAlFinal(lista);
+            //lista=borrarAlFinal(lista);
+            borrarAlFinalPD(&lista);
             break;
 
         case 55://7- MOSTRAR LA LISTA
@@ -85,6 +104,20 @@ int main()
             break;
 
         case 56://8- BUSCAR UN NUMERO
+            printf("\Ingrese un numero a buscar: ");
+            int numeroABuscar;
+            scanf("%d",&numeroABuscar);
+            nodo2 *busqueda=inicializar();
+            buscarNodoPD(&lista,numeroABuscar,&busqueda);
+            if(busqueda)
+            {
+                printf("\n Nodo encontrado! |DIR.ANTE: %x| %i |DIR.SIG: %x \n",busqueda->anterior,busqueda->dato,busqueda->siguiente);
+            }
+            else
+            {
+                printf("\n No encontrado. \n");
+            }
+            system("pause");
             break;
 
         case 57://9- BORRAR TODA LA LISTA
@@ -93,6 +126,7 @@ int main()
             break;
 
         case 120://X SALIR
+            borrarTodaLaLista(&lista);
             break;
 
         default:
@@ -404,6 +438,34 @@ void mostrarTodo(nodo2 *lista)
     }
 }
 
+nodo2 *buscarNodo(nodo2 *lista, int numero)
+{
+    nodo2 *resultado=inicializar();
+
+    if(lista)
+    {
+        if(lista->dato==numero)
+        {
+            resultado=lista;
+        }
+        else
+        {
+            nodo2 *iterador=lista;
+            while(iterador && resultado==NULL)
+            {
+                if(iterador->dato==numero)
+                {
+                    resultado=iterador;
+                }
+                iterador=iterador->siguiente;
+            }
+        }
+    }
+
+    return resultado;
+}
+
+//////////////// FUNCIONES CON PUNTERO DOBLE///////////////////////////////////////
 nodo2 *buscarNodo(nodo2 *lista, int numero);
 
 void borrarTodaLaLista(nodo2 **lista)
@@ -421,3 +483,194 @@ void borrarTodaLaLista(nodo2 **lista)
         }
     }
 }
+
+void agregarOrdenadoPD(nodo2 **lista, nodo2 *nuevo)
+{
+    if(*lista==NULL)
+    {
+        *lista=nuevo;
+    }
+    else
+    {
+        if((*lista)->dato>nuevo->dato) //SI ESTA EN LA PRIMER POSICION.
+        {
+            nuevo->siguiente=*lista;
+            (*lista)->anterior=nuevo;
+            *lista=nuevo;
+        }
+        else
+        {
+            nodo2 *iterador=*lista;
+            nodo2 *anterior=iterador;
+            while(iterador!=NULL && nuevo->dato >= iterador->dato)
+            {
+                anterior=iterador;
+                iterador=iterador->siguiente;
+            }
+            if(iterador==NULL)
+            {
+                anterior->siguiente=nuevo;
+                nuevo->anterior=anterior;
+            }
+            else
+            {
+                anterior->siguiente=nuevo;
+                nuevo->anterior=anterior;
+
+                nuevo->siguiente=iterador;
+                iterador->anterior=nuevo;
+            }
+        }
+    }
+}
+
+void agregarAlPrincipioPD(nodo2 **lista, nodo2 *nuevo)
+{
+    if(!*lista) //SI ESTA VACIA !LISTA LO MISMO QUE LISTA==NULL
+    {
+        *lista=nuevo;
+    }
+    else
+    {
+        nuevo->siguiente=*lista;
+        (*lista)->anterior=nuevo;
+        *lista=nuevo;
+    }
+}
+
+void agregarAlFinalPD(nodo2 **lista, nodo2 *nuevo)
+{
+    if(!*lista)
+    {
+        *lista=nuevo;
+    }
+    else
+    {
+        if((*lista)->siguiente==NULL)
+        {
+            (*lista)->siguiente=nuevo;
+            nuevo->anterior=*lista;
+        }
+        else
+        {
+            nodo2 *iterador=*lista;
+            nodo2 *anterior=iterador;
+            while(iterador)
+            {
+                anterior=iterador;
+                iterador=iterador->siguiente;
+            }
+            anterior->siguiente=nuevo;
+            nuevo->anterior=anterior;
+        }
+    }
+}
+
+void borrarBuscandoPD(nodo2 **lista, int dato)
+{
+    if(*lista)
+    {
+        nodo2 *temp;
+        if((*lista)->dato==dato)
+        {
+            temp=(*lista)->siguiente;
+            free(*lista);
+            *lista=temp;
+        }
+        else
+        {
+            nodo2 *iterador=*lista;
+            nodo2 *anterior=iterador;
+            while(iterador && dato != iterador->dato)
+            {
+                anterior=iterador;
+                iterador=iterador->siguiente;
+            }
+            if(iterador)
+            {
+                if(dato==iterador->dato)
+                {
+                    nodo2 *siguiente=iterador->siguiente;
+                    anterior->siguiente=siguiente;
+                    if(iterador->siguiente=NULL)
+                    {
+                        siguiente->anterior=anterior;
+                    }
+                    free(iterador);
+                }
+            }
+
+        }
+    }
+}
+
+void borrarAlPrincipioPD(nodo2 **lista) //VERSION INDEPENDIENTE DE BUSCAR Y BORRAR
+{                                       //CON PUNTERO DOBLE
+    if(*lista)
+    {
+        if((*lista)->siguiente==NULL)
+        {
+            free(*lista);
+            *lista=NULL;
+        }
+        else
+        {
+            nodo2 *temp=(*lista)->siguiente;
+            free(*lista);
+            *lista=temp;
+            (*lista)->anterior=NULL;
+        }
+    }
+}
+
+
+void borrarAlFinalPD(nodo2 **lista) //VERSION INDEPENDIENTE DE BUSCAR Y BORRAR
+{
+    if(*lista)
+    {
+        if(!(*lista)->siguiente)
+        {
+            free(*lista);
+            *lista=NULL;
+        }
+        else
+        {
+            nodo2 *iterador=*lista;
+            nodo2 *ante=iterador;
+            while(iterador->siguiente!=NULL)
+            {
+                ante=iterador;
+                iterador=iterador->siguiente;
+            }
+            free(iterador);
+            ante->siguiente=NULL;
+
+        }
+    }
+}
+
+void buscarNodoPD(nodo2 **lista, int numero, nodo2 **resultado)
+{
+    *resultado==NULL;
+    if(*lista)
+    {
+        if((*lista)->dato==numero)
+        {
+            *resultado=*lista;
+        }
+        else
+        {
+            nodo2 *iterador=*lista;
+            while(iterador!=NULL && *resultado==NULL)
+            {
+                if(iterador->dato==numero)
+                {
+                    *resultado=iterador;
+                }
+                iterador=iterador->siguiente;
+            }
+        }
+    }
+
+}
+
