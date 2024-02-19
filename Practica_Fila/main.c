@@ -95,6 +95,7 @@ nodo2 *borrarPrimero(nodo2 *lista)
     return lista;
 }
 
+/*
 nodo2 *agregarAlFinal(nodo2 *lista, nodo2 *nuevo)
 {
     if(!lista)
@@ -107,6 +108,27 @@ nodo2 *agregarAlFinal(nodo2 *lista, nodo2 *nuevo)
         nuevo->anterior=lista;
     }
     return nuevo;
+}
+*/
+
+nodo2 *agregarAlFinal(nodo2 *lista, nodo2 *nuevo)
+{
+    if(!lista)
+    {
+        lista=nuevo;
+    }
+    else
+    {
+        nodo2 *iterador=lista;
+        while(iterador->siguiente)
+        {
+            iterador=iterador->siguiente;
+        }
+
+        iterador->siguiente=nuevo;
+        nuevo->anterior=iterador;
+    }
+    return lista;
 }
 
 nodo2 *buscarNodo(nodo2 *lista, int dato)
@@ -136,8 +158,8 @@ nodo2 *buscarNodo(nodo2 *lista, int dato)
 
 void inicFila(Fila *fila)
 {
-    fila->primero=NULL;
-    fila->ultimo=NULL;
+    fila->primero=iniciLista();
+    fila->ultimo=iniciLista();
 }
 
 void mostrarLista(nodo2 *lista)
@@ -145,16 +167,11 @@ void mostrarLista(nodo2 *lista)
     if(lista)
     {
         nodo2 *iterador=lista;
-        printf(" PRIMERO \n %x| %i | %s |%x \n",iterador->anterior,iterador->dato,iterador->palabra,iterador->siguiente);
-        printf("         \n %x| %i | %s |%x \n",iterador->anterior,iterador->dato,iterador->palabra,iterador->siguiente);
-
-        iterador=iterador->siguiente;
-        while(iterador->siguiente)
+        while(iterador)
         {
             printf("         \n %x| %i | %s |%x \n",iterador->anterior,iterador->dato,iterador->palabra,iterador->siguiente);
             iterador=iterador->siguiente;
         }
-        printf(" ULTIMO  \n %x| %i | %s |%x \n",iterador->anterior,iterador->dato,iterador->palabra,iterador->siguiente);
     }
     else
     {
@@ -169,6 +186,8 @@ void encolar(Fila *fila, nodo2 *nuevo)
     {
         fila->primero=fila->ultimo;
     }
+    fila->ultimo=nuevo;
+    0
 }
 
 void desencolar(Fila *fila)
