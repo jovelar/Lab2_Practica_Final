@@ -15,27 +15,87 @@ typedef struct
     nodo2 *ultimo;
 }Fila;
 
-nodo2 *inicializar();
-nodo2 *agregarAlFinal(nodo2 *lista,nodo2 *nuevo);
-nodo2 *sacarPrimero(nodo2 *lista);
+nodo2 *iniciLista();
+nodo2 *crearNodo2(int dato);
+nodo2 *borrarPrimero(nodo2 *lista);
+nodo2 *agregarAlPrincipio(nodo2 *lista, nodo2 *nuevo);
+nodo2 *buscarNodo(nodo2 *lista, int dato);
 
-Fila encolar(Fila fila, nodo2 *nuevo);
-Fila desencolar(Fila fila);
+void inicFila(Fila *fila);
+void mostrarLista(nodo2 *lista);
+void encolar(Fila *fila, nodo2 *nuevo);
+void desencolar(Fila *fila);
+void mostrarFila(Fila *fila);
 
 int menu();
 
 int main()
 {
-    printf("Hello world!\n");
+    Fila fila;
+    inicFila(&fila);
+
+    int opcion=0;
+    while(opcion!=27)
+    {
+        opcion=menu();
+        switch(opcion)
+        {
+        case 27: //ESC
+            printf("\Saliendo!");
+            break;
+
+        case 49:// 1- AGREGAR UN NODO A LA FILA
+            printf("\n Ingrese un dato a cargar: ");
+            int valor;
+            scanf("%d",&valor);
+            nodo2 *nuevo=crearNodo2(valor);
+            encolar(&fila,nuevo);
+
+            printf("\n Agregado!");
+            break;
+
+        case 50://2- REMOVER UN ELEMENTO DE LA FILA
+            desencolar(&fila);
+            break;
+
+        case 51:// 3- MOSTRAR LA FILA
+            mostrarFila(&fila);
+            break;
+
+        default:
+            printf("\n Opcion invalida! ");
+            break;
+        }
+    }
     return 0;
 }
 
-nodo2 *inicializar()
+nodo2 *iniciLista()
 {
     return NULL;
 }
+nodo2 *crearNodo2(int dato)
+{
+    nodo2 *nuevo=(nodo2*)malloc(sizeof(nodo2));
+    nuevo->anterior=NULL;
+    nuevo->siguiente=NULL;
+    nuevo->dato=dato;
 
-nodo2 *agregarAlFinal(nodo2 *lista,nodo2 *nuevo)
+    return nuevo;
+}
+
+nodo2 *borrarPrimero(nodo2 *lista)
+{
+    if(lista)
+    {
+        nodo2 *seg=lista->siguiente;
+        free(lista);
+        lista=seg;
+    }
+    return lista;
+}
+
+nodo2 *agregarAlPrincipio(nodo2 *lista, nodo2 *nuevo)
 {
     if(!lista)
     {
@@ -43,12 +103,105 @@ nodo2 *agregarAlFinal(nodo2 *lista,nodo2 *nuevo)
     }
     else
     {
+        nuevo->siguiente=lista;
+        lista->anterior=nuevo;
+        lista=nuevo;
+    }
+    return lista;
+}
+
+nodo2 *buscarNodo(nodo2 *lista, int dato)
+{
+    nodo2 *resultado;
+    if(lista)
+    {
+        if(lista->dato==dato)
+        {
+            resultado=lista;
+        }
+        else
+        {
+            nodo2 *iterador=lista;
+            while(iterador && !resultado)
+            {
+                if(iterador->dato==dato)
+                {
+                    resultado=iterador;
+                }
+                iterador=iterador->siguiente;
+            }
+        }
+    }
+    return resultado;
+}
+
+void inicFila(Fila *fila)
+{
+    fila->primero=NULL;
+    fila->ultimo=NULL;
+}
+
+void mostrarLista(nodo2 *lista)
+{
+    if(lista)
+    {
+        nodo2 *iterador=lista;
+        while(iterador)
+        {
+            printf("\n %x| %i | %s |%x \n",iterador->anterior,iterador->dato,iterador->palabra,iterador->siguiente);
+            iterador=iterador->siguiente;
+        }
+    }
+    else
+    {
+        printf("\n la lista esta vacia! ");
+    }
+}
+
+void encolar(Fila *fila, nodo2 *nuevo)
+{
+    fila->ultimo=agregarAlPrincipio(fila->ultimo,nuevo);
+    if(fila->primero==NULL)
+    {
+        fila->primero=fila->ultimo;
+    }
+}
+
+void desencolar(Fila *fila)
+{
+    if(fila->primero==fila->ultimo)
+    {
+        printf("\n Se eleminara! %i \n",fila->primero->dato);
+        free(fila->primero);
+        fila->primero=NULL;
+        fila->ultimo=NULL;
+    }
+    else
+    {
+        printf("\n Se eleminara! %i \n",fila->primero->dato);
         
     }
 }
-nodo2 *sacarPrimero(nodo2 *lista);
 
-Fila encolar(Fila fila, nodo2 *nuevo);
-Fila desencolar(Fila fila);
+void mostrarFila(Fila *fila)
+{
+    if(fila)
+    {
+        mostrarLista(fila->primero);
+    }
+    else
+    {
+        printf("\n la lista esta vacia!");
+    }
+}
 
-int menu();
+int menu()
+{
+    int seleccion;
+    printf("\n 1- Agregar elementos a la fila ");
+    printf("\n 2- Retirar elementos de la fila");
+    printf("\n 3- Mostrar la fila");
+    printf("\n \n ESC - SALIR");
+
+    seleccion=getch();
+}
