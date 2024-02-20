@@ -18,13 +18,16 @@ typedef struct
 nodo2 *iniciLista();
 nodo2 *crearNodo2(int dato);
 nodo2 *borrarPrimero(nodo2 *lista);
-nodo2 *agregarAlPrincipio(nodo2 *lista, nodo2 *nuevo);
+nodo2 *agregarAlFinal(nodo2 *lista, nodo2 *nuevo);
 nodo2 *buscarNodo(nodo2 *lista, int dato);
 
 void inicFila(Fila *fila);
 void mostrarLista(nodo2 *lista);
 void encolar(Fila *fila, nodo2 *nuevo);
-void desencolar(Fila *fila);
+void desencolar(Fila *fila); //NO DEVUELVE NADA, SOLO ELIMINA
+
+nodo2 *desencolar2(Fila *fila); //DEVUELVE EL NODO2 QUE SE RETIRA
+
 void mostrarFila(Fila *fila);
 
 int menu();
@@ -54,8 +57,14 @@ int main()
             printf("\n Agregado!");
             break;
 
-        case 50://2- REMOVER UN ELEMENTO DE LA FILA
-            desencolar(&fila);
+        case 50:;//2- REMOVER UN ELEMENTO DE LA FILA
+            //desencolar(&fila); //DESENCOLA SIN DEVOLVER EL NODO RETIRADO
+            nodo2 *desencolado=desencolar2(&fila);
+            if(desencolado)
+            {
+                printf("\n Se elimino el nodo %i \n",desencolado->dato);
+            }
+            free(desencolado);
             break;
 
         case 51:// 3- MOSTRAR LA FILA
@@ -95,7 +104,8 @@ nodo2 *borrarPrimero(nodo2 *lista)
     return lista;
 }
 
-nodo2 *agregarAlPrincipio(nodo2 *lista, nodo2 *nuevo)
+/*
+nodo2 *agregarAlFinal(nodo2 *lista, nodo2 *nuevo)
 {
     if(!lista)
     {
@@ -103,9 +113,29 @@ nodo2 *agregarAlPrincipio(nodo2 *lista, nodo2 *nuevo)
     }
     else
     {
-        nuevo->siguiente=lista;
-        lista->anterior=nuevo;
+        lista->siguiente=nuevo;
+        nuevo->anterior=lista;
+    }
+    return nuevo;
+}
+*/
+
+nodo2 *agregarAlFinal(nodo2 *lista, nodo2 *nuevo)
+{
+    if(!lista)
+    {
         lista=nuevo;
+    }
+    else
+    {
+        nodo2 *iterador=lista;
+        while(iterador->siguiente)
+        {
+            iterador=iterador->siguiente;
+        }
+
+        iterador->siguiente=nuevo;
+        nuevo->anterior=iterador;
     }
     return lista;
 }
@@ -137,8 +167,8 @@ nodo2 *buscarNodo(nodo2 *lista, int dato)
 
 void inicFila(Fila *fila)
 {
-    fila->primero=NULL;
-    fila->ultimo=NULL;
+    fila->primero=iniciLista();
+    fila->ultimo=iniciLista();
 }
 
 void mostrarLista(nodo2 *lista)
@@ -148,7 +178,7 @@ void mostrarLista(nodo2 *lista)
         nodo2 *iterador=lista;
         while(iterador)
         {
-            printf("\n %x| %i | %s |%x \n",iterador->anterior,iterador->dato,iterador->palabra,iterador->siguiente);
+            printf("         \n %x| %i | %s |%x \n",iterador->anterior,iterador->dato,iterador->palabra,iterador->siguiente);
             iterador=iterador->siguiente;
         }
     }
@@ -160,27 +190,57 @@ void mostrarLista(nodo2 *lista)
 
 void encolar(Fila *fila, nodo2 *nuevo)
 {
-    fila->ultimo=agregarAlPrincipio(fila->ultimo,nuevo);
+    fila->ultimo=agregarAlFinal(fila->ultimo,nuevo);
     if(fila->primero==NULL)
     {
         fila->primero=fila->ultimo;
     }
+    fila->ultimo=nuevo;
 }
 
 void desencolar(Fila *fila)
 {
-    if(fila->primero==fila->ultimo)
+    if(fila->primero)
     {
-        printf("\n Se eleminara! %i \n",fila->primero->dato);
-        free(fila->primero);
-        fila->primero=NULL;
-        fila->ultimo=NULL;
+        if(fila->primero==fila->ultimo)
+        {
+            printf("\n Se eleminara! %i \n",fila->primero->dato);
+            free(fila->primero);
+            fila->primero=NULL;
+            fila->ultimo=NULL;
+        }
+        else
+        {
+            printf("\n Se eleminara! %i \n",fila->primero->dato);
+            fila->primero=borrarPrimero(fila->primero);
+        }
     }
-    else
+}
+
+nodo2 *desencolar2(Fila *fila)
+{
+    nodo2 *desencolado=(nodo2*)malloc(sizeof(nodo2));
+    if(fila->primero)
     {
-        printf("\n Se eleminara! %i \n",fila->primero->dato);
-        
+        if(fila->primero==fila->ultimo)
+        {
+            printf("\n Se eleminara! %i \n",fila->primero->dato);
+            *desencolado=*fila->primero; //COPIA EL CONTENIDO DE UN PUNTERO EN OTRO
+            free(fila->primero);        //DADO QUE FREE() HABILITA A QUE EL SECTOR
+            fila->primero=NULL;         //DE MEMORIA PUEDA SER SOBREESCRITO
+            fila->ultimo=NULL;
+        }
+        else
+        {
+            printf("\n Se eleminara! %i \n",fila->primero->dato);
+
+             *desencolado=*fila->primero;
+
+            fila->primero=borrarPrimero(fila->primero);
+
+        }
     }
+    return desencolado;
 }
 
 void mostrarFila(Fila *fila)

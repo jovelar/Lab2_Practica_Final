@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1708389044 source:i:\utn2022\lab2_practica_final\practica_fila_con_listas_dobles\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

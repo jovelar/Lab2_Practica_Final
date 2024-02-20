@@ -24,7 +24,10 @@ nodo2 *buscarNodo(nodo2 *lista, int dato);
 void inicFila(Fila *fila);
 void mostrarLista(nodo2 *lista);
 void encolar(Fila *fila, nodo2 *nuevo);
-void desencolar(Fila *fila);
+void desencolar(Fila *fila); //NO DEVUELVE NADA, SOLO ELIMINA
+
+nodo2 *desencolar2(Fila *fila); //DEVUELVE EL NODO2 QUE SE RETIRA
+
 void mostrarFila(Fila *fila);
 
 int menu();
@@ -54,8 +57,14 @@ int main()
             printf("\n Agregado!");
             break;
 
-        case 50://2- REMOVER UN ELEMENTO DE LA FILA
-            desencolar(&fila);
+        case 50:;//2- REMOVER UN ELEMENTO DE LA FILA
+            //desencolar(&fila); //DESENCOLA SIN DEVOLVER EL NODO RETIRADO
+            nodo2 *desencolado=desencolar2(&fila);
+            if(desencolado)
+            {
+                printf("\n Se elimino el nodo %i \n",desencolado->dato);
+            }
+            free(desencolado);
             break;
 
         case 51:// 3- MOSTRAR LA FILA
@@ -187,7 +196,6 @@ void encolar(Fila *fila, nodo2 *nuevo)
         fila->primero=fila->ultimo;
     }
     fila->ultimo=nuevo;
-    0
 }
 
 void desencolar(Fila *fila)
@@ -207,6 +215,32 @@ void desencolar(Fila *fila)
             fila->primero=borrarPrimero(fila->primero);
         }
     }
+}
+
+nodo2 *desencolar2(Fila *fila)
+{
+    nodo2 *desencolado=(nodo2*)malloc(sizeof(nodo2));
+    if(fila->primero)
+    {
+        if(fila->primero==fila->ultimo)
+        {
+            printf("\n Se eleminara! %i \n",fila->primero->dato);
+            *desencolado=*fila->primero; //COPIA EL CONTENIDO DE UN PUNTERO EN OTRO
+            free(fila->primero);        //DADO QUE FREE() HABILITA A QUE EL SECTOR
+            fila->primero=NULL;         //DE MEMORIA PUEDA SER SOBREESCRITO
+            fila->ultimo=NULL;
+        }
+        else
+        {
+            printf("\n Se eleminara! %i \n",fila->primero->dato);
+
+             *desencolado=*fila->primero;
+
+            fila->primero=borrarPrimero(fila->primero);
+
+        }
+    }
+    return desencolado;
 }
 
 void mostrarFila(Fila *fila)
