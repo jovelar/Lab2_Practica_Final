@@ -12,12 +12,12 @@ typedef struct
 {
     int dato;
     char palabra[20];
-    int validos;
-    int tMaximo;
+
 }CeldaDinamica;
 
-void agregarACD(CeldaDinamica *celda,int dato, char palabra[20]);
-CeldaDinamica mostrarCD(CeldaDinamica *celda);
+//void agregarACD(CeldaDinamica *celda,int dato, char palabra[20],int *validos, int *tMax);
+void agregarACD(CeldaDinamica **celda, int dato, char palabra[20], int *validos, int *tMax);
+CeldaDinamica mostrarCD(CeldaDinamica *celda, int validos);
 
 int menu()
 {
@@ -32,6 +32,11 @@ int menu()
 
 int main()
 {
+    int validos=0;
+    int tMax=4;
+    CeldaDinamica *celdaDin;
+    celdaDin=(CeldaDinamica*)malloc(sizeof(CeldaDinamica)*4);
+
     int opcion=0;
     while(opcion!=27)
     {
@@ -39,7 +44,7 @@ int main()
         switch(opcion)
         {
             case 27:
-                prinf("\nSaliendo!");
+                printf("\nSaliendo!");
             break;
 
             case 49:;
@@ -47,30 +52,44 @@ int main()
                 char palabra[20];
                 printf("\n Ingrese un entero: ");
                 scanf("%d",&dato);
-                printf("\n")
+                printf("\n");
+                printf("\n Ingrese una palabra de 20 letra: ");
+                fflush(stdin);
+                gets(palabra);
+                agregarACD(celdaDin,dato,palabra,&validos,&tMax);
+
                 break;
 
+            case 50:
+                break;
+
+            default:
+                printf("\nOpcion invalida!");
+                break;
         }
     }
+    free(celdaDin);
     return 0;
 }
 
-void agregarACD(CeldaDinamica *celda,int dato, char palabra[20])
+void agregarACD(CeldaDinamica **celda,int dato, char palabra[20],int *validos, int *tMax)
 {
-    if(celda->tMaximo<celda->tMaximo+1) //SI ESTA LLEGANDO AL MAXIMO LO REDIMENSIONA UN 30% MAS
+    if(*validos == *tMax+1)
     {
-        celda=(CeldaDinamica*)realloc(celda,sizeof(CeldaDinamica)*(celda->tMaximo*1.3));
+        celda=(CeldaDinamica*)realloc(celda,sizeof(CeldaDinamica)*(*tMax+10));
     }
-    celda->validos=celda->validos+1;
-
-    celda[celda->validos].dato=dato;
-    strcpy(celda[celda->validos].palabra,palabra);
+    *tMax=*tMax+10;
+    validos++;
+    celda[validos].dato=dato;
+    strcpy((*celda[*validos]).palabra,palabra);
+    system("pause");
 }
 
-CeldaDinamica mostrarCD(CeldaDinamica *celda)
+
+CeldaDinamica mostrarCD(CeldaDinamica *celda, int validos)
 {
-    for(int x=0;x<=celda->tMaximo;x++)
+    for(int x=0;x<validos;x++)
     {
-        printf("\n %i | %s",celda[x].dato,celda[x].palabra);
+        printf("\n %i | %s ",celda[x].dato,celda[x].palabra);
     }
 }
