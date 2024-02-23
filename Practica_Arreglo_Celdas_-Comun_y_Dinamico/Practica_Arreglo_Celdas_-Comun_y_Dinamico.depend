@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1708647027 source:i:\utn2022\lab2_practica_final\practica_arreglo_celdas_-comun_y_dinamico\main.c
+	<stdio.h>
+	<stdlib.h>
+

@@ -23,7 +23,7 @@ int menu()
     printf("\n2-Desapilar");
     printf("\n3-Mostrar tope");
     printf("\n4-Verificar si la pila esta vacia");
-    printf("\nn\nESC- salir");
+    printf("\n\nESC- salir ");
     opcion=getch();
 }
 
