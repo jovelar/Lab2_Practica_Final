@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void sumar(int *n1,int *n2);
+int main()
+{
+    int numero=10;
+    int numero2=15;
+    
+    
+    printf("Hello world!\n");
+    return 0;
+}
+
+void sumar(int *n1,int *n2)
+{
+    
+}
