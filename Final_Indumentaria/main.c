@@ -42,13 +42,17 @@ void mostrarFila(Fila *fila);
 
 void ejercicio1(Fila *fila,char nombreArchivo[20]);
 
+void pasarACSV(char archivoOrigen[40],char archivoDestino[40]);
+
 int main()
 {
-    Fila nuevaFila;
+    /*Fila nuevaFila;
     inicFila(&nuevaFila);
     char nombreArchivo[50]="archivoRegistrosIndumentaria.bin";
     ejercicio1(&nuevaFila,nombreArchivo);
-    mostrarFila(&nuevaFila);
+    mostrarFila(&nuevaFila);*/
+
+    pasarACSV("archivoRegistrosIndumentaria.bin","registrosCSV.csv");
 
     return 0;
 }
@@ -141,12 +145,10 @@ void mostrarFila(Fila *fila)
 {
     if(fila)
     {
-        if(fila->primero)
-        {
         mostrarFila(fila->primero);
         mostrarFila(fila->primero->siguiente);
-        }
     }
+
 
 }
 
@@ -155,3 +157,26 @@ void ejercicio1(Fila *fila,char nombreArchivo[20])
     *fila=pasarAFila(nombreArchivo);
 }
 
+void pasarACSV(char archivoOrigen[40],char archivoDestino[40])
+{
+    FILE *aOrigen=fopen(archivoOrigen,"rb");
+    {
+        if(aOrigen)
+        {
+            FILE *aDestino=fopen(archivoDestino,"wb");
+
+            stRegistro buffer;
+
+            while(fread(&buffer,sizeof(stRegistro),1,aOrigen)>0)
+            {
+                fprintf(aDestino,"%i;%s;%s;%s;%i\n",buffer.idSucursal,buffer.nombreSucursal,buffer.nombreProducto,buffer.deporte,buffer.stockProducto);
+            }
+
+
+
+
+            fclose(aDestino);
+            fclose(aOrigen);
+        }
+    }
+}
