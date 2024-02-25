@@ -23,6 +23,7 @@ nodo2 *buscarNodo(nodo2 *lista, int dato);
 
 void inicFila(Fila *fila);
 void mostrarLista(nodo2 *lista);
+void mostrarListaRec(nodo2 *lista);
 void encolar(Fila *fila, nodo2 *nuevo);
 void desencolar(Fila *fila); //NO DEVUELVE NADA, SOLO ELIMINA
 
@@ -68,7 +69,8 @@ int main()
             break;
 
         case 51:// 3- MOSTRAR LA FILA
-            mostrarFila(&fila);
+            //mostrarFila(&fila);
+            mostrarListaRec(fila.primero);
             break;
 
         default:
@@ -252,6 +254,15 @@ void mostrarFila(Fila *fila)
     else
     {
         printf("\n la lista esta vacia!");
+    }
+}
+
+void mostrarListaRec(nodo2 *lista)
+{
+    if(lista)
+    {
+        printf("\n %i | %s ",lista->dato,lista->palabra);
+        mostrarListaRec(lista->siguiente);
     }
 }
 

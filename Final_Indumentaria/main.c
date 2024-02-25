@@ -34,11 +34,12 @@ nodo2 *inicNodo2();
 nodo2 *crearNodo2(int idSucursal, char nombreSucursal[20],char nombreProducto[20],char deporte[25],int stockProducto);
 nodo2 *agregarAlFinal(nodo2 *lista,nodo2 *nuevo);
 void mostrarNodo2(nodo2 *nodo);
-
+void mostrarNodo2Rec(nodo2 *nodo);
+void mostrarDato(nodo2 dato);
 void inicFila(Fila *fila);
 
 void encolar(Fila *fila, nodo2 *nuevo);
-void mostrarFila(Fila *fila);
+void mostrarFila(Fila fila);
 
 void ejercicio1(Fila *fila,char nombreArchivo[20]);
 
@@ -46,13 +47,14 @@ void pasarACSV(char archivoOrigen[40],char archivoDestino[40]);
 
 int main()
 {
-    /*Fila nuevaFila;
+    Fila nuevaFila;
     inicFila(&nuevaFila);
     char nombreArchivo[50]="archivoRegistrosIndumentaria.bin";
     ejercicio1(&nuevaFila,nombreArchivo);
-    mostrarFila(&nuevaFila);*/
+    //mostrarFila(nuevaFila);
+    mostrarNodo2(nuevaFila.primero);
 
-    pasarACSV("archivoRegistrosIndumentaria.bin","registrosCSV.csv");
+    //pasarACSV("archivoRegistrosIndumentaria.bin","registrosCSV.csv");
 
     return 0;
 }
@@ -111,11 +113,8 @@ nodo2 *agregarAlFinal(nodo2 *lista,nodo2 *nuevo)
     return nuevo;
 }
 
-void mostrarNodo2(nodo2 *nodo)
+void mostrarDato(nodo2 dato)
 {
-    if(nodo)
-    {
-        nodo2 dato=*nodo;
         puts ("\n**********************************************************************************\n");
         printf ("\nId de la Sucursal……………………: %d \n", dato.idSucursal);
         printf("\nNombre de la Sucursal: ………….….:%s \n", dato.nombreSucursal);
@@ -123,6 +122,18 @@ void mostrarNodo2(nodo2 *nodo)
         printf("\nDeporte al que pertenece.................: %s \n ", dato.deporte);
         printf("\nStock del producto............................: %d \n", dato.stockProducto);
         puts ("\n**********************************************************************************\n");
+}
+
+void mostrarNodo2(nodo2 *nodo)
+{
+    if(nodo)
+    {
+        nodo2 *iterador=nodo;
+        while(iterador)
+        {
+            mostrarDato(*iterador);//MOSTRARDATO NO ACEPTA PUNTEROS, POR LO QUE SE DEBE PASARLE LOS VALORES A LOS QUE APUNTA CON *
+            iterador=iterador->siguiente;
+        }
     }
 }
 
@@ -141,14 +152,8 @@ void encolar(Fila *fila, nodo2 *nuevo)
     }
 }
 
-void mostrarFila(Fila *fila)
+void mostrarFila(Fila fila)
 {
-    if(fila)
-    {
-        mostrarFila(fila->primero);
-        mostrarFila(fila->primero->siguiente);
-    }
-
 
 }
 
@@ -171,10 +176,6 @@ void pasarACSV(char archivoOrigen[40],char archivoDestino[40])
             {
                 fprintf(aDestino,"%i;%s;%s;%s;%i\n",buffer.idSucursal,buffer.nombreSucursal,buffer.nombreProducto,buffer.deporte,buffer.stockProducto);
             }
-
-
-
-
             fclose(aDestino);
             fclose(aOrigen);
         }

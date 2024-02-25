@@ -23,6 +23,7 @@ nodo2 *buscarNodo(nodo2 *lista, int dato);
 
 void inicFila(Fila *fila);
 void mostrarLista(nodo2 *lista);
+void mostrarListaRec(nodo2 *lista);
 void encolar(Fila *fila, nodo2 *nuevo);
 void desencolar(Fila *fila); //NO DEVUELVE NADA, SOLO ELIMINA
 
@@ -252,6 +253,14 @@ void mostrarFila(Fila *fila)
     else
     {
         printf("\n la lista esta vacia!");
+    }
+}
+
+void mostrarListaRec(nodo2 *lista)
+{
+    if(lista)
+    {
+        
     }
 }
 
