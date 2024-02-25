@@ -28,6 +28,37 @@ typedef struct
     nodo2 *ultimo;
 }Fila;
 
+
+typedef struct{
+    int idSucursal;
+    char nombreSucursal[25];
+}stSucursal;
+
+typedef struct{
+    char nombreProducto[25];
+    char deporte[25];
+    int stockProducto;
+}stProducto;
+
+
+
+typedef struct
+{
+    stProducto producto;
+    struct nodoProd *siguiente;
+}nodoProd;
+
+typedef struct
+{
+    stSucursal sucursal;
+    nodoProd *productos;
+}celdaSucursal;
+
+int buscarSucursal(celdaSucursal sucursales[],int idSucursal);
+stSucursal nuevoSTSucursal(int idSucursal,char nombreSucursal[25]);
+celdaSucursal crearSucursal(stSucursal sucursal);
+
+
 Fila pasarAFila(char nombreArchivo[20]);
 
 nodo2 *inicNodo2();
@@ -42,8 +73,9 @@ void encolar(Fila *fila, nodo2 *nuevo);
 void mostrarFila(Fila fila);
 
 void ejercicio1(Fila *fila,char nombreArchivo[20]);
+void ejercicio2(Fila fila);
 
-void pasarACSV(char archivoOrigen[40],char archivoDestino[40]);
+//void pasarACSV(char archivoOrigen[40],char archivoDestino[40]);
 
 int main()
 {
@@ -51,10 +83,9 @@ int main()
     inicFila(&nuevaFila);
     char nombreArchivo[50]="archivoRegistrosIndumentaria.bin";
     ejercicio1(&nuevaFila,nombreArchivo);
-    //mostrarFila(nuevaFila);
-    mostrarNodo2(nuevaFila.primero);
+    ejercicio2(nuevaFila);
 
-    //pasarACSV("archivoRegistrosIndumentaria.bin","registrosCSV.csv");
+
 
     return 0;
 }
@@ -113,6 +144,15 @@ nodo2 *agregarAlFinal(nodo2 *lista,nodo2 *nuevo)
     return nuevo;
 }
 
+void mostrarNodo2Rec(nodo2 *nodo)
+{
+    if(nodo)
+    {
+        mostrarDato(*nodo);
+        mostrarNodo2Rec(nodo->siguiente);
+    }
+}
+
 void mostrarDato(nodo2 dato)
 {
         puts ("\n**********************************************************************************\n");
@@ -124,18 +164,6 @@ void mostrarDato(nodo2 dato)
         puts ("\n**********************************************************************************\n");
 }
 
-void mostrarNodo2(nodo2 *nodo)
-{
-    if(nodo)
-    {
-        nodo2 *iterador=nodo;
-        while(iterador)
-        {
-            mostrarDato(*iterador);//MOSTRARDATO NO ACEPTA PUNTEROS, POR LO QUE SE DEBE PASARLE LOS VALORES A LOS QUE APUNTA CON *
-            iterador=iterador->siguiente;
-        }
-    }
-}
 
 void inicFila(Fila *fila)
 {
@@ -152,17 +180,18 @@ void encolar(Fila *fila, nodo2 *nuevo)
     }
 }
 
-void mostrarFila(Fila fila)
-{
-
-}
 
 void ejercicio1(Fila *fila,char nombreArchivo[20])
 {
     *fila=pasarAFila(nombreArchivo);
 }
 
-void pasarACSV(char archivoOrigen[40],char archivoDestino[40])
+void ejercicio2(Fila fila)
+{
+    mostrarNodo2Rec(fila.primero);
+}
+
+/*void pasarACSV(char archivoOrigen[40],char archivoDestino[40])
 {
     FILE *aOrigen=fopen(archivoOrigen,"rb");
     {
@@ -181,3 +210,4 @@ void pasarACSV(char archivoOrigen[40],char archivoDestino[40])
         }
     }
 }
+*/
