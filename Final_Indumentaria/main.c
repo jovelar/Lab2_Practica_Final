@@ -42,22 +42,26 @@ typedef struct{
 
 
 
-typedef struct
+typedef struct //Nodos lista simple
 {
     stProducto producto;
     struct nodoProd *siguiente;
 }nodoProd;
 
-typedef struct
+typedef struct //Celda
 {
     stSucursal sucursal;
     nodoProd *productos;
 }celdaSucursal;
 
-int buscarSucursal(celdaSucursal sucursales[],int idSucursal);
+stProducto crearSTProducto(char nombreProducto[25],char deporte[25],int stockProducto);
+nodoProd *crearNodoProd(char nombreProducto[25],char deporte[25],int stockProducto);
+nodoProd *agregarProd(nodoProd *lista,nodoProd *producto);
+int buscarSucursal(celdaSucursal sucursales[],int idSucursal,int validos);
 stSucursal nuevoSTSucursal(int idSucursal,char nombreSucursal[25]);
 celdaSucursal crearSucursal(stSucursal sucursal);
 
+void pasarACelda(celdaSucursal celdas[],Fila fila,int validos);
 
 Fila pasarAFila(char nombreArchivo[20]);
 
@@ -74,16 +78,19 @@ void mostrarFila(Fila fila);
 
 void ejercicio1(Fila *fila,char nombreArchivo[20]);
 void ejercicio2(Fila fila);
-
+void ejercicio3(celdaSucursal celdas[],Fila fila,int validos);
 //void pasarACSV(char archivoOrigen[40],char archivoDestino[40]);
 
 int main()
 {
     Fila nuevaFila;
     inicFila(&nuevaFila);
+    celdaSucursal celdas[200];
+    int validos=0;
     char nombreArchivo[50]="archivoRegistrosIndumentaria.bin";
     ejercicio1(&nuevaFila,nombreArchivo);
     ejercicio2(nuevaFila);
+    ejercicio3(celdas,nuevaFila,validos);
 
 
 
@@ -211,3 +218,113 @@ void ejercicio2(Fila fila)
     }
 }
 */
+
+stProducto crearSTProducto(char nombreProducto[25],char deporte[25],int stockProducto)
+{
+    stProducto nuevoProducto;
+    strcpy(&nuevoProducto.nombreProducto,nombreProducto);
+    strcpy(&nuevoProducto.deporte,deporte);
+    nuevoProducto.stockProducto=stockProducto;
+    return nuevoProducto;
+}
+
+nodoProd *crearNodoProd(char nombreProducto[25],char deporte[25],int stockProducto)
+{
+    nodoProd *nuevoNodoProd=(nodoProd*)malloc(sizeof(nodoProd));
+    nuevoNodoProd->producto=crearSTProducto(nombreProducto,deporte,stockProducto);
+
+    return nuevoNodoProd;
+}
+
+nodoProd *agregarProd(nodoProd *lista,nodoProd *producto)
+{
+    if(!lista)
+    {
+        lista=producto;
+    }
+    else
+    {
+        nodoProd *iterador=lista;
+        nodoProd *anterior=iterador;
+        while(iterador)
+        {
+            anterior=iterador;
+            iterador=iterador->siguiente;
+        }
+        anterior->siguiente=producto;
+    }
+    return lista;
+}
+
+int buscarSucursal(celdaSucursal sucursales[],int idSucursal,int validos)
+{
+    int ubicacion=-1; //-1 PARA DETERMINAR QUE NO SE ENCUENTRA EN NINGUNA PARTE
+    int contador=0;
+    while(ubicacion==-1 && contador<=validos)
+    {
+        if(sucursales[contador].sucursal.idSucursal==idSucursal)
+        {
+            ubicacion=contador;
+        }
+        contador++;
+    }
+    return ubicacion;
+}
+
+
+stSucursal nuevoSTSucursal(int idSucursal,char nombreSucursal[25])
+{
+    stSucursal nuevoSTSucursal;
+    nuevoSTSucursal.idSucursal=idSucursal;
+    strcpy(&nuevoSTSucursal.nombreSucursal,nombreSucursal);
+    return nuevoSTSucursal;
+}
+
+celdaSucursal crearSucursal(stSucursal sucursal)
+{
+    celdaSucursal nuevaCelda;
+    nuevaCelda.sucursal.idSucursal=sucursal.idSucursal;
+    strcpy(&nuevaCelda.sucursal.nombreSucursal,sucursal.nombreSucursal);
+    nuevaCelda.productos=NULL;
+    return nuevaCelda;
+}
+
+void pasarACelda(celdaSucursal celdas[],Fila fila,int validos)
+{
+    int contador=0;
+    int ubicacion=-1;
+    nodo2 *listaSucursales=fila.primero;
+
+    while(listaSucursales)
+    {
+        ubicacion=buscarSucursal(celdas,listaSucursales->idSucursal,validos);
+        while(ubicacion==-1 && contador<=validos)
+        {
+            if(celdas[contador].sucursal.idSucursal==listaSucursales->idSucursal)
+            {
+                ubicacion=contador;
+            }
+        }
+        if(ubicacion==-1)//SI NO EXISTE LA SUCURSAL
+        {
+            stSucursal sucursal=nuevoSTSucursal(listaSucursales->idSucursal,listaSucursales->nombreSucursal);
+            celdaSucursal nuevaSucursal=crearSucursal(sucursal);
+            celdas[validos]=nuevaSucursal;
+        }
+        else //SI ENCUENTRA LA SUCURSAL
+        {
+            stProducto nuevoProducto=crearSTProducto(listaSucursales->nombreProducto,listaSucursales->deporte,listaSucursales->stockProducto);
+            nodoProd *nuevoNodoProd=nuevoNodoProd=crearNodoProd(listaSucursales->nombreProducto,listaSucursales->deporte,listaSucursales->stockProducto);
+            celdas[ubicacion].productos=agregarProd(celdas[validos].productos,nuevoNodoProd);
+        }
+        ubicacion=-1;
+        validos++;
+        listaSucursales=listaSucursales->siguiente;
+
+    }
+}
+
+void ejercicio3(celdaSucursal celdas[],Fila fila,int validos)
+{
+    pasarACelda(celdas,fila,validos);
+}
