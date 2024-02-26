@@ -79,6 +79,8 @@ void mostrarFila(Fila fila);
 void ejercicio1(Fila *fila,char nombreArchivo[20]);
 void ejercicio2(Fila fila);
 void ejercicio3(celdaSucursal celdas[],Fila fila,int validos);
+void ejercicio4(celdaSucursal celdas[],int validos);
+void ejercicio5(celdaSucursal celdas[],int validos);
 //void pasarACSV(char archivoOrigen[40],char archivoDestino[40]);
 
 int main()
@@ -91,9 +93,7 @@ int main()
     ejercicio1(&nuevaFila,nombreArchivo);
     ejercicio2(nuevaFila);
     ejercicio3(celdas,nuevaFila,validos);
-
-
-
+    system("pause");
     return 0;
 }
 
@@ -231,6 +231,7 @@ stProducto crearSTProducto(char nombreProducto[25],char deporte[25],int stockPro
 nodoProd *crearNodoProd(char nombreProducto[25],char deporte[25],int stockProducto)
 {
     nodoProd *nuevoNodoProd=(nodoProd*)malloc(sizeof(nodoProd));
+    nuevoNodoProd->siguiente=NULL;
     nuevoNodoProd->producto=crearSTProducto(nombreProducto,deporte,stockProducto);
 
     return nuevoNodoProd;
@@ -241,17 +242,17 @@ nodoProd *agregarProd(nodoProd *lista,nodoProd *producto)
     if(!lista)
     {
         lista=producto;
+        printf("\n %s %s %i ",producto->producto.deporte,producto->producto.nombreProducto,producto->producto.stockProducto);
     }
     else
     {
         nodoProd *iterador=lista;
         nodoProd *anterior=iterador;
-        while(iterador)
-        {
-            anterior=iterador;
-            iterador=iterador->siguiente;
-        }
-        anterior->siguiente=producto;
+       // while(iterador->siguiente)
+        //{
+         //   iterador=iterador->siguiente;
+        //}
+        iterador->siguiente=producto;
     }
     return lista;
 }
@@ -260,13 +261,14 @@ int buscarSucursal(celdaSucursal sucursales[],int idSucursal,int validos)
 {
     int ubicacion=-1; //-1 PARA DETERMINAR QUE NO SE ENCUENTRA EN NINGUNA PARTE
     int contador=0;
-    while(ubicacion==-1 && contador<=validos)
+    while(ubicacion==-1 && contador<validos)
     {
         if(sucursales[contador].sucursal.idSucursal==idSucursal)
         {
             ubicacion=contador;
         }
         contador++;
+        printf("\n contador %i");
     }
     return ubicacion;
 }
@@ -304,17 +306,22 @@ void pasarACelda(celdaSucursal celdas[],Fila fila,int validos)
             {
                 ubicacion=contador;
             }
+            contador++;
         }
         if(ubicacion==-1)//SI NO EXISTE LA SUCURSAL
         {
             stSucursal sucursal=nuevoSTSucursal(listaSucursales->idSucursal,listaSucursales->nombreSucursal);
             celdaSucursal nuevaSucursal=crearSucursal(sucursal);
             celdas[validos]=nuevaSucursal;
+
+            stProducto nuevoProducto=crearSTProducto(listaSucursales->nombreProducto,listaSucursales->deporte,listaSucursales->stockProducto);
+            nodoProd *nuevoNodoProd=crearNodoProd(listaSucursales->nombreProducto,listaSucursales->deporte,listaSucursales->stockProducto);
+            celdas[validos].productos=agregarProd(celdas[validos].productos,nuevoNodoProd);
         }
         else //SI ENCUENTRA LA SUCURSAL
         {
             stProducto nuevoProducto=crearSTProducto(listaSucursales->nombreProducto,listaSucursales->deporte,listaSucursales->stockProducto);
-            nodoProd *nuevoNodoProd=nuevoNodoProd=crearNodoProd(listaSucursales->nombreProducto,listaSucursales->deporte,listaSucursales->stockProducto);
+            nodoProd *nuevoNodoProd=crearNodoProd(listaSucursales->nombreProducto,listaSucursales->deporte,listaSucursales->stockProducto);
             celdas[ubicacion].productos=agregarProd(celdas[validos].productos,nuevoNodoProd);
         }
         ubicacion=-1;
