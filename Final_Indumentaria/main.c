@@ -76,6 +76,8 @@ void inicFila(Fila *fila);
 void encolar(Fila *fila, nodo2 *nuevo);
 void mostrarFila(Fila fila);
 
+void mostrarLista
+
 void ejercicio1(Fila *fila,char nombreArchivo[20]);
 void ejercicio2(Fila fila);
 void ejercicio3(celdaSucursal celdas[],Fila fila,int validos);
@@ -93,6 +95,7 @@ int main()
     ejercicio1(&nuevaFila,nombreArchivo);
     ejercicio2(nuevaFila);
     ejercicio3(celdas,nuevaFila,validos);
+
     system("pause");
     return 0;
 }
@@ -248,11 +251,12 @@ nodoProd *agregarProd(nodoProd *lista,nodoProd *producto)
     {
         nodoProd *iterador=lista;
         nodoProd *anterior=iterador;
-       // while(iterador->siguiente)
-        //{
-         //   iterador=iterador->siguiente;
-        //}
+        while(iterador->siguiente)
+        {
+            iterador=iterador->siguiente;
+        }
         iterador->siguiente=producto;
+        printf("\n %s %s %i ",producto->producto.deporte,producto->producto.nombreProducto,producto->producto.stockProducto);
     }
     return lista;
 }
@@ -322,7 +326,7 @@ void pasarACelda(celdaSucursal celdas[],Fila fila,int validos)
         {
             stProducto nuevoProducto=crearSTProducto(listaSucursales->nombreProducto,listaSucursales->deporte,listaSucursales->stockProducto);
             nodoProd *nuevoNodoProd=crearNodoProd(listaSucursales->nombreProducto,listaSucursales->deporte,listaSucursales->stockProducto);
-            celdas[ubicacion].productos=agregarProd(celdas[validos].productos,nuevoNodoProd);
+            celdas[ubicacion].productos=agregarProd(celdas[ubicacion].productos,nuevoNodoProd);
         }
         ubicacion=-1;
         validos++;
