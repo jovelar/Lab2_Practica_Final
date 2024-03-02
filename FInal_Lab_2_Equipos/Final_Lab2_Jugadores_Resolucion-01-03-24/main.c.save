@@ -1,0 +1,206 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct
+{
+    int idSocio;
+    char nya[50];
+    int ultimaCuotaPaga;
+    float valorCuota;
+    int edad;
+    int idDeporte;
+    char nombreDeporte[50];
+}stClub;
+
+typedef struct nodo2
+{
+    int idSocio;
+    char nya[50];
+    int ultimaCuotaPaga;
+    float valorCuota;
+    int edad;
+    struct nodo2 *sig;
+    struct nodo2 *ante;
+}nodo2;
+
+typedef struct nodo
+{
+    int idDeporte;
+    char nombreDeporte[50];
+    nodo2 *listaSocios;
+    struct nodo *sig;
+}nodo;
+
+void pasarACVC(char nombreArchivoSalida[40],char nombreArchivoEntrada[40]);
+
+void pasarALDL(char nombreArchivo[30],nodo *lista);
+
+
+nodo *crearNodoDeporte(int idDeporte,char nombreDeporte[30]);
+void agregarNodoAlFinal(nodo *lista,nodo* nuevo);
+
+void mostrarDeporte(nodo *deporte);
+void mostrarTodo(nodo *listaDeportes);
+void buscarDeporte(nodo *deporte,char nombreDeporte[30]);
+
+nodo2 *crearNodoSocio(int idSocio,char nya[50],int ultimaCuota,float valorCuota, int edad);
+void agregarOrdenadoSocio(nodo2 *listSocio,nodo2 *nuevo);
+void mostrarSocio(nodo2 *socio);
+void mostrarListaSocios(nodo2 *listaSocios)
+void mostrarDeporteMasPopular(nodo *listaDeportes);
+
+int cuentaSocios(nodo2 *listaSocios);
+nodo *buscarDeporteMasPopular(nodo *listaDeportes);
+
+void ejercicio1(FILE *archivoSalida, char nombreArchivo[30]);
+void ejercicio2();
+void ejercicio3();
+void ejercicio4();
+void ejercicio5();
+void ejercicio6();
+
+int main()
+{
+    //pasarACVC("jugadores.csv","registroClub.dat");
+
+
+    return 0;
+}
+
+/*
+void pasarACVC(char nombreArchivoSalida[40],char nombreArchivoEntrada[40])
+{
+    FILE *archivoEntrada = fopen(nombreArchivoEntrada,"rb");
+    if(archivoEntrada)
+    {
+        FILE *archivoSalida=fopen(nombreArchivoSalida,"wb");
+        stClub buffer;
+
+        while(fread(&buffer,sizeof(stClub),1,archivoEntrada)>0)
+        {
+            fprintf(archivoSalida,"%i;%s;%i;%0.2f;%i;%i;%s\n",buffer.idSocio,buffer.nya,buffer.ultimaCuotaPaga,buffer.valorCuota,buffer.edad,buffer.idDeporte,buffer.nombreDeporte);
+        }
+        fclose(archivoEntrada);
+        fclose(archivoSalida);
+    }
+
+}
+*/
+
+nodo *crearNodoDeporte(int idDeporte,char nombreDeporte[30])
+{
+    nodo *nuevo=(nodo*)malloc(sizeof(nodo));
+    nuevo->idDeporte=idDeporte;
+    strcpy(nuevo->nombreDeporte,nombreDeporte);
+    nuevo->listaSocios=NULL;
+    nuevo->sig=NULL;
+
+    return nuevo;
+}
+
+void agregarNodoAlFinal(nodo *lista,nodo* nuevo)
+{
+    if (!lista)
+    {
+        lista=nuevo;
+    }
+    else
+    {
+        nodo *iterador=lista;
+
+        while(lista->sig)
+        {
+            iterador=iterador->sig;
+        }
+        iterador->sig=nuevo;
+    }
+    return lista;
+}
+
+void mostrarDeporte(nodo *deporte)
+{
+    if(deporte)
+    {
+        printf("\n %i | %s ",deporte->idDeporte,deporte->nombreDeporte);
+    }
+}
+
+void mostrarTodo(nodo *listaDeportes)
+{
+    if(listaDeportes)
+    {
+        nodo *iterador=listaDeportes;
+        while(iterador)
+        {
+            mostrarDeporte(iterador);
+
+        }
+    }
+}
+void buscarDeporte(nodo *deporte,char nombreDeporte[30]);
+
+nodo2 *crearNodoSocio(int idSocio,char nya[50],int ultimaCuota,float valorCuota, int edad);
+void agregarOrdenadoSocio(nodo2 *listSocio,nodo2 *nuevo);
+void mostrarSocio(nodo2 *socio)
+{
+    if(socio)
+    {
+        printf("\n   %i | %s | %i | %0.2f | %i ",socio->idSocio,socio->nya,socio->edad,socio->valorCuota,socio->ultimaCuotaPaga);
+    }
+}
+void mostrarListaSocios(nodo2 *listaSocios)
+{
+    if(listaSocios)
+    {
+        nodo2 *iterador=listaSocios;
+        while(iterador)
+        {
+            mostrarSocio(iterador);
+        }
+    }
+}
+
+int cuentaSocios(nodo2 *listaSocios)
+{
+    int contador=0;
+    nodo2 *iterador=listaSocios;
+    while(iterador)
+    {
+        contador++;
+        iterador=iterador->sig;
+    }
+    return contador;
+}
+
+nodo *buscarDeporteMasPopular(nodo *listaDeportes)
+{
+    nodo *deporteMasPopular=NULL;
+    
+    if(listaDeportes)
+    {
+        int contador=0;
+        int maximo=0;
+        nodo *iterador=listaDeportes;
+        while(iterador)
+        {
+            contador=cuentaSocios(listaDeportes->listaSocios);
+            {
+                if(contador>maximo)
+                {
+                    maximo=contador;
+                    deporteMasPopular=iterador;
+                }
+            }
+            iterador=iterador->sig;
+            contador=0;
+        }
+    }
+    return deporteMasPopular;
+}
+
+void mostrarDeporteMasPopular(nodo *listaDeportes)
+{
+    if()
+}
+
