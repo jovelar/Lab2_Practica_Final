@@ -106,7 +106,6 @@ int main()
     ejercicio3(arreglo,&filaMain,&validos);
     ejercicio4(arreglo,validos);
     ejercicio5(arreglo,validos);
-    //ejercicio6(arreglo,validos);
 
     return 0;
 }
@@ -402,8 +401,8 @@ int stockRec(stProducto *listaProd,char nombreDeporte[25],char nombreProducto[25
         if(strcmpi(listaProd->deporte,nombreDeporte)==0 && strstr(listaProd->nombreProducto,nombreProducto)!=NULL)
         {
             stock=stock+listaProd->stockProducto;
+            stockRec(listaProd->siguiente,nombreDeporte,nombreProducto);
         }
-        stock+= stockRec(listaProd->siguiente,nombreDeporte,nombreProducto);
     }
     return stock;
 }
@@ -437,7 +436,6 @@ void ejercicio5(stSucursal sucursales[],int validos)
 
 
 //FUNCION DE PRUEBA SOLO PARA PROBAR RECURSIVIDAD
-/*
 int stockRecTipo(stProducto *listaProductos,char nombreProducto[25])
 {
     int recuento=0;
@@ -445,35 +443,12 @@ int stockRecTipo(stProducto *listaProductos,char nombreProducto[25])
     {
         if(strstr(listaProductos->nombreProducto,nombreProducto)!=NULL)
         {
-            recuento+=listaProductos->stockProducto;
+            
         }
-        recuento+= stockRecTipo(listaProductos->siguiente,nombreProducto);
     }
     return recuento;
 }
-
-
 void ejercicio6(stSucursal sucursales[],int validos)
 {
-    char nombreProducto[25];
-    char nombreSucursal[25];
-    int stock=0;
-    printf("\nIngrese el nombre de la sucursal: ");
-    gets(nombreSucursal);
-    printf("\nIngrese el nombre del producto: ");
-    scanf("%s",nombreProducto);
-
-    int ubicacionSuc=buscarSucursalADL(sucursales,validos,nombreSucursal);
-    if(ubicacionSuc!=-1)
-    {
-        stock=stockRecTipo(sucursales[ubicacionSuc].listaProductos,nombreProducto);
-
-        printf("\nProducto: %s | Stock Sumatoria: %i",nombreProducto,stock);
-    }
-    else
-    {
-        printf("\nNo se encontro la sucursal.");
-    }
-
+    
 }
-*/
