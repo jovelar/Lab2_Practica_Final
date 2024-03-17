@@ -44,13 +44,26 @@ void pasarADA(stRubro rubo[],char nombreArchivo[40],int *validos);
 
 void mostrarTodo(stRubro rubros[],int validos);
 void mostrarRubro(stRubro rubros);
+void mostrarYoutubers(stYoutubers p);
 void mostrarYoutubersRec(stYoutubers *arbol);
+
+//Punto 3
+
+int sumatoriaVisitasRec(stYoutubers *arbol);
+int posRubroMasVisitado(stRubro rubros[], int validos);
+void rubroMasPopular(stRubro rubros[], int validos);
+
+//Punto 4
+
+int sumaSiLimiteRec(stYoutubers *arbol,int limite, int *yt);
+void promedioLimite(stRubro rubros[], int validos, int limite);
 
 void ejercicio1(stRubro rubro[],int *validos,char nombreArchivo[40]);
 void ejercicio2(stRubro rubros[], int validos);
-void ejercicio3();
-void ejercicio4();
+void ejercicio3(stRubro rubros[], int validos);
+void ejercicio4(stRubro rubros[],int validos, int limite);
 void ejercicio5();
+
 
 int main()
 {
@@ -61,8 +74,8 @@ int main()
     //pasarAReg(nombreArchivo,"registro_youtubers.csv");
     ejercicio1(rubros,&validos,nombreArchivo);
     ejercicio2(rubros,validos);
+    ejercicio3(rubros,validos);
 
-    printf("Hello world!\n");
     return 0;
 }
 
@@ -184,11 +197,20 @@ void mostrarTodo(stRubro rubros[],int validos)
         mostrarYoutubersRec(rubros[x].youtubers);
     }
 }
-void mostrarRubro(stRubro rubros)
+void mostrarRubro(stRubro p)
 {
-    printf("\n*************************");
-    printf("\n RUBRO %s ",rubros.rubro);
-    printf("\n*************************");
+    printf("\n ***************************** RUBRO  ******************************* \n");
+    printf("\n ................%s............. ",p.rubro);
+    printf("\n ************************************************************************ \n");
+}
+
+void mostrarYoutubers(stYoutubers p)
+{
+        printf("\n --------------------------------- YOUTUBER  -------------------------------------\n");
+        printf("Id del Youtuber..............................................................: %d ",p.id);
+        printf("\nNombre del Canal.......................................................: %s ",p.nombreCanal);
+        printf("\nCantidad de Suscriptores en miles.............................: %d ",p.cantSubscriptores);
+        printf("\nCantidad  de  vistas  del  semestre  en  miles……….:  %d  \n",p.cantVisitasSemestre);
 }
 
 void mostrarYoutubersRec(stYoutubers *arbol)
@@ -196,10 +218,7 @@ void mostrarYoutubersRec(stYoutubers *arbol)
     if(arbol)
     {
         mostrarYoutubersRec(arbol->izquierda);
-        printf("\nID: %i",arbol->id);
-        printf("\nCANAL: %s",arbol->nombreCanal);
-        printf("\nCant Susbs: %i",arbol->cantSubscriptores);
-        printf("\nCant Visitas Sem: %i",arbol->cantVisitasSemestre);
+        mostrarYoutubers(*arbol);
         mostrarYoutubersRec(arbol->derecha);
     }
 }
@@ -208,3 +227,77 @@ void ejercicio2(stRubro rubros[], int validos)
 {
     mostrarTodo(rubros,validos);
 }
+
+int sumatoriaVisitasRec(stYoutubers *arbol)
+{
+    int sumatoria=0;
+    if(arbol)
+    {
+        sumatoria+=arbol->cantVisitasSemestre;
+        sumatoria+=sumatoriaVisitasRec(arbol->izquierda);
+        sumatoria+=sumatoriaVisitasRec(arbol->derecha);
+    }
+    return sumatoria;
+}
+
+int posRubroMasVisitado(stRubro rubros[], int validos)
+{
+    int posicionMayor=0;
+    int maximo=0;
+    int contador=0;
+
+    for(int x=0;x<validos;x++)
+    {
+            contador=sumatoriaVisitasRec(rubros[x].youtubers);
+            //printf("\nRubro: %s | sumatoria: %i",rubros[x].rubro,contador);
+            if(contador>maximo)
+            {
+                posicionMayor=x;
+                maximo=contador;
+            }
+            contador=0;
+    }
+
+    return posicionMayor;
+}
+
+void rubroMasPopular(stRubro rubros[], int validos)
+{
+    int posMasPopular=posRubroMasVisitado(rubros,validos);
+    printf("\nEl rubro mas popular es %s ",rubros[posMasPopular].rubro);
+}
+
+void ejercicio3(stRubro rubros[], int validos)
+{
+    rubroMasPopular(rubros,validos);
+}
+
+//Punto 4
+
+int sumaSiLimiteRec(stYoutubers *arbol,int limite, int *yt)
+{
+    int sumatoria=0;
+    if(arbol)
+    {
+        if(arbol->cantVisitasSemestre>=limite)
+        {
+            sumatoria+=arbol->cantVisitasSemestre;
+            (*yt)++;
+        }
+        sumatoria+=sumatoriaVisitasRec(arbol->izquierda);
+        sumatoria+=sumatoriaVisitasRec(arbol->derecha);
+    }
+    return sumatoria;
+}
+
+void promedioLimite(stRubro rubros[], int validos, int limite)
+{
+    int sumatoria=0;
+    float youtubers=0;
+    for(int x=0;x<validos;x++)
+    {
+        sumatoria=sumaSiLimiteRec(rubros[x].youtubers,limite,&youtubers);
+    }
+
+}
+void ejercicio4(stRubro rubros[],int validos, int limite);
