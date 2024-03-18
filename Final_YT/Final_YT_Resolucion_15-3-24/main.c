@@ -27,6 +27,13 @@ typedef struct
     struct stYoutubers *derecha;
 }stYoutubers;
 
+typedef struct
+{
+    stYoutuber youtuber;
+    struct nodo2 *anterior;
+    struct nodo2 *siguiente;
+}nodo2;
+
 //Punto 1
 
 void pasarAReg(char nombreArchivoEntrada[40],char nombreArchivoSalida[40]);
@@ -58,10 +65,19 @@ void rubroMasPopular(stRubro rubros[], int validos);
 int sumaSiLimiteRec(stYoutubers *arbol,int limite, int *yt);
 void promedioLimite(stRubro rubros[], int validos, int limite);
 
+//Punto 5
+
+nodo2 *iniciNodo2(nodo2 *nodo);
+nodo2 *crearNuevoNodo2(int id,char nombreCanal[25],char rubro[25],int cantVisitas,int cantSuscriptores);
+nodo2 *agregarOrdenado(nodo2 *lista, nodo2 nuevo);
+void mostrarNodo2(nodo2 *nodo);
+void mostrarListaNodo2(nodo2 *lista);
+
+
 void ejercicio1(stRubro rubro[],int *validos,char nombreArchivo[40]);
 void ejercicio2(stRubro rubros[], int validos);
 void ejercicio3(stRubro rubros[], int validos);
-void ejercicio4(stRubro rubros[],int validos, int limite);
+void ejercicio4(stRubro rubros[],int validos);
 void ejercicio5();
 
 
@@ -75,6 +91,7 @@ int main()
     ejercicio1(rubros,&validos,nombreArchivo);
     ejercicio2(rubros,validos);
     ejercicio3(rubros,validos);
+    ejercicio4(rubros,validos);
 
     return 0;
 }
@@ -284,20 +301,100 @@ int sumaSiLimiteRec(stYoutubers *arbol,int limite, int *yt)
             sumatoria+=arbol->cantVisitasSemestre;
             (*yt)++;
         }
-        sumatoria+=sumatoriaVisitasRec(arbol->izquierda);
-        sumatoria+=sumatoriaVisitasRec(arbol->derecha);
+        //sumatoria+=sumatoriaVisitasRec(arbol->izquierda);
+        //sumatoria+=sumatoriaVisitasRec(arbol->derecha);
+        sumatoria+=sumaSiLimiteRec(arbol->izquierda,limite,yt);
+        sumatoria+=sumaSiLimiteRec(arbol->derecha,limite,yt);
     }
+
     return sumatoria;
 }
 
 void promedioLimite(stRubro rubros[], int validos, int limite)
 {
     int sumatoria=0;
-    float youtubers=0;
+    int youtubers=0;
     for(int x=0;x<validos;x++)
     {
-        sumatoria=sumaSiLimiteRec(rubros[x].youtubers,limite,&youtubers);
+        sumatoria+=sumaSiLimiteRec(rubros[x].youtubers,limite,&youtubers);
+        printf("\n%i",sumatoria);
+        printf("\n yt %i",youtubers);
     }
+    printf("\nEl promedio de %i youtubers con un minimo de %i visitas es de %i",youtubers,limite,sumatoria/youtubers);
 
 }
-void ejercicio4(stRubro rubros[],int validos, int limite);
+void ejercicio4(stRubro rubros[],int validos)
+{
+    printf("\nInserte el valor de visitas minimo: ");
+    int minimo;
+    scanf("%d",&minimo);
+
+    promedioLimite(rubros,validos,minimo);
+}
+
+nodo2 *iniciNodo2(nodo2 *nodo)
+{
+    return NULL;
+}
+
+nodo2 *crearNuevoNodo2(int id,char nombreCanal[25],char rubro[25],int cantVisitas,int cantSuscriptores)
+{
+    nodo2 *nuevo=(nodo2*)malloc(sizeof(nodo2));
+
+    nuevo->youtuber.id=id;
+    strcpy(nuevo->youtuber.nombreCanal,nombreCanal);
+    strcpy(nuevo->youtuber.rubro,rubro);
+    nuevo->youtuber.cantVisitasSemestre=cantVisitas;
+    nuevo->youtuber.cantSubscriptores=cantSuscriptores;
+
+    nuevo->anterior=NULL;
+    nuevo->siguiente=NULL;
+
+    return nuevo;
+}
+
+nodo2 *agregarOrdenado(nodo2 *lista, nodo2 nuevo)
+{
+    if(!lista)
+    {
+        lista=nuevo;
+    }
+    else
+    {
+        if(strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro)>0 && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
+        {
+            nuevo->siguiente=lista;
+            lista->anterior=nuevo;
+            lista=nuevo;
+        }
+        else
+        {
+            nodo2 *iterador=lista->siguiente;
+            nodo2 *ante=lista;
+
+            while(strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro)>0 && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
+            {
+                ante=iterador;\
+
+                iterador=iterador->siguiente;
+            }
+            if(!iterador)
+            {
+                ante->siguiente=nuevo;
+                nuevo->anterior=ante;
+            }
+            else
+            {
+                ante->siguiente=nuevo;
+                nuevo->anterior=ante;
+                nuevo->siguiente=iterador;
+                iterador->anterior=nuevo
+            }
+        }
+    }
+
+    return lista;
+}
+
+void mostrarNodo2(nodo2 *nodo);
+void mostrarListaNodo2(nodo2 *lista);
