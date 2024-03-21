@@ -69,7 +69,7 @@ void promedioLimite(stRubro rubros[], int validos, int limite);
 
 nodo2 *iniciNodo2(nodo2 *nodo);
 nodo2 *crearNuevoNodo2(int id,char nombreCanal[25],char rubro[25],int cantVisitas,int cantSuscriptores);
-nodo2 *agregarOrdenado(nodo2 *lista, nodo2 nuevo);
+nodo2 *agregarOrdenadoNodo2(nodo2 *lista, nodo2 *nuevo);
 void mostrarNodo2(nodo2 *nodo);
 void mostrarListaNodo2(nodo2 *lista);
 
@@ -353,7 +353,7 @@ nodo2 *crearNuevoNodo2(int id,char nombreCanal[25],char rubro[25],int cantVisita
     return nuevo;
 }
 
-nodo2 *agregarOrdenado(nodo2 *lista, nodo2 nuevo)
+nodo2 *agregarOrdenadoNodo2(nodo2 *lista, nodo2 *nuevo)
 {
     if(!lista)
     {
@@ -388,7 +388,7 @@ nodo2 *agregarOrdenado(nodo2 *lista, nodo2 nuevo)
                 ante->siguiente=nuevo;
                 nuevo->anterior=ante;
                 nuevo->siguiente=iterador;
-                iterador->anterior=nuevo
+                iterador->anterior=nuevo;
             }
         }
     }
@@ -396,5 +396,19 @@ nodo2 *agregarOrdenado(nodo2 *lista, nodo2 nuevo)
     return lista;
 }
 
-void mostrarNodo2(nodo2 *nodo);
-void mostrarListaNodo2(nodo2 *lista);
+void mostrarNodo2(nodo2 *nodo)
+{
+    printf("%i | %s | %s | %i | %i ",nodo->youtuber.id,nodo->youtuber.nombreCanal,nodo->youtuber.rubro,nodo->youtuber.cantSubscriptores,nodo->youtuber.cantSubscriptores);
+}
+void mostrarListaNodo2(nodo2 *lista)
+{
+    if(lista)
+    {
+        nodo2 *iterador=lista;
+        while(iterador)
+        {
+            mostrarNodo2(iterador);
+            iterador=iterador->siguiente;
+        }
+    }
+}
