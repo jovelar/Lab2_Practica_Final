@@ -73,6 +73,8 @@ nodo2 *agregarOrdenadoNodo2(nodo2 *lista, nodo2 *nuevo);
 void mostrarNodo2(nodo2 *nodo);
 void mostrarListaNodo2(nodo2 *lista);
 
+nodo2 *pasarAListaN2(nodo2 *lista, stRubro rubros[], int validos);
+
 
 void ejercicio1(stRubro rubro[],int *validos,char nombreArchivo[40]);
 void ejercicio2(stRubro rubros[], int validos);
@@ -400,6 +402,7 @@ void mostrarNodo2(nodo2 *nodo)
 {
     printf("%i | %s | %s | %i | %i ",nodo->youtuber.id,nodo->youtuber.nombreCanal,nodo->youtuber.rubro,nodo->youtuber.cantSubscriptores,nodo->youtuber.cantSubscriptores);
 }
+
 void mostrarListaNodo2(nodo2 *lista)
 {
     if(lista)
@@ -411,4 +414,9 @@ void mostrarListaNodo2(nodo2 *lista)
             iterador=iterador->siguiente;
         }
     }
+}
+
+nodo2 *pasarAListaN2(nodo2 *lista, stRubro rubros[], int validos)
+{
+
 }
