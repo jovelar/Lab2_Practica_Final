@@ -73,14 +73,17 @@ nodo2 *agregarOrdenadoNodo2(nodo2 *lista, nodo2 *nuevo);
 void mostrarNodo2(nodo2 *nodo);
 void mostrarListaNodo2(nodo2 *lista);
 
-nodo2 *pasarAListaN2(nodo2 *lista, stRubro rubros[], int validos);
+void pasarRec(stYoutubers *arbol,nodo2 **lista,char rubroCanal[25]);
+nodo2 *pasarAListaN2(stRubro rubros[], int validos, nodo2 *lista);
 
+//PRUEBA
+nodo2 *agregarAlFinal(nodo2 *lista, nodo2 *nuevo);
 
 void ejercicio1(stRubro rubro[],int *validos,char nombreArchivo[40]);
 void ejercicio2(stRubro rubros[], int validos);
 void ejercicio3(stRubro rubros[], int validos);
 void ejercicio4(stRubro rubros[],int validos);
-void ejercicio5();
+void ejercicio5(stRubro rubros[], int validos, nodo2 **lista);
 
 
 int main()
@@ -89,11 +92,16 @@ int main()
     stRubro rubros[200];
     int validos=0;
 
+    nodo2 *listaDoble=iniciNodo2(listaDoble);
     //pasarAReg(nombreArchivo,"registro_youtubers.csv");
     ejercicio1(rubros,&validos,nombreArchivo);
     ejercicio2(rubros,validos);
     ejercicio3(rubros,validos);
     ejercicio4(rubros,validos);
+
+    ejercicio5(rubros,validos,&listaDoble);
+    system("pause");
+    mostrarListaNodo2(listaDoble);
 
     return 0;
 }
@@ -303,8 +311,6 @@ int sumaSiLimiteRec(stYoutubers *arbol,int limite, int *yt)
             sumatoria+=arbol->cantVisitasSemestre;
             (*yt)++;
         }
-        //sumatoria+=sumatoriaVisitasRec(arbol->izquierda);
-        //sumatoria+=sumatoriaVisitasRec(arbol->derecha);
         sumatoria+=sumaSiLimiteRec(arbol->izquierda,limite,yt);
         sumatoria+=sumaSiLimiteRec(arbol->derecha,limite,yt);
     }
@@ -363,27 +369,28 @@ nodo2 *agregarOrdenadoNodo2(nodo2 *lista, nodo2 *nuevo)
     }
     else
     {
-        if(strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro)>0 && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
+        if(strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro)>0)// && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
         {
+            //                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         printf("\n ES EL PRIMERO! comparacion entre %s y %s = %i ",lista->youtuber.rubro,nuevo->youtuber.rubro,strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro));
             nuevo->siguiente=lista;
             lista->anterior=nuevo;
             lista=nuevo;
         }
         else
         {
-            nodo2 *iterador=lista->siguiente;
+            nodo2 *iterador=lista;
             nodo2 *ante=lista;
 
-            while(strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro)>0 && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
+            while(iterador)// && strcmpi(iterador->youtuber.rubro,nuevo->youtuber.rubro)<0)// && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
             {
-                ante=iterador;\
-
+                ante=iterador;
                 iterador=iterador->siguiente;
             }
             if(!iterador)
             {
                 ante->siguiente=nuevo;
                 nuevo->anterior=ante;
+                nuevo->siguiente=NULL;
             }
             else
             {
@@ -400,7 +407,11 @@ nodo2 *agregarOrdenadoNodo2(nodo2 *lista, nodo2 *nuevo)
 
 void mostrarNodo2(nodo2 *nodo)
 {
-    printf("%i | %s | %s | %i | %i ",nodo->youtuber.id,nodo->youtuber.nombreCanal,nodo->youtuber.rubro,nodo->youtuber.cantSubscriptores,nodo->youtuber.cantSubscriptores);
+    if(nodo)
+    {
+        printf("\n%2i | %20s | %20s | %6i | %6i ",nodo->youtuber.id,nodo->youtuber.nombreCanal,nodo->youtuber.rubro,nodo->youtuber.cantVisitasSemestre,nodo->youtuber.cantSubscriptores);
+
+    }
 }
 
 void mostrarListaNodo2(nodo2 *lista)
@@ -414,9 +425,59 @@ void mostrarListaNodo2(nodo2 *lista)
             iterador=iterador->siguiente;
         }
     }
+    else
+    {
+        printf("\nLista vacia!");
+    }
 }
 
-nodo2 *pasarAListaN2(nodo2 *lista, stRubro rubros[], int validos)
+nodo2 *pasarAListaN2(stRubro rubros[], int validos, nodo2 *lista)
 {
 
+    for(int x=0;x<validos;x++)
+    {
+        pasarRec(rubros[x].youtubers,&lista,rubros[x].rubro);
+    }
+    return lista;
+}
+
+void pasarRec(stYoutubers *arbol,nodo2 **lista,char rubroCanal[25])
+{
+    if(arbol)
+    {
+        nodo2 *nuevo=crearNuevoNodo2(arbol->id,arbol->nombreCanal,rubroCanal,arbol->cantVisitasSemestre,arbol->cantSubscriptores);
+        if(nuevo)
+        {
+            *lista=agregarOrdenadoNodo2(*lista,nuevo);
+            //*lista=agregarAlFinal(*lista,nuevo);
+        }
+        pasarRec(arbol->izquierda,lista,rubroCanal);
+        pasarRec(arbol->derecha,lista,rubroCanal);
+    }
+}
+
+//PRUEBA
+
+nodo2 *agregarAlFinal(nodo2 *lista, nodo2 *nuevo)
+{
+    if(!lista)
+    {
+        lista=nuevo;
+    }
+    else
+    {
+            nodo2 *iterador=lista;
+            while(iterador->siguiente)
+            {
+                iterador=iterador->siguiente;
+            }
+            iterador->siguiente=nuevo;
+            nuevo->anterior=iterador;
+    }
+    return lista;
+}
+
+void ejercicio5(stRubro rubros[], int validos, nodo2 **lista)
+{
+    *lista=pasarAListaN2(rubros,validos,*lista);
 }
