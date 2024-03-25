@@ -369,7 +369,7 @@ nodo2 *agregarOrdenadoNodo2(nodo2 *lista, nodo2 *nuevo)
     }
     else
     {
-        if(strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro)>0)// && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
+        if(strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro)>0 && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
         {
             //                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         printf("\n ES EL PRIMERO! comparacion entre %s y %s = %i ",lista->youtuber.rubro,nuevo->youtuber.rubro,strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro));
             nuevo->siguiente=lista;
@@ -381,8 +381,9 @@ nodo2 *agregarOrdenadoNodo2(nodo2 *lista, nodo2 *nuevo)
             nodo2 *iterador=lista;
             nodo2 *ante=lista;
 
-            while(iterador)// && strcmpi(iterador->youtuber.rubro,nuevo->youtuber.rubro)<0)// && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
+            while(iterador && strcmpi(iterador->youtuber.rubro,nuevo->youtuber.rubro)<0 && strcmpi(iterador->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
             {
+                printf("\nComparando con %s - %s | %s - %s",iterador->youtuber.rubro,iterador->youtuber.nombreCanal,nuevo->youtuber.rubro,nuevo->youtuber.nombreCanal);
                 ante=iterador;
                 iterador=iterador->siguiente;
             }
@@ -390,7 +391,6 @@ nodo2 *agregarOrdenadoNodo2(nodo2 *lista, nodo2 *nuevo)
             {
                 ante->siguiente=nuevo;
                 nuevo->anterior=ante;
-                nuevo->siguiente=NULL;
             }
             else
             {
