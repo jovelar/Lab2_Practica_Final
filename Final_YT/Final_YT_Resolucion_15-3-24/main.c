@@ -100,7 +100,6 @@ int main()
     ejercicio4(rubros,validos);
 
     ejercicio5(rubros,validos,&listaDoble);
-    system("pause");
     mostrarListaNodo2(listaDoble);
 
     return 0;
@@ -363,41 +362,43 @@ nodo2 *crearNuevoNodo2(int id,char nombreCanal[25],char rubro[25],int cantVisita
 
 nodo2 *agregarOrdenadoNodo2(nodo2 *lista, nodo2 *nuevo)
 {
-    if(!lista)
+    if (!lista)
     {
-        lista=nuevo;
+        lista = nuevo;
     }
     else
     {
-        if(strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro)>0 && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
+        if (strcmpi(lista->youtuber.rubro, nuevo->youtuber.rubro) > 0 || (strcmpi(lista->youtuber.rubro, nuevo->youtuber.rubro) == 0 && strcmpi(lista->youtuber.nombreCanal, nuevo->youtuber.nombreCanal) > 0))
         {
-            //                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         printf("\n ES EL PRIMERO! comparacion entre %s y %s = %i ",lista->youtuber.rubro,nuevo->youtuber.rubro,strcmpi(lista->youtuber.rubro,nuevo->youtuber.rubro));
-            nuevo->siguiente=lista;
-            lista->anterior=nuevo;
-            lista=nuevo;
+            nuevo->siguiente = lista;
+            lista->anterior = nuevo;
+            lista = nuevo;
         }
         else
         {
-            nodo2 *iterador=lista;
-            nodo2 *ante=lista;
-
-            while(iterador && strcmpi(iterador->youtuber.rubro,nuevo->youtuber.rubro)<0 && strcmpi(iterador->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>0)
+            nodo2 *iterador = lista;
+            nodo2 *ante = lista;
+            //SE EVALUAN 2 COSAS:
+            //PRIMERO SI EL RUBRO ES MENOR (ALFABETICAMENTE), SI NO EXISTE SE ACOMODA, NO ES NECESARIO EVALUAR EL NOMBRE DEL CANAL
+            //SEGUNDO SI EL RUBRO YA EXISTE SE EVALUA EL NOMBRE DEL CANAL
+            //AMBOS TERMINOS SEPARADOS POR UN OR (||)
+            while (iterador && (strcmpi(iterador->youtuber.rubro, nuevo->youtuber.rubro) < 0 || (strcmpi(iterador->youtuber.rubro, nuevo->youtuber.rubro) == 0 && strcmpi(iterador->youtuber.nombreCanal, nuevo->youtuber.nombreCanal) < 0)))
             {
-                printf("\nComparando con %s - %s | %s - %s",iterador->youtuber.rubro,iterador->youtuber.nombreCanal,nuevo->youtuber.rubro,nuevo->youtuber.nombreCanal);
-                ante=iterador;
-                iterador=iterador->siguiente;
+                //printf("\nComparando con %s - %s | %s - %s", iterador->youtuber.rubro, iterador->youtuber.nombreCanal, nuevo->youtuber.rubro, nuevo->youtuber.nombreCanal);
+                ante = iterador;
+                iterador = iterador->siguiente;
             }
-            if(!iterador)
+            if (!iterador)
             {
-                ante->siguiente=nuevo;
-                nuevo->anterior=ante;
+                ante->siguiente = nuevo;
+                nuevo->anterior = ante;
             }
             else
             {
-                ante->siguiente=nuevo;
-                nuevo->anterior=ante;
-                nuevo->siguiente=iterador;
-                iterador->anterior=nuevo;
+                ante->siguiente = nuevo;
+                nuevo->anterior = ante;
+                nuevo->siguiente = iterador;
+                iterador->anterior = nuevo;
             }
         }
     }
