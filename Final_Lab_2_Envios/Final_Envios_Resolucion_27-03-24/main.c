@@ -82,6 +82,14 @@ int tiempoPromedio(nodoDestino *destinos);
 
 void pasarAListasSeparadas(nodoOrigen *lista);
 
+//Punto 4
+
+int tope(Pila *pila);
+void apilar(Pila **pila, int dato);
+int desapilar(Pila **pila);
+int pilaVacia(Pila *pila);
+void escribir(Pila **pila);
+void inicPila(Pila **pila);
 
 void ejercicio2(nodoOrigen *lista);
 void ejercicio3(nodoOrigen *lista);
@@ -480,6 +488,61 @@ void pasarAListasSeparadas(nodoOrigen *lista)
 void ejercicio3(nodoOrigen *lista)
 {
     pasarAListasSeparadas(lista);
+}
+
+
+//Punto 4
+
+int tope(Pila *pila)
+{
+    int valor=0;
+
+    if(pila)
+    {
+        valor=pila->tiempoViaje;
+    }
+    return valor;
+}
+
+void apilar(Pila **pila, int dato)
+{
+    Pila *nuevo=(Pila*)malloc(sizeof(Pila));
+    nuevo->tiempoViaje=dato;
+    nuevo->siguiente=pila;
+    *pila=nuevo;
+}
+
+int desapilar(Pila **pila)
+{
+    int retorno=(*pila)->tiempoViaje;
+    Pila *temp=*pila;
+    *pila=(*pila)->siguiente;
+    free(temp);
+
+    return retorno;
+}
+
+int pilaVacia(Pila *pila)
+{
+    int vacio=0;
+    if(!pila)
+    {
+        vacio=1;
+    }
+    return vacio;
+}
+
+void escribir(Pila **pila)
+{
+    printf("\nIngrese un numero a cargar a la pila: ");
+    int numero;
+    scanf("%d",&numero);
+    apilar(pila,numero);
+}
+
+void inicPila(Pila **pila)
+{
+    *pila=NULL;
 }
 
 /*
