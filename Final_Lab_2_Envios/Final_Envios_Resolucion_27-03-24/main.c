@@ -81,6 +81,8 @@ float costoPromedio(nodoDestino *destinos);
 int tiempoPromedio(nodoDestino *destinos);
 
 void pasarAListasSeparadas(nodoOrigen *lista);
+nodoOrigen *borrarNOrigen(nodoOrigen *lista, nodoOrigen *nodoABorrar);
+nodoDestino *borrarNDestino(nodoDestino *lista,nodoOrigen *nodoABorrar);
 
 //Punto 4
 
@@ -91,22 +93,35 @@ int pilaVacia(Pila *pila);
 void escribir(Pila **pila);
 void inicPila(Pila **pila);
 
+void mostrarPila(Pila *pila);
+
+//punto 5
+
+nodoOrigen *purgarAereos(nodoOrigen *lista, Pila **pila);
+
 void ejercicio2(nodoOrigen *lista);
 void ejercicio3(nodoOrigen *lista);
 void ejercicio4();
-void ejercicio5();
+void ejercicio5(nodoOrigen **lista,Pila **pila);
 
-
+//TEST
+void ejercicioX();
 
 
 int main()
 {
+
     nodoOrigen *lista=NULL;
     char nombreArchivo[50]="registroEnvios.bin";
     ejercicio1(nombreArchivo,&lista);
     ejercicio2(lista);
     ejercicio3(lista);
-    //pasarACVC("registroEnvios.bin");
+    Pila *pila;
+    inicPila(&pila);
+    ejercicio5(&lista,&pila);
+    mostrarPila(pila);
+
+    //ejercicioX();
     return 0;
 }
 
@@ -508,7 +523,7 @@ void apilar(Pila **pila, int dato)
 {
     Pila *nuevo=(Pila*)malloc(sizeof(Pila));
     nuevo->tiempoViaje=dato;
-    nuevo->siguiente=pila;
+    nuevo->siguiente=*pila;
     *pila=nuevo;
 }
 
@@ -524,12 +539,7 @@ int desapilar(Pila **pila)
 
 int pilaVacia(Pila *pila)
 {
-    int vacio=0;
-    if(!pila)
-    {
-        vacio=1;
-    }
-    return vacio;
+    return (pila) ? 0:1;
 }
 
 void escribir(Pila **pila)
@@ -543,6 +553,141 @@ void escribir(Pila **pila)
 void inicPila(Pila **pila)
 {
     *pila=NULL;
+}
+
+void mostrarPila(Pila *pila)
+{
+    if(pila)
+    {
+        Pila *iterador=pila;
+        printf("\nTOPE");
+        while(iterador)
+        {
+            printf("\n %i",iterador->tiempoViaje);
+            iterador=iterador->siguiente;
+        }
+        printf("\nBASE");
+    }
+    else
+    {
+        printf("\nPILA VACIA!");
+    }
+}
+
+//punto 5
+
+nodoOrigen *purgarAereos(nodoOrigen *lista, Pila **pila)
+{
+    nodoOrigen *iterador=lista;
+    while(iterador)
+    {
+        nodoDestino *iteradorAire=iterador->destinosAereos;
+        while(iteradorAire)
+        {
+            if(iteradorAire->tiempoViaje<=3)
+            {
+                apilar(pila,iteradorAire->tiempoViaje);
+
+            }
+            iteradorAire=iteradorAire->sig;
+        }
+
+        iterador=iterador->sig;
+    }
+    return lista;
+}
+
+
+nodoOrigen *borrarNOrigen(nodoOrigen *lista, nodoOrigen *nodoABorrar)
+{
+    if(lista)
+    {
+        if (lista==nodoABorrar)
+        {
+            nodoOrigen *temp=lista->sig;
+            free(lista);
+            lista=temp;
+        }
+        else
+        {
+            nodoOrigen *iterador=lista;
+            nodoOrigen *ante=iterador;
+            while(iterador && iterador!=nodoABorrar)
+            {
+                ante=iterador;
+                iterador=iterador->sig;
+            }
+            if(iterador->sig) //si no esta vacio el ultimo
+            {
+                ante->sig=iterador->sig;
+                free(iterador);
+            }
+            else //Si es el ultimo
+            {
+                ante->sig=NULL;
+                free(iterador);
+            }
+        }
+    }
+    return lista;
+}
+
+nodoDestino *borrarNDestino(nodoDestino *lista,nodoOrigen *nodoABorrar)
+{
+    if(lista)
+    {
+        if(lista==nodoABorrar)
+        {
+            nodoDestino *temp=lista->sig;
+            free(lista);
+            lista=temp;
+        }
+        else
+        {
+            nodoDestino *iterador=lista;
+            nodoDestino *ante=iterador;
+            while(iterador && iterador!=nodoABorrar)
+            {
+                ante=iterador;
+                iterador=iterador->sig;
+            }
+            if(iterador->sig)
+            {
+                ante=iterador->sig;
+                free(iterador);
+            }
+            else
+            {
+                ante->sig=NULL;
+                free(iterador);
+            }
+        }
+    }
+    return lista;
+}
+
+
+void ejercicio5(nodoOrigen **lista,Pila **pila)
+{
+    *lista=purgarAereos(*lista,pila);
+}
+
+void ejercicioX()
+{
+    Pila *pruebaPila;
+    inicPila(&pruebaPila);
+    apilar(&pruebaPila,10);
+    apilar(&pruebaPila,20);
+    apilar(&pruebaPila,30);
+    apilar(&pruebaPila,40);
+    apilar(&pruebaPila,50);
+    apilar(&pruebaPila,60);
+    apilar(&pruebaPila,70);
+
+    int topePila=tope(pruebaPila);
+
+    mostrarPila(pruebaPila);
+    printf("\nEl tope es : %i",topePila);
 }
 
 /*
