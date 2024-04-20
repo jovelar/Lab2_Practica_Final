@@ -81,8 +81,6 @@ float costoPromedio(nodoDestino *destinos);
 int tiempoPromedio(nodoDestino *destinos);
 
 void pasarAListasSeparadas(nodoOrigen *lista);
-nodoOrigen *borrarNOrigen(nodoOrigen *lista, nodoOrigen *nodoABorrar);
-nodoDestino *borrarNDestino(nodoDestino *lista,nodoOrigen *nodoABorrar);
 
 //Punto 4
 
@@ -120,6 +118,8 @@ int main()
     inicPila(&pila);
     ejercicio5(&lista,&pila);
     mostrarPila(pila);
+    mostrarTodo(lista);
+
 
     //ejercicioX();
     return 0;
@@ -578,94 +578,63 @@ void mostrarPila(Pila *pila)
 
 nodoOrigen *purgarAereos(nodoOrigen *lista, Pila **pila)
 {
-    nodoOrigen *iterador=lista;
-    while(iterador)
-    {
-        nodoDestino *iteradorAire=iterador->destinosAereos;
-        while(iteradorAire)
-        {
-            if(iteradorAire->tiempoViaje<=3)
-            {
-                apilar(pila,iteradorAire->tiempoViaje);
-
-            }
-            iteradorAire=iteradorAire->sig;
-        }
-
-        iterador=iterador->sig;
-    }
-    return lista;
-}
-
-
-nodoOrigen *borrarNOrigen(nodoOrigen *lista, nodoOrigen *nodoABorrar)
-{
     if(lista)
     {
-        if (lista==nodoABorrar)
+        nodoOrigen *itOrigen=lista;
+        nodoOrigen *anteOrigen=NULL;
+        while(itOrigen)
         {
-            nodoOrigen *temp=lista->sig;
-            free(lista);
-            lista=temp;
-        }
-        else
-        {
-            nodoOrigen *iterador=lista;
-            nodoOrigen *ante=iterador;
-            while(iterador && iterador!=nodoABorrar)
+            nodoDestino *itDestino=itOrigen->destinosAereos;
+            nodoDestino *itAnte=NULL;
+            while(itDestino)
             {
-                ante=iterador;
-                iterador=iterador->sig;
-            }
-            if(iterador->sig) //si no esta vacio el ultimo
-            {
-                ante->sig=iterador->sig;
-                free(iterador);
-            }
-            else //Si es el ultimo
-            {
-                ante->sig=NULL;
-                free(iterador);
-            }
-        }
-    }
-    return lista;
-}
+                if(itDestino->tiempoViaje <=3)
+                {
+                    apilar(pila,itDestino->tiempoViaje);
 
-nodoDestino *borrarNDestino(nodoDestino *lista,nodoOrigen *nodoABorrar)
-{
-    if(lista)
-    {
-        if(lista==nodoABorrar)
-        {
-            nodoDestino *temp=lista->sig;
-            free(lista);
-            lista=temp;
-        }
-        else
-        {
-            nodoDestino *iterador=lista;
-            nodoDestino *ante=iterador;
-            while(iterador && iterador!=nodoABorrar)
-            {
-                ante=iterador;
-                iterador=iterador->sig;
+                    if(!itAnte) //SI ES EL PRIMERO DE LA LISTA, ANTERIOR VA A SER NULL POR QUE NUNCA AVANZO
+                    {
+                        itOrigen->destinosAereos=itDestino->sig; //DEFINE EL INICIO DE LA LISTA CON EL SIGUIENTE NODO
+                        free(itDestino);
+                        itDestino=itOrigen->destinosAereos;      //LUEGO DE LIBERAR EL NODO A BORRAR, REDEFINE EL PUNTERO CON LA LISTA ACTUAL
+                    }
+                    else
+                    {
+                        itAnte->sig=itDestino->sig;
+                        free(itDestino);
+                        itDestino=itAnte->sig;
+                    }
+                }
+                else
+                {
+                    itAnte=itDestino;
+                    itDestino=itDestino->sig;
+                }
             }
-            if(iterador->sig)
+            if(itOrigen->destinosAereos==NULL && itOrigen->destinosFerro==NULL) //SI AMBAS SUBSLISTAS ESTAN VACIAS
             {
-                ante=iterador->sig;
-                free(iterador);
+                if(!anteOrigen) //SI EL ANTERIOR ESTA VACIO, NUNCA AVANZO, PRIMER NODO DE LA LISTA PRINCIPAL
+                {
+                    anteOrigen->sig=itOrigen->sig;
+                    free(itOrigen);
+                    itOrigen=anteOrigen->sig;
+                }
+                else
+                {
+                    anteOrigen->sig=itOrigen->sig;
+                    free(itOrigen);
+                    itOrigen=anteOrigen->sig;
+                }
             }
             else
             {
-                ante->sig=NULL;
-                free(iterador);
+                anteOrigen=itOrigen;
+                itOrigen=itOrigen->sig;
             }
         }
     }
     return lista;
 }
-
 
 void ejercicio5(nodoOrigen **lista,Pila **pila)
 {
