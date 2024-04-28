@@ -21,12 +21,14 @@ typedef struct
     struct nodo2 *siguiente;
 }nodoP;
 
+void pruebaStrcpy();
 
 int main()
 {
     //prueba_nodo_en_nodo_puntero();
     //prueba_ordenamiento_por_seleccion();
-    prueba_compara_punteros();
+    //prueba_compara_punteros();
+    pruebaStrcpy();
 }
 
 void prueba_nodo_en_nodo_puntero()
@@ -98,4 +100,12 @@ void prueba_compara_punteros()
     }
 
     printf("Puntero 1: %x | Puntero 2: %x",*puntero1,*puntero2);
+}
+
+void pruebaStrcpy()
+{
+    nota pruebaNota;
+    char palabra[30]="Domingos";
+    strcpy(pruebaNota.nombre,palabra);
+    printf("\n%s",pruebaNota.nombre);
 }
