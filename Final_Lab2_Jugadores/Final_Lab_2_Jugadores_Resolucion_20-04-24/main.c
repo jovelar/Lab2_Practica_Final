@@ -42,9 +42,6 @@ typedef struct
     nodoListaJugador *lista_jugadores;
 }arregloEquipo;
 
-//void pasarACsv(char nombreArchivo[30]);
-
-
 //Punto 1
 
 stJugador nuevoJugador(int nroJugador,char nombreJugador[30],char apellidoJugador[30],int clase, char puestoJugador[30]);
@@ -54,10 +51,11 @@ nodoListaJugador *insertarRec(nodoListaJugador *lista, nodoListaJugador *nuevo);
 
 //Punto 2
 int buscarEquipo(arregloEquipo equipos[],int validos, char nombreEquipo[30]);
-//void agregarEquipo(arregloEquipo equipos[], int *validos,stEquipo nuevoEquipo);
+void agregarEquipo(arregloEquipo equipos[], int *validos,stEquipo nuevoEquipo);
 stEquipo crearEquipo(int idEquipo,char nombreEquipo[30], int puntosGanados);
 void agregarJugador(arregloEquipo equipos[],int posicion,nodoListaJugador *nuevoJugador);
 void altaJugador(arregloEquipo equipos[],int *validos);
+void ejercicio2(arregloEquipo equipos[],int *validos);
 
 //Punto 3
 void pasarAADL(arregloEquipo equipos[],int *validos,char nombreArchivo[30]);
@@ -74,15 +72,18 @@ void ejercicio4(arregloEquipo equipos[],int validos);
 int buscaNumeroJugador(arregloEquipo equipos[],int validos,char nombreEquipo[30],char nombre[30],char apellido[30]);
 void ejercicio5(arregloEquipo equipos[],int validos);
 
+
 int main()
 {
-   // pasarACsv("registroJugador.dat");
    int validos=0;
    arregloEquipo equipos[50];
    char nombreArchivo[30]="registroJugador.dat";
    ejercicio3(equipos,&validos,nombreArchivo);
    ejercicio4(equipos,validos);
+   ejercicio2(equipos,&validos);
+   ejercicio4(equipos,validos);
    ejercicio5(equipos,validos);
+
     return 0;
 }
 
@@ -154,13 +155,20 @@ int buscarEquipo(arregloEquipo equipos[],int validos, char nombreEquipo[30])
     return posicion;
 }
 
-/*
+
+void ejercicio2(arregloEquipo equipos[],int *validos)
+{
+    altaJugador(equipos,validos);
+}
+
+
 void agregarEquipo(arregloEquipo equipos[], int *validos,stEquipo nuevoEquipo)
 {
     equipos[(int)*validos].lista_jugadores=NULL;
     equipos[(int)*validos].e=nuevoEquipo;
 }
-*/
+
+
 stEquipo crearEquipo(int idEquipo,char nombreEquipo[30], int puntosGanados)
 {
     stEquipo nuevo;
@@ -189,10 +197,13 @@ void altaJugador(arregloEquipo equipos[],int *validos)
     printf("Ingrese la clase: ");
     int clase;
     scanf("%d",&clase);
+    fflush(stdin);
     printf("Ingrese el puesto del jugador Delantero - Medio - Defensor -Arquero: ");
     char puestoJugador[30];
     gets(puestoJugador);
+    fflush(stdin);
     printf("Ingrese el nombre del equipo:");
+    fflush(stdin);
     char nombreEquipo[30];
     gets(nombreEquipo);
 
@@ -204,8 +215,12 @@ void altaJugador(arregloEquipo equipos[],int *validos)
     {
         stEquipo nuevoEquipo=crearEquipo(validos,nombreEquipo,0);
         posicionEquipo=*validos;
+        agregarEquipo(equipos,validos,nuevoEquipo);
+        (*validos)++;
     }
-    agregarJugador(equipos,*validos,nuevo);
+    agregarJugador(equipos,posicionEquipo,nuevo);
+    printf("\nCargado!");
+    system("pause");
 }
 
 //Punto 3
@@ -221,15 +236,13 @@ void pasarAADL(arregloEquipo equipos[],int *validos,char nombreArchivo[30])
             stJugador nuevoJ=nuevoJugador(buffer.nroJugador,buffer.nombreJugador,buffer.apellidoJugador,buffer.clase,buffer.puestoJugador);
             nodoListaJugador *nuevoNodoJugador=nuevoNodo(nuevoJ);
             posicion=buscarEquipo(equipos,(int)*validos,buffer.nombreEquipo);
-            //printf("\nLos validos son %i, equipo a buscar: %s",*validos,buffer.nombreEquipo);
             if(posicion==-1) //Si no lo encontro el equipo lo crea
             {
                 stEquipo nuevoEquipo=crearEquipo((int)*validos,buffer.nombreEquipo,buffer.puntosGanados);
                 posicion=(int)*validos;
-                //printf("\nValidos: %i",*validos);
-                //agregarEquipo(equipos,(int)*validos,nuevoEquipo);
-                equipos[(int)*validos].e=nuevoEquipo;
-                equipos[(int)*validos].lista_jugadores=NULL;
+
+                agregarEquipo(equipos,validos,nuevoEquipo);
+
                 *validos=*validos+1;
             }
             agregarJugador(equipos,posicion,nuevoNodoJugador);
@@ -292,11 +305,10 @@ int buscaNumeroJugador(arregloEquipo equipos[],int validos,char nombreEquipo[30]
     int posicionEquipo=buscarEquipo(equipos,validos,nombreEquipo);
     if(posicionEquipo>-1)
     {
-        printf("\nEquipo encontrado!");
         nodoListaJugador *iterador=equipos[posicionEquipo].lista_jugadores;
         while(iterador && nroJugador==-1)
         {
-            if(strcmpi(iterador->j.nombreJugador,nombre==0)&&strcmpi(iterador->j.apellidoJugador,apellido)==0)
+            if(strcmpi(iterador->j.nombreJugador,nombre)==0 &&strcmpi(iterador->j.apellidoJugador,apellido)==0)
             {
                 nroJugador=iterador->j.nroJugador;
             }
@@ -317,7 +329,7 @@ void ejercicio5(arregloEquipo equipos[],int validos)
     printf("\nIngrese el nombre del equipo: ");
     char equipo[30];
     gets(equipo);
-    int nroJugador=buscaNumeroJugador(equipo,validos,equipo,nombre,apellido);
+    int nroJugador=buscaNumeroJugador(equipos,validos,equipo,nombre,apellido);
     if(nroJugador==-1)
     {
         printf("\nNo se encontro el jugador");
@@ -328,20 +340,3 @@ void ejercicio5(arregloEquipo equipos[],int validos)
     }
 }
 
-/*
-void pasarACsv(char nombreArchivo[30])
-{
-    FILE *archivo=fopen(nombreArchivo,"rb");
-    if(archivo)
-    {
-        FILE *archivoSalida=fopen("registro_jugadores.csv","w");
-        stRegistroJugador buffer;
-        while(fread(&buffer,sizeof(stRegistroJugador),1,archivo)>0)
-        {
-            fprintf(archivoSalida,"%i;%i;%s;%s;%i;%s;%s;%i\n",buffer.idRegistro,buffer.nroJugador,buffer.nombreJugador,buffer.apellidoJugador,buffer.clase,buffer.puestoJugador,buffer.nombreEquipo,buffer.puntosGanados);
-        }
-        fclose(archivoSalida);
-        fclose(archivo);
-    }
-}
-*/
