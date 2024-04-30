@@ -246,7 +246,7 @@ void ejercicio3(arregloEquipo equipos[],int *validos,char nombreArchivo[30])
 //Punto 4
 void mostrarJugador(stJugador jugador)
 {
-    printf("Apellido: %s Nombre: %s N: %i Clase: %i Puesto: %s \n", jugador.apellidoJugador, jugador.nombreJugador, jugador.nroJugador, jugador.clase, jugador.puestoJugador);
+    printf("Apellido: %s Nombre: %s N: %i Clase: %i Puesto: %s \n",jugador.apellidoJugador,jugador.nombreJugador,jugador.clase, jugador.puestoJugador);
 }
 
 void mostrarJugadores(nodoListaJugador *lista)
@@ -264,19 +264,19 @@ void mostrarJugadores(nodoListaJugador *lista)
 
 void mostrarEquipo(stEquipo equipo)
 {
-    printf("\n===================================\n");
-    printf("EQUIPO: %s PUNTOS: %i ID: %i\n",equipo.nombreEquipo,equipo.puntosGanados,equipo.idEquipo);
-    printf("===================================\n");
+    printf("\n===================================");
+    printf("EQUIPO: %s PUNTOS: %i ID: %i",equipo.nombreEquipo,equipo.puntosGanados,equipo.idEquipo);
+    printf("\n===================================");
 }
 
 void mostrarTodo(arregloEquipo equipos[],int validos)
 {
     int contador=0;
-    while(contador<validos)
+    while(contador<=validos)
     {
         mostrarEquipo(equipos[contador].e);
         mostrarJugadores(equipos[contador].lista_jugadores);
-        contador++;
+        contador+=1;
     }
 }
 
@@ -292,7 +292,6 @@ int buscaNumeroJugador(arregloEquipo equipos[],int validos,char nombreEquipo[30]
     int posicionEquipo=buscarEquipo(equipos,validos,nombreEquipo);
     if(posicionEquipo>-1)
     {
-        printf("\nEquipo encontrado!");
         nodoListaJugador *iterador=equipos[posicionEquipo].lista_jugadores;
         while(iterador && nroJugador==-1)
         {
