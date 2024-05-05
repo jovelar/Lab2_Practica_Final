@@ -24,13 +24,19 @@ typedef struct
     struct Nodo2 *siguiente;
 }Nodo2;
 
+typedef struct
+{
+    Producto p;
+    struct Pila *siguiente;
+}Pila;
+
 //Funciones solo para crear registros
 void crearRegistros(char nombreArchivo[40]);
 void pasarACSV(Producto arreglo[], int validos,char nombreArchivoSalida[50]);
 
 //Funciones de Listas dobles
 Producto nuevoProducto(int id,char nombreProducto[80],char marca[50],float precio,char tipo[50]);
-Nodo2 inicNodo2();
+Nodo2 *inicNodo2();
 Nodo2 *crearNodo(Producto p);
 Nodo2 *insertarOrdenado(Nodo2 *lista,Nodo2 *nuevo);
 Nodo2 *insertarAlPrincipioN2(Nodo2 *lista,Nodo2 *nuevo);
@@ -45,19 +51,63 @@ void pasarALN2(Producto arreglo[],int validos);
 //Funciones de Listas simples
 
 
-int menu();
-
+int menu(); //Principal
+int menuN2();//Lista doble
+int menuN();//Lista simple
+int menuA();//Arreglo
 
 int main()
 {
+    Nodo2 *lista=inicNodo2();
+    Producto productos[63];
+    int validos=0;
+
     int opcion;
 
     do
     {
-        opcion=menu;
-        switch(menu)
+        opcion=menu();
+        switch(opcion)
         {
-        case 49:
+        case 49:;
+            int menuLD=menuN2();
+
+            do
+            {
+                switch(menuLD)
+                {
+                    case 49:
+                        if(!lista)
+                        {
+                            printf("Lista vacia! \n");
+                        }
+                        break;
+                    case 50:
+                        break;
+                    case 51:
+                        break;
+                    case 52:
+                        break;
+                    case 53:
+                        break;
+                    case 54:
+                        break;
+                    case 55:
+                        break;
+                    case 56:
+                        break;
+                    case 57:
+                        break;
+                    case 88:
+                        break;
+                    case 120:
+                        break;
+
+                    default:
+                        printf("Opcion invalida!\n");
+                        break;
+                }
+            }while(menuLD!=120 && menuLD!=88);
             break;
 
         case 50:
@@ -76,12 +126,14 @@ int main()
             break;
         case 55:
             break;
+        case 56:
+            break;
 
         default:
             printf("\nOpcion invalida!\n");
             break;
         }
-    }while(opcion!=4);
+    }while(opcion!=88 && opcion!=120);
 
 
     return 0;
@@ -92,17 +144,37 @@ int menu()
 {
     int opcion;
 
-    printf("1- Pasar a Lista Doble\n"); //49
-    printf("2- Mostrar Lista Doble\n"); //50
-    printf("3- Buscar nodo en lista doble por nombre\n"); //51
-    printf("4- Pasar a pila los productos menores a X precio\n"); //52
-    printf("5- Mostrar pila"); //53
-    printf("6- Pasar a lista simple los productos de X marca:"); //54
-    printf("7- Calcular el promedio de todos los productos de X tipo\n"); //55
-    printf("8- Salir\n"); //56
-    getch(opcion);
+    printf("1- Lista Doble\n"); //49
+    printf("2- Lista simple\n"); //50
+    printf("3- Pilas\n"); //51
+    printf("4- Arboles\n"); //52
+    printf("5- Arreglos\n"); //53
+    printf("6- "); //54
+    printf("7- "); //55
+    printf("X- Salir\n"); //120 y 88
+    opcion=getch();
     return opcion;
 }
+
+int menuN2()//Lista doble
+{
+    int opcion;
+    printf("*******LISTA DOBLE*******\n");
+    printf("1- Pasar a Lista doble\n");
+    printf("2- Mostrar lista doble\n");
+    printf("3- Buscar nodo2 por nombre\n");
+    printf("4- Borrar nodo2 por nombre\n");
+    printf("5- Pasar a pila los productos menores a X precio\n");
+    printf("6- Pasar a lista simple los productos de X marca\n");
+    printf("7- Mostrar la lista resultante del punto 6 si existiera\n");
+    printf("8- Pasar a arbol los productos de determinado tipo\n");
+    printf("9- Mostrar el arbol resultante si existiera\n");
+    printf("X- SALIR\n");
+    opcion=getch();
+    return opcion;
+}
+int menuN();//Lista simple
+int menuA();//Arreglo
 
 
 //Funciones de Listas dobles
@@ -118,14 +190,17 @@ Producto nuevoProducto(int id,char nombreProducto[80],char marca[50],float preci
     return nuevo;
 }
 
-Nodo2 inicNodo2();
+
+Nodo2 *inicNodo2()
 {
     return NULL;
 }
 
 Nodo2 *crearNodo(Producto p)
 {
-    Nodo2 *nuevoNodo2=()
+    Nodo2 *nuevoNodo2;
+
+    return nuevoNodo2;
 }
 Nodo2 *insertarOrdenado(Nodo2 *lista,Nodo2 *nuevo);
 Nodo2 *insertarAlPrincipioN2(Nodo2 *lista,Nodo2 *nuevo);
@@ -137,6 +212,8 @@ void mostrarN2(Nodo2 *lista);
 void mostrarListaN2(Nodo2 *lista);
 
 
+
+//FUNCIONES PARA CREAR REGISTROS Y MISC
 void crearRegistros(char nombreArchivo[40])
 {
     FILE *archivo=fopen(nombreArchivo,"wb");
@@ -223,4 +300,5 @@ void pasarACSV(Producto arreglo[], int validos,char nombreArchivoSalida[50])
     {
         fprintf(archivo,"%i;%s;%s;%0.2f;%s\n",arreglo[x].id,arreglo[x].nombreProducto,arreglo[x].marca,arreglo[x].precio,arreglo[x].tipo);
     }
+    fclose(archivo);
 }
