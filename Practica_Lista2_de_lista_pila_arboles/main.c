@@ -40,6 +40,13 @@ typedef struct
     struct Pila *sig;
 }Pila;
 
+typedef struct
+{
+    Producto producto;
+    struct Arbol *izquierdo;
+    struct Arbol *derecho;
+}Arbol;
+
 Producto crearProducto(int id,char nombreProducto[80],char marca[50],float precio);
 
 nodoProducto *inicNodoProd();
@@ -63,7 +70,6 @@ nodo2Tipo *buscarTipo(nodo2Tipo *lista,char nombreTipo[50]);
 nodo2Tipo *borrarTipo(nodo2Tipo *lista,char nombreTipo[50]);
 nodo2Tipo *borrarListaTipo(nodo2Tipo *lista);
 void mostrarListaTipo(nodo2Tipo *lista);
-
 nodo2Tipo *pasarALDDL(nodo2Tipo *lista,char nombreArchivo[80]);
 
 Pila *apilar(Pila *pila,float precio);
@@ -73,6 +79,13 @@ float tope(Pila *pila);
 Pila *inicPila();
 Pila *pilaNueva(float precio);
 void mostrarPila(Pila *pila);
+void pasarAPila(nodo2Tipo *lista,Pila **pila,float valorLimite);
+
+Arbol *inicArbol();
+Arbol *crearNodoArbol(Producto p);
+Arbol *insertarOrdenadoArbol(Arbol *arbol,Arbol *nodoArbol);
+Arbol *mostrarArbol(Arbol *arbol);
+void pasarAArbol(nodo2Tipo *lista,Arbol *arbol,char nombreProducto[80]);
 
 int menu();
 
@@ -81,6 +94,7 @@ int main()
     char nombreArchivo[]="RegistroAlimentos.bin";
     int opcion;
     nodo2Tipo *lista=inicNodo2Tipo();
+    Pila *pila=inicPila();
     do
     {
         opcion=menu();
@@ -159,8 +173,28 @@ int main()
             }
             break;
         case 54:
+            if(lista)
+            {
+                printf("\n Ingrese el valor tope: ");
+                float valor;
+                scanf("%f",&valor);
+                pasarAPila(lista,&pila,valor);
+            }
+            else
+            {
+                printf("\n La lista esta vacia, por lo cual no se puede realizar la operacion\n");
+            }
+
             break;
         case 55:
+            if(pilaVacia(pila)==0)
+            {
+                mostrarPila(pila);
+            }
+            else
+            {
+                printf("\nLa pila esta vacia\n");
+            }
             break;
         case 56:
             break;
@@ -669,11 +703,103 @@ void mostrarPila(Pila *pila)
         Pila *iterador=pila;
         while(iterador)
         {
-            printf("\n\n %0.2f \n\n",iterador->precio);
+            printf(" %0.2f \n",iterador->precio);
             iterador=iterador->sig;
         }
     }
+    else
+    {
+        printf("\n La pila esta vacia!\n");
+    }
 }
+
+void pasarAPila(nodo2Tipo *lista,Pila **pila,float valorLimite)
+{
+    if(lista)
+    {
+        nodo2Tipo *iteradorN2=lista;
+        while(iteradorN2)
+        {
+            nodoProducto *iteradorProd=iteradorN2->listaProductos;
+            while(iteradorProd)
+            {
+                if(iteradorProd->p.precio<=valorLimite)
+                {
+                    *pila=apilar(*pila,iteradorProd->p.precio);
+                }
+                iteradorProd=iteradorProd->sig;
+            }
+            iteradorN2=iteradorN2->siguiente;
+        }
+    }
+}
+
+Arbol *inicArbol()
+{
+    return NULL;
+}
+
+Arbol *crearNodoArbol(Producto p)
+{
+    Arbol *nuevo=(Arbol*)malloc(sizeof(Arbol));
+    nuevo->producto=p;
+    nuevo->izquierdo=NULL;
+    nuevo->derecho=NULL;
+    return nuevo;
+}
+
+Arbol *insertarOrdenadoArbol(Arbol *arbol,Arbol *nodoArbol)
+{
+    if(!arbol)
+    {
+        arbol=nodoArbol;
+    }
+    else
+    {
+       if(strcmpi(arbol->producto.nombreProducto,nodoArbol->producto.nombreProducto)<0)
+       {
+           arbol->izquierdo=insertarOrdenadoArbol(arbol->izquierdo,nodoArbol);
+       }
+       else
+       {
+           arbol->derecho=insertarOrdenadoArbol(arbol->derecho,nodoArbol);
+       }
+    }
+    return arbol;
+}
+
+Arbol *mostrarArbol(Arbol *arbol)
+{
+    if(arbol)
+    {
+        mostrarArbol(arbol->izquierdo);
+        printf("ID: %i MARCA: %s PROD: %s PRECIO: %0.2f \n",arbol->producto.id,arbol->producto.marca,arbol->producto.nombreProducto,arbol->producto.precio);
+        mostrarArbol(arbol->derecho);
+    }
+}
+
+void pasarAArbol(nodo2Tipo *lista,Arbol **arbol,char nombreProducto[80])
+{
+    if(lista)
+    {
+        nodo2Tipo *iteradorTipo=lista;
+        while(iteradorTipo)
+        {
+            nodoProducto *iteradorProducto=iteradorTipo->listaProductos;
+
+            while(iteradorProducto)
+            {
+                if(strcmpi(iteradorProducto->p.marca,nombreProducto)==0)
+                {
+
+                }
+                iteradorProducto=iteradorProducto->sig;
+            }
+            iteradorTipo=iteradorTipo->siguiente;
+        }
+    }
+}
+
 int menu()
 {
     int opcion=0;
