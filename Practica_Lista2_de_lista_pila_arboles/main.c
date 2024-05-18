@@ -84,8 +84,8 @@ void pasarAPila(nodo2Tipo *lista,Pila **pila,float valorLimite);
 Arbol *inicArbol();
 Arbol *crearNodoArbol(Producto p);
 Arbol *insertarOrdenadoArbol(Arbol *arbol,Arbol *nodoArbol);
-Arbol *mostrarArbol(Arbol *arbol);
-void pasarAArbol(nodo2Tipo *lista,Arbol *arbol,char nombreProducto[80]);
+void *mostrarArbol(Arbol *arbol);
+void pasarAArbol(nodo2Tipo *lista,Arbol **arbol,char nombreProducto[80]);
 
 int menu();
 
@@ -768,7 +768,7 @@ Arbol *insertarOrdenadoArbol(Arbol *arbol,Arbol *nodoArbol)
     return arbol;
 }
 
-Arbol *mostrarArbol(Arbol *arbol)
+void *mostrarArbol(Arbol *arbol)
 {
     if(arbol)
     {
@@ -791,7 +791,8 @@ void pasarAArbol(nodo2Tipo *lista,Arbol **arbol,char nombreProducto[80])
             {
                 if(strcmpi(iteradorProducto->p.marca,nombreProducto)==0)
                 {
-
+                    Arbol *nuevo=crearNodoArbol(iteradorProducto->p);
+                    *arbol=insertarOrdenadoArbol(*arbol,nuevo);
                 }
                 iteradorProducto=iteradorProducto->sig;
             }
