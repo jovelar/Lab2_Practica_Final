@@ -62,6 +62,8 @@ nodoProducto *agregarAlFinal(nodoProducto *lista,nodoProducto *nuevo);
 void mostrarProducto(nodoProducto *producto);
 void mostrarListaProducto(nodoProducto *lista);
 
+
+
 nodo2Tipo *inicNodo2Tipo();
 nodo2Tipo *crearNodo2Tipo(char tipo[50]);
 nodo2Tipo *agregarOrdenadoN2(nodo2Tipo *lista,nodo2Tipo *nuevo);
@@ -80,12 +82,14 @@ Pila *inicPila();
 Pila *pilaNueva(float precio);
 void mostrarPila(Pila *pila);
 void pasarAPila(nodo2Tipo *lista,Pila **pila,float valorLimite);
+void pasarAPilaExtraer(nodo2Tipo **lista,Pila **pila,float valorLimite);
 
 Arbol *inicArbol();
 Arbol *crearNodoArbol(Producto p);
 Arbol *insertarOrdenadoArbol(Arbol *arbol,Arbol *nodoArbol);
 void *mostrarArbol(Arbol *arbol);
 void pasarAArbol(nodo2Tipo *lista,Arbol **arbol,char nombreProducto[80]);
+void pasarAArbolExtraer(nodo2Tipo **lista,Arbol **arbol,char nombreProducto[80]);
 
 int menu();
 
@@ -95,6 +99,7 @@ int main()
     int opcion;
     nodo2Tipo *lista=inicNodo2Tipo();
     Pila *pila=inicPila();
+    Arbol *arbol=inicArbol();
     do
     {
         opcion=menu();
@@ -178,7 +183,7 @@ int main()
                 printf("\n Ingrese el valor tope: ");
                 float valor;
                 scanf("%f",&valor);
-                pasarAPila(lista,&pila,valor);
+                pasarAPilaExtraer(&lista,&pila,valor);
             }
             else
             {
@@ -197,8 +202,27 @@ int main()
             }
             break;
         case 56:
+            if(lista)
+            {
+                printf("\nIngrese la marca: \n");
+                char marca[50];
+                gets(marca);
+                pasarAArbolExtraer(&lista,&arbol,marca);
+            }
+            else
+            {
+                printf("\nLa lista esta vacia!, no se puede mover\n");
+            }
             break;
         case 57:
+            if(arbol)
+            {
+                mostrarArbol(arbol);
+            }
+            else
+            {
+                printf("\nArbol vacio!\n");
+            }
             break;
         case 88:
             break;
@@ -734,6 +758,44 @@ void pasarAPila(nodo2Tipo *lista,Pila **pila,float valorLimite)
     }
 }
 
+void pasarAPilaExtraer(nodo2Tipo **lista,Pila **pila,float valorLimite)
+{
+    if(*lista)
+    {
+        nodo2Tipo *iteradorN2=*lista;
+        while(iteradorN2)
+        {
+            nodoProducto *iteradorProd=iteradorN2->listaProductos;
+            nodoProducto *anteProd=NULL;
+            while(iteradorProd)
+            {
+                if(iteradorProd->p.precio<=valorLimite)
+                {
+                    *pila=apilar(*pila,iteradorProd->p.precio);
+                    nodoProducto *aux=iteradorProd->sig;
+                    free(iteradorProd);
+
+                    if(!anteProd)
+                    {
+                        iteradorN2->listaProductos=aux;
+                    }
+                    else
+                    {
+                        anteProd->sig=aux;
+                    }
+                    iteradorProd=aux;
+                }
+                else
+                {
+                    anteProd=iteradorProd;
+                    iteradorProd=iteradorProd->sig;
+                }
+            }
+            iteradorN2=iteradorN2->siguiente;
+        }
+    }
+}
+
 Arbol *inicArbol()
 {
     return NULL;
@@ -756,7 +818,7 @@ Arbol *insertarOrdenadoArbol(Arbol *arbol,Arbol *nodoArbol)
     }
     else
     {
-       if(strcmpi(arbol->producto.nombreProducto,nodoArbol->producto.nombreProducto)<0)
+       if(strcmpi(arbol->producto.nombreProducto,nodoArbol->producto.nombreProducto)>0)
        {
            arbol->izquierdo=insertarOrdenadoArbol(arbol->izquierdo,nodoArbol);
        }
@@ -778,7 +840,7 @@ void *mostrarArbol(Arbol *arbol)
     }
 }
 
-void pasarAArbol(nodo2Tipo *lista,Arbol **arbol,char nombreProducto[80])
+void pasarAArbol(nodo2Tipo *lista,Arbol **arbol,char marca[50])
 {
     if(lista)
     {
@@ -789,7 +851,7 @@ void pasarAArbol(nodo2Tipo *lista,Arbol **arbol,char nombreProducto[80])
 
             while(iteradorProducto)
             {
-                if(strcmpi(iteradorProducto->p.marca,nombreProducto)==0)
+                if(strcmpi(iteradorProducto->p.marca,marca)==0)
                 {
                     Arbol *nuevo=crearNodoArbol(iteradorProducto->p);
                     *arbol=insertarOrdenadoArbol(*arbol,nuevo);
@@ -800,6 +862,47 @@ void pasarAArbol(nodo2Tipo *lista,Arbol **arbol,char nombreProducto[80])
         }
     }
 }
+
+void pasarAArbolExtraer(nodo2Tipo **lista,Arbol **arbol,char marca[50])
+{
+    if(*lista)
+    {
+        nodo2Tipo *iteradorTipo=*lista;
+        while(iteradorTipo)
+        {
+            nodoProducto *iteradorProducto=iteradorTipo->listaProductos;
+            nodoProducto *anterior=NULL;
+
+            while(iteradorProducto)
+            {
+                if(strcmpi(iteradorProducto->p.marca,marca)==0)
+                {
+                    Arbol *nuevo=crearNodoArbol(iteradorProducto->p);
+                    *arbol=insertarOrdenadoArbol(*arbol,nuevo);
+                    nodoProducto *aux=iteradorProducto->sig;
+                    free(iteradorProducto);
+
+                    if(!anterior)
+                    {
+                        iteradorTipo->listaProductos=aux;
+                    }
+                    else
+                    {
+                        anterior->sig=aux;
+                    }
+                    iteradorProducto=aux;
+                }
+                else
+                {
+                    anterior=iteradorProducto;
+                    iteradorProducto=iteradorProducto->sig;
+                }
+            }
+            iteradorTipo=iteradorTipo->siguiente;
+        }
+    }
+}
+
 
 int menu()
 {
