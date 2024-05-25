@@ -40,9 +40,15 @@ nodoOrigen *pasarALDL(char nombreArchivo[30]);
 
 void ejercicio1(nodoOrigen **lista,char nombreArchivo[30]);
 
+void mostrarLista(nodoOrigen *lista);
+
+
 //EJERCICIO 2
 float promedioRecursivo(nodoOrigen *lista,char origen[50],float sumatoria,int elementos);
 float promRecLista(nodoDestino *lista,int tiempo,int contador);
+
+float promedioIT(nodoOrigen *lista,char origen[30]);
+float promedioRec2(nodoOrigen *lista,char origen[30],float tiempos,int elementos);
 void ejercicio2(nodoOrigen *lista,char origen[30]);
 
 int main()
@@ -104,7 +110,7 @@ nodoOrigen *crearNOrigen(char nombre[30])
 
 nodoOrigen *agregarNOOrdREC(nodoOrigen *lista,nodoOrigen *nuevo)
 {
-    if(lista)
+    if(!lista)
     {
         lista=nuevo;
     }
@@ -133,7 +139,7 @@ nodoOrigen *buscarOrig(nodoOrigen *lista,char nombreOrigen[30])
         nodoOrigen *iterador=lista;
         while(iterador && !posicion)
         {
-            if(strcmpi(lista->nombre,nombreOrigen)==0)
+            if(strcmpi(iterador->nombre,nombreOrigen)==0)
             {
                 posicion=iterador;
             }
@@ -156,9 +162,9 @@ nodoOrigen *pasarALDL(char nombreArchivo[30])
             nodoOrigen *posicion=buscarOrig(resultante,buffer.origen);
             if(!posicion)
             {
-                nodoOrigen *nuevo=crearNOrigen(buffer.origen);
-                resultante=agregarNOOrdREC(resultante,nuevo);
-                posicion=nuevo;
+                nodoOrigen *nuevoOr=crearNOrigen(buffer.origen);
+                resultante=agregarNOOrdREC(resultante,nuevoOr);
+                posicion=nuevoOr;
             }
             if(strcmpi(buffer.tipo,"aereo")==0)
             {
@@ -177,8 +183,38 @@ nodoOrigen *pasarALDL(char nombreArchivo[30])
 void ejercicio1(nodoOrigen **lista,char nombreArchivo[30])
 {
     *lista=pasarALDL(nombreArchivo);
+    mostrarLista(*lista);
 }
 
+void mostrarLista(nodoOrigen *lista)
+{
+    int contador=0;
+    if(lista)
+    {
+        nodoOrigen *aux=lista;
+        while(aux)
+        {
+            printf("******* %s *******\n",aux->nombre);
+            nodoDestino *aux2=aux->destinosAereos;
+            nodoDestino *aux3=aux->destinosFerro;
+
+            printf("XXXXXXXX AEREOS XXXXXXX\n");
+            while(aux2)
+            {
+                printf(" %s %0.2f \n",aux2->nombre,aux2->costo);
+                aux2=aux2->sig;
+            }
+
+            printf("XXXXXXX FERRO XXXXXXX\n");
+            while(aux3)
+            {
+                printf(" %s %0.2f \n",aux3->nombre,aux3->costo);
+                aux3=aux3->sig;
+            }
+            aux=aux->sig;
+        }
+    }
+}
 
 float promRecLista(nodoDestino *lista,int tiempo,int contador)
 {
@@ -205,27 +241,86 @@ float promedioRecursivo(nodoOrigen *lista,char origen[50],float sumatoria,int el
 {
     if(lista)
     {
-        if(strcmpi(lista->nombre,origen)==0)
+        if(strcmp(lista->nombre,origen)==0)
         {
-            nodoDestino *temp=lista->destinosAereos;
-            while(temp)
+            nodoDestino *aux=lista->destinosAereos;
+            while(aux)
             {
-                sumatoria+=temp->costo;
+                sumatoria+=aux->tiempoViaje;
                 elementos++;
-                temp=temp->sig;
+                aux=aux->sig;
             }
-            sumatoria=sumatoria/elementos;
         }
         sumatoria=promedioRecursivo(lista->sig,origen,sumatoria,elementos);
     }
     return sumatoria;
 }
 
+float promedioIT(nodoOrigen *lista,char origen[30])
+{
+    float total=0;
+    int contador=0;
+    if(lista)
+    {
+        nodoOrigen *iterador=lista;
+        while(iterador)
+        {
+            if(strcmpi(iterador->nombre,origen)==0)
+            {
+                nodoDestino *it=iterador->destinosAereos;
+                while(it)
+                {
+                    total+=it->tiempoViaje;
+                    contador++;
+                    it=it->sig;
+                }
+                total=total/contador;
+            }
+            iterador=iterador->sig;
+        }
+    }
+    else
+    {
+        printf("lista vacia!");
+    }
+    return total;
+}
 
+float promedioRec2(nodoOrigen *lista,char origen[30],float tiempos,int elementos)
+{
+    float resultado=0;
+    if(lista)
+    {
+        if(tiempos!=0 && elementos!=0)
+        {
+            resultado=tiempos/elementos;
+        }
+    }
+    else
+    {
+        if(strcmpi(lista->nombre,origen)==0)
+        {
+            nodoDestino *aux=lista->destinosAereos;
+            while(aux)
+            {
+                tiempos+=aux->tiempoViaje;
+                elementos++;
+                aux=aux->sig;
+            }
+        }
+        else
+        {
+            resultado=promedioRec2(lista->sig,origen,tiempos,elementos);
+        }
+    }
+    return resultado;
+}
 
 void ejercicio2(nodoOrigen *lista,char origen[30])
 {
-    float promedio=promedioRecursivo(lista,origen,0,0);
-    //float promedio=promRecLista(lista->destinosAereos,0,0);
-    printf("promedio viaje: %0.2f \n",promedio);
+
+    //float promedio=promedioRecursivo(lista,origen,0,0);
+    float promedio=promedioRec2(lista,origen,0,0);
+    //float promedio=promedioIT(lista,origen);
+    printf("\n\npromedio viaje: %0.2f \n\n",promedio);
 }
