@@ -1,89 +1,89 @@
-ORIGEN;DESTINO;TIPO;TIEMPO;COSTO
-Mar del Plata;Junin;aereo;2;180.18
-Mar del Plata;Neuquen;ferrocarril;4;215.28
-Mar del Plata;Puerto Madryn;aereo;10;31.59
-Mar del Plata;Formosa;ferrocarril;9;223.47
-Mar del Plata;Rio Cuarto;ferrocarril;9;46.80
-Mar del Plata;Concordia;ferrocarril;11;223.47
-Mar del Plata;Tandil;ferrocarril;1;219.96
-Mar del Plata;Olavarria;ferrocarril;5;173.16
-Mar del Plata;Santa Rosa;aereo;6;186.03
-Mar del Plata;Pergamino;aereo;10;186.03
-Mar del Plata;Rafaela;aereo;3;131.04
-San Bernardo;Zarate;ferrocarril;12;145.08
-San Bernardo;Campana;ferrocarril;9;70.20
-San Bernardo;Villa Maria;aereo;8;205.92
-San Bernardo;Venado Tuerto;ferrocarril;7;105.30
-San Bernardo;El Palomar;ferrocarril;8;207.09
-CABA;General Pico;aereo;1;131.04
-CABA;Ushuaia;ferrocarril;10;132.21
-CABA;Mercedes;ferrocarril;8;43.29
-CABA;Azul;ferrocarril;6;155.61
-CABA;Barranqueras;aereo;3;3.51
-CABA;Ensenada;ferrocarril;6;161.46
-CABA;Caleta Olivia;ferrocarril;3;26.91
-CABA;Concepcion;ferrocarril;8;80.73
-CABA;Ciudad Perico;ferrocarril;5;231.66
-CABA;Alta Gracia;aereo;7;35.10
-CABA;San Pedro;aereo;11;4.68
-CABA;Villa Constitucion;aereo;3;204.75
-CABA;Tres Arroyos;ferrocarril;12;127.53
-CABA;Rio Tercero;ferrocarril;10;15.21
-Cordoba;Paso de los Libres;ferrocarril;12;223.47
-Cordoba;Balcarce;aereo;8;52.65
-Cordoba;Chilecito;ferrocarril;11;121.68
-Santa Fe;Chascomus;aereo;1;193.05
-Santa Fe;Pehuajo;ferrocarril;8;175.50
-Santa Fe;Lobos;aereo;1;105.30
-Santa Fe;Tigre;ferrocarril;8;4.68
-Santa Fe;Villa Regina;aereo;5;67.86
-Santa Fe;General Alvear;ferrocarril;12;188.37
-Santa Fe;Miramar;aereo;1;188.37
-Santa Fe;Caucete;ferrocarril;8;106.47
-Santa Fe;Marcos Juarez;ferrocarril;8;2.34
-Rosario;Frias;ferrocarril;4;142.74
-Rosario;Arrecifes;ferrocarril;7;28.08
-Rosario;Dolores;aereo;1;156.78
-Rosario;Rawson;ferrocarril;1;77.22
-Rosario;Funes;aereo;5;194.22
-Rosario;Monte Caseros;ferrocarril;10;15.21
-Rosario;Cinco Saltos;ferrocarril;2;139.23
-Rosario;San Justo;ferrocarril;7;91.26
-Rosario;Pilar;aereo;6;65.52
-Rosario;Las Rosas;aereo;3;7.02
-Rosario;San Salvador;ferrocarril;4;39.78
-Rosario;El Calafate;aereo;9;1.17
-Viedma;Villa Union;ferrocarril;7;140.40
-Viedma;Piedra Del Aguila;aereo;10;69.03
-Viedma;General Lavalle;ferrocarril;1;148.59
-Viedma;Larroque;ferrocarril;6;129.87
-Viedma;Arias;aereo;1;189.54
-Viedma;Villa Elisa;aereo;3;32.76
-Viedma;Capilla del Monte;aereo;6;194.22
-Viedma;Humahuaca;aereo;5;202.41
-Quilmes;Roldan;ferrocarril;4;9.36
-Quilmes;La Carlota;ferrocarril;6;127.53
-Quilmes;El Trebol;ferrocarril;5;133.38
-Quilmes;Las Lomitas;aereo;4;173.16
-Quilmes;Federacion;aereo;4;105.30
-Quilmes;La Falda;aereo;3;230.49
-Quilmes;San Cristobal;aereo;4;19.89
-Quilmes;Crespo;aereo;3;33.93
-Quilmes;Morteros;ferrocarril;1;124.02
-Quilmes;Las Heras;aereo;12;195.39
-Quilmes;Firmat;ferrocarril;7;66.69
-Quilmes;Bragado;ferrocarril;2;138.06
-Quilmes;Chilecito;ferrocarril;4;223.47
-La Plata;Munro;ferrocarril;9;90.09
-La Plata;Gualeguay;aereo;7;52.65
-La Plata;Lincoln;ferrocarril;3;201.24
-La Plata;Villa Fiorito;ferrocarril;7;23.40
-La Plata;Rio Tercero;ferrocarril;1;133.38
-La Plata;San Pedro;ferrocarril;7;201.24
-La Plata;Gerli;aereo;8;198.90
-La Plata;Goya;ferrocarril;10;62.01
-La Plata;San Martin;ferrocarril;8;203.58
-La Plata;Cipolletti;aereo;2;23.40
-La Plata;Rio Gallegos;aereo;12;102.96
-La Plata;Villa Krause;aereo;1;70.20
-La Plata;Temperley;aereo;5;43.29
+ORIGEN;DESTINO;TIPO;TIEMPO;COSTO;;;
+Mar del Plata;Junin;aereo;2;180.18;;Aereos;San Fernando
+Mar del Plata;Neuquen;ferrocarril;4;215.28;;Suma;31
+Mar del Plata;Puerto Madryn;aereo;10;31.59;;Prom;6.2
+Mar del Plata;Formosa;ferrocarril;9;223.47;;;
+Mar del Plata;Rio Cuarto;ferrocarril;9;46.8;;;
+Mar del Plata;Concordia;ferrocarril;11;223.47;;;
+Mar del Plata;Tandil;ferrocarril;1;219.96;;;
+Mar del Plata;Olavarria;ferrocarril;5;173.16;;;
+Mar del Plata;Santa Rosa;aereo;6;186.03;;;
+Mar del Plata;Pergamino;aereo;10;186.03;;;
+Mar del Plata;Rafaela;aereo;3;131.04;;;
+San Bernardo;Zarate;ferrocarril;12;145.08;;Aereos;San Fernando
+San Bernardo;Campana;ferrocarril;9;70.2;;Suma;8
+San Bernardo;Villa Maria;aereo;8;205.92;;Prom;8
+San Bernardo;Venado Tuerto;ferrocarril;7;105.3;;;
+San Bernardo;El Palomar;ferrocarril;8;207.09;;;
+CABA;General Pico;aereo;1;131.04;;Aereos;CABA
+CABA;Ushuaia;ferrocarril;10;132.21;;Suma;25
+CABA;Mercedes;ferrocarril;8;43.29;;Prom;5
+CABA;Azul;ferrocarril;6;155.61;;;
+CABA;Barranqueras;aereo;3;3.51;;;
+CABA;Ensenada;ferrocarril;6;161.46;;;
+CABA;Caleta Olivia;ferrocarril;3;26.91;;;
+CABA;Concepcion;ferrocarril;8;80.73;;;
+CABA;Ciudad Perico;ferrocarril;5;231.66;;;
+CABA;Alta Gracia;aereo;7;35.1;;;
+CABA;San Pedro;aereo;11;4.68;;;
+CABA;Villa Constitucion;aereo;3;204.75;;;
+CABA;Tres Arroyos;ferrocarril;12;127.53;;;
+CABA;Rio Tercero;ferrocarril;10;15.21;;;
+Cordoba;Paso de los Libres;ferrocarril;12;223.47;;Aereos;Cordoba
+Cordoba;Balcarce;aereo;8;52.65;;Suma;8
+Cordoba;Chilecito;ferrocarril;11;121.68;;Prom;8
+Santa Fe;Chascomus;aereo;1;193.05;;Aereos;Santa Fe
+Santa Fe;Pehuajo;ferrocarril;8;175.5;;Suma;8
+Santa Fe;Lobos;aereo;1;105.3;;Prom;2
+Santa Fe;Tigre;ferrocarril;8;4.68;;;
+Santa Fe;Villa Regina;aereo;5;67.86;;;
+Santa Fe;General Alvear;ferrocarril;12;188.37;;;
+Santa Fe;Miramar;aereo;1;188.37;;;
+Santa Fe;Caucete;ferrocarril;8;106.47;;;
+Santa Fe;Marcos Juarez;ferrocarril;8;2.34;;;
+Rosario;Frias;ferrocarril;4;142.74;;Aereos;Rosario
+Rosario;Arrecifes;ferrocarril;7;28.08;;Suma;24
+Rosario;Dolores;aereo;1;156.78;;Prom;4.8
+Rosario;Rawson;ferrocarril;1;77.22;;;
+Rosario;Funes;aereo;5;194.22;;;
+Rosario;Monte Caseros;ferrocarril;10;15.21;;;
+Rosario;Cinco Saltos;ferrocarril;2;139.23;;;
+Rosario;San Justo;ferrocarril;7;91.26;;;
+Rosario;Pilar;aereo;6;65.52;;;
+Rosario;Las Rosas;aereo;3;7.02;;;
+Rosario;San Salvador;ferrocarril;4;39.78;;;
+Rosario;El Calafate;aereo;9;1.17;;;
+Viedma;Villa Union;ferrocarril;7;140.4;;;
+Viedma;Piedra Del Aguila;aereo;10;69.03;;;
+Viedma;General Lavalle;ferrocarril;1;148.59;;;
+Viedma;Larroque;ferrocarril;6;129.87;;Aereos;Viedma
+Viedma;Arias;aereo;1;189.54;;Suma;25
+Viedma;Villa Elisa;aereo;3;32.76;;Prom;5
+Viedma;Capilla del Monte;aereo;6;194.22;;;
+Viedma;Humahuaca;aereo;5;202.41;;;
+Quilmes;Roldan;ferrocarril;4;9.36;;;
+Quilmes;La Carlota;ferrocarril;6;127.53;;;
+Quilmes;El Trebol;ferrocarril;5;133.38;;;
+Quilmes;Las Lomitas;aereo;4;173.16;;;
+Quilmes;Federacion;aereo;4;105.3;;;
+Quilmes;La Falda;aereo;3;230.49;;;
+Quilmes;San Cristobal;aereo;4;19.89;;Aereos;Quilmes
+Quilmes;Crespo;aereo;3;33.93;;Suma;30
+Quilmes;Morteros;ferrocarril;1;124.02;;Prom;5
+Quilmes;Las Heras;aereo;12;195.39;;;
+Quilmes;Firmat;ferrocarril;7;66.69;;;
+Quilmes;Bragado;ferrocarril;2;138.06;;;
+Quilmes;Chilecito;ferrocarril;4;223.47;;;
+La Plata;Munro;ferrocarril;9;90.09;;;
+La Plata;Gualeguay;aereo;7;52.65;;;
+La Plata;Lincoln;ferrocarril;3;201.24;;;
+La Plata;Villa Fiorito;ferrocarril;7;23.4;;Aereos;La Plata
+La Plata;Rio Tercero;ferrocarril;1;133.38;;Suma;35
+La Plata;San Pedro;ferrocarril;7;201.24;;Prom;5.833333333
+La Plata;Gerli;aereo;8;198.9;;;
+La Plata;Goya;ferrocarril;10;62.01;;;
+La Plata;San Martin;ferrocarril;8;203.58;;;
+La Plata;Cipolletti;aereo;2;23.4;;;
+La Plata;Rio Gallegos;aereo;12;102.96;;;
+La Plata;Villa Krause;aereo;1;70.2;;;
+La Plata;Temperley;aereo;5;43.29;;;
