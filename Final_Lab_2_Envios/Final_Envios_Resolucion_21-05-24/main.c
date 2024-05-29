@@ -61,7 +61,7 @@ int main()
     nodoOrigen *lista=NULL;
     char nombreArchivo[30]="registroEnvios.bin";
     ejercicio1(&lista,nombreArchivo);
-    ejercicio2(lista,"la plata");
+    ejercicio2(lista,"cabax");
     return 0;
 }
 
@@ -343,27 +343,24 @@ float promedioRec2(nodoOrigen *lista,nodoDestino *destinoAereo,char origen[30],f
 {
     float total=0.0;
 
-    if(lista)
+    if(!destinoAereo)
     {
-        if(strcmpi(lista->nombre,origen)==0)
+        if(tiempo>0 && contador>0)
         {
-            if(destinoAereo)
-            {
-                tiempo+=destinoAereo->tiempoViaje;
-                contador++;
-                total=promedioRec2(lista,destinoAereo->sig,origen,tiempo,contador);
-            }
-            else
-            {
-                if(tiempo>0 && contador>0)
-                {
-                    total=tiempo/contador;
-                }
-            }
+            total=tiempo/contador;
+        }
+    }
+    else
+    {
+        if(strcmpi(lista->nombre,origen)==0 && destinoAereo)
+        {
+            tiempo+=destinoAereo->tiempoViaje;
+            contador++;
+            total=promedioRec2(lista,destinoAereo->sig,origen,tiempo,contador);
         }
         else
         {
-            if(lista->sig)
+            if(lista)
             {
                 nodoOrigen *aux=lista->sig;
                 total=promedioRec2(aux,aux->destinosAereos,origen,tiempo,contador);
