@@ -9,7 +9,7 @@ typedef struct
     char tipo[30]; //aereo, ferrocarril
     float costo;
     int tiempoViaje;
-}registroEnvios;
+} registroEnvios;
 
 typedef struct
 {
@@ -17,7 +17,7 @@ typedef struct
     float costo;
     int tiempoViaje;
     struct nodoDestino *sig;
-}nodoDestino;
+} nodoDestino;
 
 typedef struct
 {
@@ -25,7 +25,7 @@ typedef struct
     nodoDestino *destinosAereos;
     nodoDestino *destinosFerro;
     struct nodoOrigen *sig;
-}nodoOrigen;
+} nodoOrigen;
 
 //EJERCICIO 1
 nodoDestino *iniciDest();
@@ -46,22 +46,72 @@ void mostrarlistDestinos(nodoDestino *lista);
 
 
 //EJERCICIO 2
-float promedioRecursivo(nodoOrigen *lista,char origen[50],float sumatoria,int elementos);
+float promedioRecursivo(nodoOrigen *lista,nodoDestino *destinoAereo,char origen[30],float tiempo,int contador);
 float promRecLista(nodoDestino *lista,float tiempo,int contador);
 
 float promedioIT(nodoOrigen *lista,char origen[30]);
 float promedioRec2(nodoOrigen *lista,nodoDestino *destinoAereo,char origen[30],float tiempo,int contador);
 void ejercicio2(nodoOrigen *lista,char origen[30]);
 
-//AUXILIAR
-void promSobreListaRec(nodoOrigen *lista,char origen[30]);
-//////////
+//EJERCICIO 3
+
+typedef struct
+{
+    int cantDestinosAereos;
+    char ciudadOrigen[30];
+    float costoPromedioAereo;
+    float tiempoPromedioAereo;
+} destinosAereos;
+
+typedef struct
+{
+    int cantDestinosFerro;
+    char ciudadOrigen[30];
+    float costoPromedioFerro;
+    float tiempoPromedioFerro;
+} destinosFerro;
+
+int cuentaDestinos(nodoDestino *lista);
+float costoPromedio(nodoDestino *lista);
+float tiempoPromedio(nodoDestino *lista);
+destinosAereos *crearNuevoAereo(int cantDestinos,char origen[30],float costoPromedio,float tiempoPromedio);
+destinosFerro *crearNuevoFerro(int cantDestinos,char origen[30],float costoPromedio,float tiempoPromedio);
+void persistirA2(nodoOrigen *lista, char archivoDAereos[50],char archivosDFerro[50]);
+void ejercicio3(nodoOrigen *lista, char archivoAviones[30],char archivosFerro[30]);
+
+//SOLO DE PRUEBA
+void mostrarDAereo(char nombreArchivo[30]);
+void mostrarDFerro(char nombreArchivo[30]);
+
+typedef struct
+{
+    int tiempoViaje;
+    struct Pila *sig;
+}Pila;
+
+Pila *inicPila();
+Pila *apilar(Pila *pila,int tiempoNuevo);
+int desapilar(Pila **pila);
+int tope(Pila *pila);
+int pilaVacia(Pila *pila);
+void mostrarPila(Pila *pila);
+
+//EJERCICIO 4
+
+void extraerAPila(nodoOrigen *origen,Pila *pila);
+void ejercicio4(nodoOrigen **origen, Pila **pila);
+
 int main()
 {
     nodoOrigen *lista=NULL;
     char nombreArchivo[30]="registroEnvios.bin";
     ejercicio1(&lista,nombreArchivo);
-    ejercicio2(lista,"cabax");
+    ejercicio2(lista,"ROSARIO");
+    ejercicio3(lista,"aviones.bin","trenes.bin");
+    printf("\n ####### AVIONES #######\n");
+    mostrarDAereo("aviones.bin");
+    printf("\n@@@@@@@ TRENES @@@@@@@");
+    mostrarDFerro("trenes.bin");
     return 0;
 }
 
@@ -235,111 +285,7 @@ void mostrarlistDestinos(nodoDestino *lista)
 }
 
 
-float promRecLista(nodoDestino *lista,float tiempo,int contador)
-{
-    float total=0.0;
-    if(!lista)
-    {
-        if(tiempo>0 && contador>0)
-        {
-            total=tiempo/contador;
-        }
-    }
-    else
-    {
-        tiempo+=lista->tiempoViaje;
-        contador++;
-        total=promRecLista(lista->sig,tiempo,contador);
-    }
-    return total;
-}
-
-float promedioRecursivo(nodoOrigen *lista,char origen[50],float sumatoria,int elementos)
-{
-    if(lista)
-    {
-        if(strcmp(lista->nombre,origen)==0)
-        {
-            nodoDestino *aux=lista->destinosAereos;
-            while(aux)
-            {
-                sumatoria+=aux->tiempoViaje;
-                elementos++;
-                aux=aux->sig;
-            }
-        }
-        sumatoria=promedioRecursivo(lista->sig,origen,sumatoria,elementos);
-    }
-    return sumatoria;
-}
-
-float promedioIT(nodoOrigen *lista,char origen[30])
-{
-    float total=0;
-    int contador=0;
-    if(lista)
-    {
-        nodoOrigen *iterador=lista;
-        while(iterador)
-        {
-            if(strcmpi(iterador->nombre,origen)==0)
-            {
-                nodoDestino *it=iterador->destinosAereos;
-                while(it)
-                {
-                    total+=it->tiempoViaje;
-                    contador++;
-                    it=it->sig;
-                }
-                total=total/contador;
-            }
-            iterador=iterador->sig;
-        }
-    }
-    else
-    {
-        printf("lista vacia!");
-    }
-    return total;
-}
-
-/*
-float promedioRec2(nodoOrigen *lista,nodoDestino *destinoAereo,char origen[30],float tiempo,int contador)
-{
-    float total=0.0;
-
-    if(lista)
-    {
-        if(strcmpi(lista->nombre,origen)==0)
-        {
-            if(destinoAereo)
-            {
-                tiempo+=destinoAereo->tiempoViaje;
-                contador++;
-                total=promedioRec2(lista,destinoAereo->sig,origen,tiempo,contador);
-            }
-            else
-            {
-                if(tiempo>0 && contador>0)
-                {
-                    total=tiempo/contador;
-                }
-            }
-        }
-        else
-        {
-            if(lista->sig)
-            {
-                nodoOrigen *aux=lista->sig;
-                total=promedioRec2(aux,aux->destinosAereos,origen,tiempo,contador);
-            }
-        }
-    }
-    return total;
-}
-*/
-
-float promedioRec2(nodoOrigen *lista,nodoDestino *destinoAereo,char origen[30],float tiempo,int contador)
+float promedioRecursivo(nodoOrigen *lista,nodoDestino *destinoAereo,char origen[30],float tiempo,int contador)
 {
     float total=0.0;
 
@@ -356,14 +302,14 @@ float promedioRec2(nodoOrigen *lista,nodoDestino *destinoAereo,char origen[30],f
         {
             tiempo+=destinoAereo->tiempoViaje;
             contador++;
-            total=promedioRec2(lista,destinoAereo->sig,origen,tiempo,contador);
+            total=promedioRecursivo(lista,destinoAereo->sig,origen,tiempo,contador);
         }
         else
         {
-            if(lista)
+            if(lista->sig)
             {
                 nodoOrigen *aux=lista->sig;
-                total=promedioRec2(aux,aux->destinosAereos,origen,tiempo,contador);
+                total=promedioRecursivo(aux,aux->destinosAereos,origen,tiempo,contador);
             }
         }
     }
@@ -373,20 +319,217 @@ float promedioRec2(nodoOrigen *lista,nodoDestino *destinoAereo,char origen[30],f
 void ejercicio2(nodoOrigen *lista,char origen[30])
 {
     printf("\n CIUDAD: %s \n",origen);
-    float promedio=promedioRec2(lista,lista->destinosAereos,origen,0,0);
+    float promedio=promedioRecursivo(lista,lista->destinosAereos,origen,0,0);
     printf("\n Promedio %0.2f \n",promedio);
-    promSobreListaRec(lista,origen);
 }
 
-//AUXILIAR
-void promSobreListaRec(nodoOrigen *lista,char origen[30])
+int cuentaDestinos(nodoDestino *lista)
 {
-    nodoOrigen *locOrigen=buscarOrig(lista,origen);
-    if(locOrigen)
+    int cantidad=0;
+    if(lista)
     {
-        //mostrarlistDestinos(locOrigen->destinosAereos);
-        float promedio=promRecLista(locOrigen->destinosAereos,0,0);
-        printf("\n promedio sobre lista directamente %0.2f \n",promedio);
+        nodoDestino *iterador=lista;
+        while(iterador)
+        {
+            cantidad++;
+            iterador=iterador->sig;
+        }
+    }
+
+    return cantidad;
+}
+
+float costoPromedio(nodoDestino *lista)
+{
+    float promedio=0;
+    int cantidad=0;
+    if(lista)
+    {
+        nodoDestino *iterador=lista;
+        while(iterador)
+        {
+            promedio+=iterador->costo;
+            cantidad++;
+            iterador=iterador->sig;
+        }
+        promedio=promedio/cantidad;
+    }
+    return promedio;
+}
+
+float tiempoPromedio(nodoDestino *lista)
+{
+    float promedio=0;
+    int cantidad=0;
+    if(lista)
+    {
+        nodoDestino *iterador=lista;
+        while(iterador)
+        {
+            promedio+=iterador->tiempoViaje;
+            cantidad++;
+            iterador=iterador->sig;
+        }
+        promedio=promedio/cantidad;
+    }
+    return promedio;
+}
+
+destinosAereos *crearNuevoAereo(int cantDestinos,char origen[30],float costoPromedio,float tiempoPromedio)
+{
+    destinosAereos *nuevo=(destinosAereos*)malloc(sizeof(destinosAereos));
+    nuevo->cantDestinosAereos=cantDestinos;
+    strcpy(nuevo->ciudadOrigen,origen);
+    nuevo->costoPromedioAereo=costoPromedio;
+    nuevo->tiempoPromedioAereo=tiempoPromedio;
+
+    return nuevo;
+}
+
+destinosFerro *crearNuevoFerro(int cantDestinos,char origen[30],float costoPromedio,float tiempoPromedio)
+{
+    destinosFerro *nuevo=(destinosFerro*)malloc(sizeof(destinosFerro));
+    nuevo->cantDestinosFerro=cantDestinos;
+    strcpy(nuevo->ciudadOrigen,origen);
+    nuevo->costoPromedioFerro=costoPromedio;
+    nuevo->tiempoPromedioFerro=tiempoPromedio;
+
+    return nuevo;
+}
+
+void persistirA2(nodoOrigen *lista, char archivoDAereos[50],char archivosDFerro[50])
+{
+    if(lista)
+    {
+        nodoOrigen *iterador=lista;
+
+        FILE *archivoAereo=fopen(archivoDAereos,"wb");
+        if(archivoAereo)
+        {
+            FILE *archivoFerro=fopen(archivosDFerro,"wb");
+            if(archivoFerro)
+            {
+                while(iterador)
+                {
+                    destinosAereos *auxAereo;
+                    int cantDestino=cuentaDestinos(iterador->destinosAereos);
+                    float costoProm=costoPromedio(iterador->destinosAereos);
+                    float tiempoProm=tiempoPromedio(iterador->destinosAereos);
+
+                    auxAereo=crearNuevoFerro(cantDestino,iterador->nombre,costoProm,tiempoProm);
+                    fwrite(auxAereo,sizeof(destinosAereos),1,archivoAereo);
+
+                    destinosFerro *auxFerro;
+                    cantDestino=cuentaDestinos(iterador->destinosFerro);
+                    costoProm=costoPromedio(iterador->destinosFerro);
+                    tiempoProm=tiempoPromedio(iterador->destinosFerro);
+                    auxFerro=crearNuevoFerro(cantDestino,iterador->nombre,costoProm,tiempoProm);
+
+                    fwrite(auxFerro,sizeof(destinosFerro),1,archivoFerro);
+
+                    iterador=iterador->sig;
+
+                }
+                fclose(archivoFerro);
+            }
+            fclose(archivoAereo);
+        }
     }
 }
-//////////
+
+void ejercicio3(nodoOrigen *lista, char archivoAviones[30],char archivosFerro[30])
+{
+    persistirA2(lista,archivoAviones,archivosFerro);
+}
+
+void mostrarDAereo(char nombreArchivo[30])
+{
+    FILE *archivo=fopen(nombreArchivo,"rb");
+    if(archivo)
+    {
+        destinosAereos buffer;
+        while(fread(&buffer,sizeof(destinosAereos),1,archivo)>0)
+        {
+            printf("\n ORIGEN: %s CANT: %i COSTO.PROM: %0.2f TIEMPO.PROM: %0.2f \n",buffer.ciudadOrigen,buffer.cantDestinosAereos,buffer.costoPromedioAereo,buffer.tiempoPromedioAereo);
+        }
+        fclose(archivo);
+    }
+}
+void mostrarDFerro(char nombreArchivo[30])
+{
+    FILE *archivo=fopen(nombreArchivo,"rb");
+    if(archivo)
+    {
+        destinosFerro buffer;
+        while(fread(&buffer,sizeof(destinosFerro),1,archivo)>0)
+        {
+            printf("\n ORIGEN: %s CANT: %i COSTO.PROM: %0.2f TIEMPO.PROM: %0.2f \n",buffer.ciudadOrigen,buffer.cantDestinosFerro,buffer.costoPromedioFerro,buffer.tiempoPromedioFerro);
+        }
+        fclose(archivo);
+    }
+}
+
+Pila *inicPila()
+{
+    return NULL;
+}
+
+Pila *apilar(Pila *pila,int tiempoNuevo)
+{
+    Pila *nuevo=(Pila*)malloc(sizeof(Pila));
+    pila->tiempoViaje=tiempoNuevo;
+    pila->sig=NULL;
+
+    if(!pila)
+    {
+        pila=nuevo;
+    }
+    else
+    {
+        nuevo->sig=pila;
+        pila=nuevo;
+    }
+    return pila;
+}
+
+int desapilar(Pila **pila)
+{
+    int valorRetorno=0;
+
+    if(*pila)
+    {
+        Pila *aux=(*pila)->sig;
+        valorRetorno=(*pila)->tiempoViaje;
+        free(*pila);
+        *pila=aux;
+    }
+    else
+    {
+        printf("\nLa pila esta vacia!");
+    }
+}
+
+int tope(Pila *pila)
+{
+    return pila->tiempoViaje;
+}
+
+int pilaVacia(Pila *pila)
+{
+    return (pila==NULL) ? 1 : 0;
+}
+
+void mostrarPila(Pila *pila)
+{
+    if(pila)
+    {
+        Pila *iterador=pila;
+        printf("\nTOPE\n");
+        while(iterador)
+        {
+            printf("\n %i ",iterador->tiempoViaje);
+            iterador=iterador->sig;
+        }
+        printf("\n BASE");
+    }
+}
