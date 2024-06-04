@@ -98,7 +98,7 @@ void mostrarPila(Pila *pila);
 
 //EJERCICIO 4
 
-void extraerAPila(nodoOrigen *origen,Pila *pila);
+void extraerAPila(nodoOrigen **origen,Pila *pila, int tiempoLimite);
 void ejercicio4(nodoOrigen **origen, Pila **pila);
 
 int main()
@@ -533,3 +533,27 @@ void mostrarPila(Pila *pila)
         printf("\n BASE");
     }
 }
+
+//EJERCICIO 4
+
+void extraerAPila(nodoOrigen **origen,Pila *pila, int tiempoLimite)
+{
+    if(lista)
+    {
+        nodoOrigen *iterador=lista;
+        nodoOrigen *ante=NULL;
+        while(iterador)
+        {
+            nodoDestino *iterAereo=iterador->destinosAereos;
+            nodoDestino *anteAereo=NULL;
+            while(iterAereo)
+            {
+                if(iterAereo->tiempoViaje<= tiempoLimite)
+                {
+
+                }
+            }
+        }
+    }
+}
+void ejercicio4(nodoOrigen **origen, Pila **pila);
