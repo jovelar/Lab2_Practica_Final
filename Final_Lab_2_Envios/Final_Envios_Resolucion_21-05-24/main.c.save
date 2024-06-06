@@ -115,7 +115,7 @@ int main()
     mostrarDFerro("trenes.bin");
     */
     Pila *pila=inicPila();
-    ejercicio4(&lista,&pila,400);
+    ejercicio4(&lista,&pila,4);
     mostrarLista(lista);
     return 0;
 }
@@ -560,8 +560,8 @@ void extraerAPila(nodoOrigen **lista,Pila **pila, int tiempoLimite)
                     {
                         nodoDestino *aux=iterAereo->sig;
                         free(iterAereo);
-                        iterador->destinosAereos=aux;
-                        iterAereo=aux;
+                        (*lista)->destinosAereos=aux;
+                        iterAereo=(*lista)->destinosAereos;
                     }
                     else
                     {
@@ -583,7 +583,7 @@ void extraerAPila(nodoOrigen **lista,Pila **pila, int tiempoLimite)
                 {
                     nodoOrigen *aux=iterador->sig;
                     free(iterador);
-                    //*lista=aux;
+                    *lista=aux;
                     iterador=aux;
                 }
                 else

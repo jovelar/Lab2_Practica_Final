@@ -118,7 +118,7 @@ int main()
     inicPila(&pila);
     ejercicio5(&lista,&pila);
     mostrarPila(pila);
-    mostrarTodo(lista);
+   mostrarTodo(lista);
 
 
     //ejercicioX();
