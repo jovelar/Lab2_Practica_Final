@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>   //Office Code Pro Normal 10
 #include <string.h>
 
 typedef struct
@@ -96,10 +96,10 @@ int tope(Pila *pila);
 int pilaVacia(Pila *pila);
 void mostrarPila(Pila *pila);
 
-//EJERCICIO 4
+//EJERCICIO 5
 
 void extraerAPila(nodoOrigen **lista,Pila **pila, int tiempoLimite);
-void ejercicio4(nodoOrigen **lista, Pila **pila,int tiempoLimite);
+void ejercicio5(nodoOrigen **lista, Pila **pila,int tiempoLimite);
 
 int main()
 {
@@ -115,7 +115,7 @@ int main()
     mostrarDFerro("trenes.bin");
     */
     Pila *pila=inicPila();
-    ejercicio4(&lista,&pila,400);
+    ejercicio5(&lista,&pila,500);
     mostrarLista(lista);
     return 0;
 }
@@ -599,7 +599,7 @@ void extraerAPila(nodoOrigen **lista,Pila **pila, int tiempoLimite)
         }
     }
 }
-void ejercicio4(nodoOrigen **lista, Pila **pila,int tiempoLimite)
+void ejercicio5(nodoOrigen **lista, Pila **pila,int tiempoLimite)
 {
     extraerAPila(lista,pila,tiempoLimite);
     mostrarPila(*pila);
