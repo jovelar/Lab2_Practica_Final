@@ -30,16 +30,28 @@ stRegistro nuevoRegistro(int idSucursal,char nombreSucursal[25],char nombreProdu
 nodo2 *nuevoNodo2(int idSucursal,char nombreSucursal[25],char nombreProducto[25],char deporte[25],int stockProducto);
 nodo2 *agregarFinalNodo2(nodo2 *lista,nodo2 *nuevo);
 
-Fila *pasarAFila(Fila *fila,char nombreArchivo[50]);
+void pasarAFila(Fila *fila,char nombreArchivo[50]);
 
 void inicFila(Fila *fila);
 void encolar(Fila *fila,nodo2 *nuevo);
 
-void mostrarFilaRec(nodo2 *lista);
+void mostrarFilaRec(Fila *fila);
 
 int main()
 {
-    printf("Hello world!\n");
+    Fila fila;
+    inicFila(&fila);
+    char nombreArchivo[]="archivoRegistrosIndumentaria.bin";
+    pasarAFila(&fila,nombreArchivo);
+
+    if(!fila.primero)
+    {
+        printf("La fila esta vacia!\n");
+    }
+    else
+    {
+        mostrarFilaRec(&fila);
+    }
     return 0;
 }
 
@@ -91,9 +103,19 @@ nodo2 *agregarFinalNodo2(nodo2 *lista,nodo2 *nuevo)
     return lista;
 }
 
-void *pasarAFila(Fila *fila,char nombreArchivo[50])
+void pasarAFila(Fila *fila,char nombreArchivo[50])
 {
-
+    FILE *archivo=fopen(nombreArchivo,"rb");
+    if(archivo)
+    {
+        stRegistro buffer;
+        while(fread(&buffer,sizeof(stRegistro),1,archivo)>0)
+        {
+            nodo2 *nuevo=nuevoNodo2(buffer.idSucursal,buffer.nombreSucursal,buffer.nombreProducto,buffer.deporte,buffer.stockProducto);
+            encolar(fila,nuevo);
+        }
+        fclose(archivo);
+    }
 }
 
 void inicFila(Fila *fila)
@@ -104,18 +126,23 @@ void inicFila(Fila *fila)
 
 void encolar(Fila *fila,nodo2 *nuevo)
 {
-    fila->primero=agregarFinalNodo2(fila->primero,nuevo);
-    if(!fila->ultimo)
+    if(!fila->primero)
     {
-        fila->ultimo=fila->primero;
+        fila->primero=nuevo;
+        fila->ultimo=nuevo;
+    }
+    else
+    {
+        fila->primero=agregarFinalNodo2(fila->primero,nuevo);
+        fila->ultimo=nuevo;
     }
 }
 
-void mostrarFilaRec(nodo2 *lista)
+void mostrarFilaRec(Fila *fila)
 {
-    if(lista)
+    if(fila->primero)
     {
-        stRegistro dato=lista->dato;
+        stRegistro dato=fila->primero->dato;
         puts ("\n**********************************************************************************\n");
         printf ("\nId de la Sucursal……………………: %d \n", dato.idSucursal);
         printf("\nNombre de la Sucursal: ………….….:%s \n", dato.nombreSucursal);
@@ -123,6 +150,11 @@ void mostrarFilaRec(nodo2 *lista)
         printf("\nDeporte al que pertenece.................: %s \n ", dato.deporte);
         printf("\nStock del producto............................: %d \n", dato.stockProducto);
         puts ("\n**********************************************************************************\n");
-        mostrarFilaRec(lista->siguiente);
+
+        Fila filaAux; //Fila auxiliar para recorrer sin alterar la original
+        nodo2 *aux=fila->primero; //nodo doble auxiliar para recorrer sin alterar la original
+        aux=aux->siguiente; //se avanza a la siguiente posicion del nodo primero de la fila
+        filaAux.primero=aux;
+        mostrarFilaRec(&filaAux);
     }
 }
