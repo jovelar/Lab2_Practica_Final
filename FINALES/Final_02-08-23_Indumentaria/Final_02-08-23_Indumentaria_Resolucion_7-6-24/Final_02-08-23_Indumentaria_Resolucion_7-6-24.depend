@@ -1,5 +1,6 @@
 # depslib dependency file v1.0
-1717930020 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\finales\final_02-08-23_indumentaria\final_02-08-23_indumentaria_resolucion_7-6-24\main.c
+1718080690 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\finales\final_02-08-23_indumentaria\final_02-08-23_indumentaria_resolucion_7-6-24\main.c
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
 

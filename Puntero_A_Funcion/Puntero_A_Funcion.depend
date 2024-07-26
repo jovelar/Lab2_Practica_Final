@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1719134295 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\puntero_a_funcion\main.c
+	<stdio.h>
+	<stdlib.h>
+

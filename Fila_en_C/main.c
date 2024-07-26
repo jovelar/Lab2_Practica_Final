@@ -58,7 +58,12 @@ Nodo2 *agregarAlFinal(Nodo2 *lista, Nodo2 *nuevo)
     }
     else
     {
-        lista->siguiente=nuevo;
+        Nodo2 *iterador=lista;
+        while(iterador->siguiente)
+        {
+            iterador=iterador->siguiente;
+        }
+        iterador->siguiente=nuevo;
         nuevo->anterior=lista;
     }
     return lista;
@@ -73,10 +78,8 @@ void insertarEnFila(Fila *fila, Nodo2 *nuevo)
     }
     else
     {
-        fila->fin->siguiente=nuevo;
-        nuevo->anterior=fila->fin->anterior;
+        fila->inicio=agregarAlFinal(fila->inicio,nuevo);
         fila->fin=nuevo;
-        fila->fin->siguiente=NULL;
     }
 }
 
@@ -89,7 +92,6 @@ Nodo2 *buscarNodoPorPalabra(Fila *fila,char palabra[])
         Nodo2 *aux=fila->inicio;
         while(aux!=NULL && resultado==NULL)
         {
-            printf("\nLeyendo Nodo %i\n",nodo1);
             if(strcmp(palabra,aux->dato.palabra)==0)
             {
                 resultado=aux;
@@ -136,26 +138,24 @@ void mostrarNodo(Nodo2 *nodo)
     }
 }
 
-//Extrae siempre desde el princincipio de la fila, dado que es FIFO, es decir, inicio-
+
 Nodo2 *extraer(Fila *fila)
 {
     Nodo2 *extraido=NULL;
 
     if(fila->inicio!=NULL)
     {
-        extraido=fila->inicio;      //LOS PUNTEROS A NULL, PARA EVITAR QUE SE ROMPA SI SE DECIDE
-        if(fila->inicio==fila->fin) //SI SE ELIMINA EL ULTIMO ELEMENTO DE LA FILA (CUANDO
-        {                           //EL NODO INICIO ES IGUAL AL DE FIN), HAY QUE REDEFINIR
-            fila->inicio=NULL;      //VOLVER A INSERTAR ELEMENTOS
-            fila->fin=NULL;
-        }
-        else
+        extraido=fila->inicio;    //Al ser FIFO extra desde el inicio de la fila
+        extraido->siguiente==NULL; //Desvincula el nodo extraido de la lista (opcional)
+        fila->inicio=fila->inicio->siguiente;
         {
-            fila->inicio=fila->inicio->siguiente;
+            if(!fila->inicio)    //Si el inicio esta vacio, el ultimo puntero tambien
+            {
+                fila->fin=NULL;
+            }
         }
-        free(extraido);
+        //la memoria del nodo extraido se debe liberar por fuera de la funcion
     }
-
     return extraido;
 }
 

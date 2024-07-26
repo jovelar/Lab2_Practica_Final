@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1721974820 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\arquitectura_so_ejercicios_codigo\hilos_1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<pthread.h>
+
