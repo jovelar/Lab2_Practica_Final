@@ -11,19 +11,23 @@ typedef struct
 }stParametros;
 
 //LOS PARAMETROS SE TRANSFIEREN MEDIANTE UN PUNTERO VOID
-void funcionHilo(void* punteroParam)
+void *funcionHilo(void* punteroParam)
 {
     stParametros *parametros;
     parametros=(stParametros*)punteroParam; //SE CASTEA EL PUNTERO VOID A stPARAMETROS
 
     printf("ID del hilo %i\n",pthread_self()); //pthead_self() muestra el ID del hilo
+
+    int *resultado=(int*)malloc(sizeof(int));   //resultado se almacena en heap, para que no se pierda al
+                                                 //terminar la funcion.
     for(int z=0;z<parametros->limite;z++)
     {
         printf("HILO: %c VALOR: %i \n",parametros->letra,z);
+        *resultado=z;
     }
     printf("Hilo %c finalizado!, saliendo \n",parametros->letra);
 
-    pthread_exit(NULL); //Si se necesitan devolver valores, se debe devolver como puntero generico (VOID *)
+    pthread_exit((void*)resultado); //Si se necesitan devolver valores, se debe devolver como puntero generico (VOID *)
 }
 
 int main()
@@ -48,12 +52,21 @@ int main()
     estadoHilo2=pthread_create(&hilo2,NULL,&funcionHilo,(void*)&paramHilo2);
     estadoHilo3=pthread_create(&hilo3,NULL,&funcionHilo,(void*)&paramHilo3);
 
+    void *resultadoHilo1,*resultadoHilo2,*resultadoHilo3;
 
     if((estadoHilo1 && estadoHilo2 && estadoHilo3) == 0) //SOLO EJECUTA SI SE CREAN LOS 3 HILOS CON EXITO
     {
-        pthread_join(hilo1,NULL);  //hilo1= manejador del hilo, NULL= variable donde se almacene el valor de retorno de la funcion
-        pthread_join(hilo2,NULL);  //que se va a ejecutar en el hilo, cuando no se requiere se indica NULL
-        pthread_join(hilo3,NULL);
+        pthread_join(hilo1,&resultadoHilo1);  //hilo1= manejador del hilo
+        pthread_join(hilo2,&resultadoHilo2);  //&resultadoHilo2, puntero donde se recibe el resultado de la funcion
+        pthread_join(hilo3,&resultadoHilo3);  //dettro del hilo, es un puntero void doble void**
+
+        printf("Resultado Hilo 1: %i \n",*(int*)resultadoHilo1); //Se castea el puntero void a (int*)y se desreferencia
+        printf("Resultado Hilo 2: %i \n",*(int*)resultadoHilo2); //con * para acceder al que apunta el puntero
+        printf("Resultado Hilo 3: %i \n",*(int*)resultadoHilo3);
+
+        free(resultadoHilo1);
+        free(resultadoHilo2);
+        free(resultadoHilo3);
     }
 
     return 0;
