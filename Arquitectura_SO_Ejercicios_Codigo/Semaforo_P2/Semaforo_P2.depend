@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1723110648 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\arquitectura_so_ejercicios_codigo\semaforo_p2\main.c
+1723110777 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\arquitectura_so_ejercicios_codigo\semaforo_p2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<pthread.h>
