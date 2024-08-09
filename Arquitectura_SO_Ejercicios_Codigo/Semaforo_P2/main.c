@@ -4,7 +4,7 @@
 #include <semaphore.h>
 #include <unistd.h> // Para la función sleep
 
-sem_t semaforo1,semaforo2,semaforo3;
+sem_t semaforo1,semaforo2,semaforo3; //Semaforos globales
 
 void funcion1()
 {
@@ -40,9 +40,9 @@ int main()
 {
     pthread_t hilo1,hilo2,hilo3;            //Crea los identificadores de los hilos
 
-    sem_init(&semaforo1,0,1);               //Inicializa los 3 semaforos
-    sem_init(&semaforo2,0,0);
-    sem_init(&semaforo3,0,0);
+    sem_init(&semaforo1,0,1);               //Inicializa los 3 semaforos S1=1 Habilitado, Comienza en S1
+    sem_init(&semaforo2,0,0);               //                           S2=0 Bloqueado
+    sem_init(&semaforo3,0,0);               //                           S3=0 Bloqueadi
 
     pthread_create(&hilo1,NULL,&funcion1,0); //Crea los hilos
     pthread_create(&hilo2,NULL,&funcion2,0);
