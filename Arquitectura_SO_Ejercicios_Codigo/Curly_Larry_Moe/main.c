@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <semaphore.h>
-#define MAXIT 6
+#define MAXIT 6 //PARA EVITAR QUE ITERE DE FORMA INFINITA Y SE PUEDAN APRECIAR RESULTADOS ORDENADOS DESDE EL PRINCIPIO
 
 sem_t semCurly, semLarry, semMoe;
 
