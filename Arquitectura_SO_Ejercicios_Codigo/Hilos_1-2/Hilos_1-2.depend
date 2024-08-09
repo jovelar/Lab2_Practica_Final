@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1722066349 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\arquitectura_so_ejercicios_codigo\hilos_1-2\main.c
+1722309140 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\arquitectura_so_ejercicios_codigo\hilos_1-2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<pthread.h>

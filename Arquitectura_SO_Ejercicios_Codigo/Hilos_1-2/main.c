@@ -11,7 +11,7 @@ typedef struct
 }stParametros;
 
 //LOS PARAMETROS SE TRANSFIEREN MEDIANTE UN PUNTERO VOID
-void *funcionHilo(void* punteroParam)
+void funcionHilo(void* punteroParam)
 {
     stParametros *parametros;
     parametros=(stParametros*)punteroParam; //SE CASTEA EL PUNTERO VOID A stPARAMETROS
@@ -48,9 +48,9 @@ int main()
     //dejandolo como NULL es la opcion por defecto
     //&funcionHilo(), puntero a la funcion que se va a ejecutar dentro del hilo
     //(void*)&paramHilo direccion de memoria (puntero tambien) del struct de parametros casteado a VOID
-    estadoHilo1=pthread_create(&hilo1,NULL,&funcionHilo,(void*)&paramHilo1);
-    estadoHilo2=pthread_create(&hilo2,NULL,&funcionHilo,(void*)&paramHilo2);
-    estadoHilo3=pthread_create(&hilo3,NULL,&funcionHilo,(void*)&paramHilo3);
+    estadoHilo1=pthread_create(&hilo1,NULL,(void*)&funcionHilo,(void*)&paramHilo1);
+    estadoHilo2=pthread_create(&hilo2,NULL,(void*)&funcionHilo,(void*)&paramHilo2);
+    estadoHilo3=pthread_create(&hilo3,NULL,(void*)&funcionHilo,(void*)&paramHilo3);
 
     void *resultadoHilo1,*resultadoHilo2,*resultadoHilo3;
 
