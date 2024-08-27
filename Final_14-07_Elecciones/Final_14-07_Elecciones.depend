@@ -1,10 +1,8 @@
 # depslib dependency file v1.0
-1724646562 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\final_14-07_elecciones\main.c
+1724750667 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\final_14-07_elecciones\main.c
 	<stdio.h>
 	<stdlib.h>
-	<time.h>
 	<strings.h>
-	"util\util.h"
 
 1724646423 c:\utn2022\lab2_repaso_final\lab2_practica_final\final_14-07_elecciones\util\util.h
 	<stdio.h>
