@@ -101,3 +101,30 @@ FDT votos 363085 24.96 %
 FIT votos 284338 19.55 %
 UCR votos 381491 26.23 %
 JXC votos 425489 29.26 %
+
+Totales por provincia
+
+Baires				65429
+CABA				59107
+Catamarca			65873
+Chaco				80529
+Chubut				52027
+Cordoba				75537
+Corrientes			77921
+Entre Rios			73743
+Formosa				84454
+Jujuy				81895
+La Pampa			87637
+La Rioja			77278
+Mendoza				31599
+Misiones			24636
+Neuquen				56950
+Rio Negro			51880
+Salta				65589
+San Juan			30830
+San Luis			62726
+Santa Cruz			39242
+Santa Fe			26905
+Santiago del Estero	62530
+Tierra del Fuego	87516
+Tucuman				32300

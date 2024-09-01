@@ -115,5 +115,5 @@ void mostrarBin(char nombreArchivo[50])
 }
 void mostrarRegistro(RecuentoVotos registro)
 {
-    printf("Provincia %-20s Partido: %-4s Votos %i \n",registro.provincia,registro.partido,registro.cant_votos);
+    printf("Provincia %-20s; Partido: %-4s ;Votos ;%i \n",registro.provincia,registro.partido,registro.cant_votos);
 }

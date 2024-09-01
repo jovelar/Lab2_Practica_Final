@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1724840638 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\final_14-07_elecciones\main.c
+1725183197 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\final_14-07_elecciones\main.c
 	<stdio.h>
 	<stdlib.h>
 	<strings.h>
@@ -10,6 +10,6 @@
 	<time.h>
 	<strings.h>
 
-1724645307 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\final_14-07_elecciones\util\util.c
+1725173693 source:c:\utn2022\lab2_repaso_final\lab2_practica_final\final_14-07_elecciones\util\util.c
 	"util.h"
 
