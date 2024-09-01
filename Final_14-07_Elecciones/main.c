@@ -25,6 +25,20 @@ typedef struct
     struct nodoProvincia *sig;
 }nodoProvincia;
 
+typedef struct
+{
+    char provincia[30];
+    int votos_totales;
+}VotosProvincia;
+
+typedef struct
+{
+    VotosProvincia votos;
+    struct VotosXProvincia *ante;
+    struct VotosXProvincia *sig;
+}VotosXProvincia;
+
+//Punto 1
 nodoPartido *inicNodoPartido();
 nodoPartido *nuevoPartido(char partido[30],int cant_votos);
 nodoPartido *agregarPartido(nodoPartido *listaPartido,nodoPartido *nuevoPartido);
@@ -39,11 +53,25 @@ void mostrarVotos(nodoPartido *listaPartidos);
 void mostrarTodo(nodoProvincia *listaProvincias);
 void ejercicio1(nodoProvincia **lista,char nombreArchivo[30]);
 
+
+//Punto 2
+VotosXProvincia *inicVXP();
+VotosProvincia *crearVP(char provincia[30],int votos);
+VotosXProvincia *crearVXP(VotosProvincia *VotosProvincia);
+VotosXProvincia *pasarAVXPRec(VotosXProvincia *listaVXP,nodoProvincia *provincias,nodoPartido *partidos,int votos);
+void ejercicio2(nodoProvincia *listaProv,VotosXProvincia **listaVXP);
+void mostrarVP(VotosProvincia vp);
+void mostrarVXP(VotosXProvincia *vxp);
+void mostrarLista2(VotosXProvincia *lista);
+
 int main()
 {
     char nombreArchivo[]="votos.bin";
     nodoProvincia *lista=inicNodoProvincia();
     ejercicio1(&lista,nombreArchivo);
+
+    VotosXProvincia *listaVXP=NULL;
+    ejercicio2(lista,&listaVXP);
     return 0;
 }
 
@@ -200,4 +228,92 @@ void ejercicio1(nodoProvincia **lista,char nombreArchivo[30])
 {
     *lista=pasarAlDL(nombreArchivo);
     mostrarTodo(*lista);
+}
+
+//Punto 2
+
+VotosXProvincia *inicVXP()
+{
+    return NULL;
+}
+VotosProvincia *crearVP(char provincia[30],int votos)
+{
+    VotosProvincia *nuevo=(VotosProvincia*)malloc(sizeof(VotosProvincia));
+    strcpy(nuevo->provincia,provincia);
+    nuevo->votos_totales=votos;
+    return nuevo;
+}
+
+VotosXProvincia *crearVXP(VotosProvincia *votosProvincia)
+{
+    VotosXProvincia *nuevo=(VotosXProvincia*)malloc(sizeof(VotosXProvincia));
+    nuevo->votos=*votosProvincia;
+    nuevo->ante=NULL;
+    nuevo->sig=NULL;
+    return nuevo;
+}
+
+
+VotosXProvincia *pasarAVXPRec(VotosXProvincia *listaVXP,nodoProvincia *provincias,nodoPartido *partidos,int votos)
+{
+    VotosXProvincia *listaDoble=NULL;
+    if(provincias)
+    {
+        if(partidos)
+        {
+            votos=votos + partidos->cant_votos;
+            listaDoble=pasarAVXPRec(listaVXP,provincias,partidos->sig,votos);
+        }
+        else
+        {
+            VotosProvincia *nuevoVotos=(VotosProvincia*)malloc(sizeof(VotosProvincia));
+            nuevoVotos->votos_totales=votos;
+            strcpy(nuevoVotos->provincia,provincias->provincia);
+            printf("provincia %s  votos %i \n",provincias->partido,votos);
+            VotosXProvincia *nuevo=(VotosXProvincia*)malloc(sizeof(VotosXProvincia));
+            nuevo->votos=*nuevoVotos;
+            if(!listaDoble)
+            {
+                listaDoble=nuevo;
+            }
+            else
+            {
+                listaDoble->sig=nuevo;
+                nuevo->ante=listaDoble;
+            }
+            listaDoble->sig=pasarAVXPRec(listaDoble->sig,provincias->sig,provincias->partido,0);
+        }
+
+    }
+    return listaDoble;
+}
+
+
+void mostrarVP(VotosProvincia vp)
+{
+    printf("Provincia %s Votos %i \n",vp.provincia,vp.votos_totales);
+}
+
+void mostrarVXP(VotosXProvincia *vxp)
+{
+    if(vxp)
+    {
+        VotosXProvincia *iterador=vxp;
+        while(iterador)
+        {
+            mostrarVP(iterador->votos);
+            iterador=iterador->sig;
+        }
+    }
+    else
+    {
+        printf("La lista esta vacia!\n");
+    }
+}
+
+void mostrarLista2(VotosXProvincia *lista);
+void ejercicio2(nodoProvincia *listaProv,VotosXProvincia **listaVXP)
+{
+    *listaVXP=pasarAVXPRec(*listaVXP,listaProv,listaProv->partido,0);
+    mostrarVXP(*listaVXP);
 }
