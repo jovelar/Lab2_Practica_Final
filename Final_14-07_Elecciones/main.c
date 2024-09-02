@@ -255,7 +255,7 @@ VotosXProvincia *crearVXP(VotosProvincia *votosProvincia)
     return nuevo;
 }
 
-
+/*
 VotosXProvincia *pasarAVXPRec(VotosXProvincia *listaVXP,nodoProvincia *provincias,nodoPartido *partidos,int votos)
 {
     if(provincias)
@@ -279,6 +279,7 @@ VotosXProvincia *pasarAVXPRec(VotosXProvincia *listaVXP,nodoProvincia *provincia
             }
             else
             {
+                printf("no es el primero!");
                 listaVXP->sig=nuevo;
                 nuevo->ante=listaVXP;
             }
@@ -293,7 +294,38 @@ VotosXProvincia *pasarAVXPRec(VotosXProvincia *listaVXP,nodoProvincia *provincia
     }
     return listaVXP;
 }
+*/
 
+VotosXProvincia *pasarAVXPRec(VotosXProvincia *listaVXP,nodoProvincia *provincias,nodoPartido *partidos,int votos)
+{
+    if(provincias)
+    {
+        if(partidos)
+        {
+            listaVXP=pasarAVXPRec(listaVXP,provincias,partidos->sig,votos + partidos->cant_votos);
+        }
+        else
+        {
+            VotosProvincia *nuevoVotos=(VotosProvincia*)malloc(sizeof(VotosProvincia));
+            nuevoVotos->votos_totales=votos;
+            strcpy(nuevoVotos->provincia,provincias->provincia);
+            VotosXProvincia *nuevo=(VotosXProvincia*)malloc(sizeof(VotosXProvincia));
+            nuevo->votos=*nuevoVotos;
+            nuevo->ante=listaVXP;
+            nuevo->sig=NULL;
+
+            listaVXP=nuevo;
+
+            if(provincias->sig)
+            {
+                provincias=provincias->sig;
+                listaVXP->sig=pasarAVXPRec(listaVXP,provincias,provincias->partido,0);
+            }
+        }
+
+    }
+    return listaVXP;
+}
 
 
 void mostrarVP(VotosProvincia vp)
@@ -318,10 +350,28 @@ void mostrarVXP(VotosXProvincia *vxp)
     }
 }
 
+
+void mostrarVXPRev(VotosXProvincia *vxp)
+{
+    if(vxp)
+    {
+        VotosXProvincia *ultimo=vxp;
+        while(ultimo->sig)
+        {
+            ultimo=ultimo->sig;
+        }
+        while(ultimo)
+        {
+            mostrarVP(ultimo->votos);
+            ultimo=ultimo->ante;
+        }
+    }
+}
 void mostrarLista2(VotosXProvincia *lista);
 void ejercicio2(nodoProvincia *listaProv,VotosXProvincia **listaVXP)
 {
     *listaVXP=pasarAVXPRec(*listaVXP,listaProv,listaProv->partido,0);
-    printf("\n");
     mostrarVXP(*listaVXP);
+    printf("\n");
+    mostrarVXPRev(*listaVXP);
 }
