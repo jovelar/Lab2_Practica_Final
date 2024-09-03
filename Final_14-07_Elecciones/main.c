@@ -64,6 +64,11 @@ void mostrarVP(VotosProvincia vp);
 void mostrarVXP(VotosXProvincia *vxp);
 void mostrarLista2(VotosXProvincia *lista);
 
+//Punto 3
+VotosXProvincia *buscar(VotosXProvincia *lista,char nombreProvincia[30]);
+VotosXProvincia *borrar(VotosXProvincia *lista,char nombreProvincia[30]);
+void ejercicio3(VotosXProvincia **lista,char nombreProvincia[30]);
+
 int main()
 {
 
@@ -73,6 +78,7 @@ int main()
 
     VotosXProvincia *listaVXP=NULL;
     ejercicio2(lista,&listaVXP);
+    ejercicio3(&listaVXP,"Tucuman");
 
     return 0;
 }
@@ -255,47 +261,6 @@ VotosXProvincia *crearVXP(VotosProvincia *votosProvincia)
     return nuevo;
 }
 
-/*
-VotosXProvincia *pasarAVXPRec(VotosXProvincia *listaVXP,nodoProvincia *provincias,nodoPartido *partidos,int votos)
-{
-    if(provincias)
-    {
-        if(partidos)
-        {
-            listaVXP=pasarAVXPRec(listaVXP,provincias,partidos->sig,votos + partidos->cant_votos);
-        }
-        else
-        {
-            VotosProvincia *nuevoVotos=(VotosProvincia*)malloc(sizeof(VotosProvincia));
-            nuevoVotos->votos_totales=votos;
-            strcpy(nuevoVotos->provincia,provincias->provincia);
-            VotosXProvincia *nuevo=(VotosXProvincia*)malloc(sizeof(VotosXProvincia));
-            nuevo->votos=*nuevoVotos;
-            nuevo->ante=NULL;
-            nuevo->sig=NULL;
-            if(!listaVXP)
-            {
-                listaVXP=nuevo;
-            }
-            else
-            {
-                printf("no es el primero!");
-                listaVXP->sig=nuevo;
-                nuevo->ante=listaVXP;
-            }
-
-            if(provincias->sig)
-            {
-                provincias=provincias->sig;
-                listaVXP->sig=pasarAVXPRec(listaVXP->sig,provincias,provincias->partido,0);
-            }
-        }
-
-    }
-    return listaVXP;
-}
-*/
-
 VotosXProvincia *pasarAVXPRec(VotosXProvincia *listaVXP,nodoProvincia *provincias,nodoPartido *partidos,int votos)
 {
     if(provincias)
@@ -327,7 +292,6 @@ VotosXProvincia *pasarAVXPRec(VotosXProvincia *listaVXP,nodoProvincia *provincia
     return listaVXP;
 }
 
-
 void mostrarVP(VotosProvincia vp)
 {
     printf("Provincia %s Votos %i \n",vp.provincia,vp.votos_totales);
@@ -350,7 +314,6 @@ void mostrarVXP(VotosXProvincia *vxp)
     }
 }
 
-
 void mostrarVXPRev(VotosXProvincia *vxp)
 {
     if(vxp)
@@ -367,11 +330,77 @@ void mostrarVXPRev(VotosXProvincia *vxp)
         }
     }
 }
-void mostrarLista2(VotosXProvincia *lista);
+
 void ejercicio2(nodoProvincia *listaProv,VotosXProvincia **listaVXP)
 {
+    printf("Ejercicio 2: \n\n");
     *listaVXP=pasarAVXPRec(*listaVXP,listaProv,listaProv->partido,0);
     mostrarVXP(*listaVXP);
-    printf("\n");
-    mostrarVXPRev(*listaVXP);
+}
+
+//Punto 3
+VotosXProvincia *buscar(VotosXProvincia *lista,char nombreProvincia[30])
+{
+    VotosXProvincia *posicion=NULL;
+
+    if(lista)
+    {
+        if(strcmpi(lista->votos.provincia,nombreProvincia)==0)
+        {
+            posicion=lista;
+        }
+        else
+        {
+            VotosXProvincia *iterador=lista;
+            while(iterador && !posicion)
+            {
+                if(strcmpi(iterador->votos.provincia,nombreProvincia)==0)
+                {
+                    posicion=iterador;
+                }
+                iterador=iterador->sig;
+            }
+        }
+    }
+
+    return posicion;
+}
+
+VotosXProvincia *borrar(VotosXProvincia *lista, char nombreProvincia[30])
+{
+    if(lista)
+    {
+        VotosXProvincia *posicion=buscar(lista, nombreProvincia);
+        if(posicion)
+        {
+            if(!posicion->ante) //SI ES EL PRIMERO DE LA LISTA
+            {
+                VotosXProvincia *aux=lista->sig;
+                aux->ante=NULL;
+                free(lista);
+                lista=aux; //Se debe sobreescribir el puntero inicial, por eso la desreferenciacion
+            }
+            else if(!posicion->sig) //SI ES EL ULTIMO DE LA LISTA
+            {
+                VotosXProvincia *aux=posicion->ante;
+                aux->sig=NULL;
+                free(posicion);
+            }
+            else
+            {
+                VotosXProvincia *anterior=posicion->ante;
+                VotosXProvincia *siguiente=posicion->sig;
+                anterior->sig=posicion->sig;
+                siguiente->ante=posicion->ante;
+                free(posicion);
+            }
+        }
+    }
+    return lista;
+}
+void ejercicio3(VotosXProvincia **lista,char nombreProvincia[30])
+{
+    printf("Ejercicio 3: \n\n");
+    *lista=borrar(*lista,nombreProvincia);
+    mostrarVXP(*lista);
 }
