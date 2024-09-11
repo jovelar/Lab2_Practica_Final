@@ -21,6 +21,10 @@ nodo *invertirListaRec(nodo *lista, nodo *resultante);
 void eliminarListaRec(nodo **lista);
 int *sumarElementosListaRec(nodo *lista,int sumatoria);
 
+//funciones auxiliares
+void crearListaCargada(nodo **lista);
+void crearListaCargadaOrdenada(nodo **lista);
+
 void crearListaCargada(nodo **lista);
 
 void punto1(nodo *lista);
@@ -66,21 +70,6 @@ nodo *crearNodo(int dato, char palabra[30])
     nuevo->sig=NULL;
     return nuevo;
 }
-
-/*
-nodo *insertarAlFinalRec(nodo *lista, nodo *nuevo)
-{
-    if(!lista)
-    {
-        lista=nuevo;
-    }
-    else
-    {
-        lista->sig=insertarAlFinalRec(lista->sig,nuevo);
-    }
-    return lista;
-}
-*/
 
 nodo *insertarAlFinalRec(nodo *lista, nodo *nuevo)
 {
@@ -282,4 +271,8 @@ void punto5(nodo **lista)
     nodo *nuevo=crearNodo(dato,palabra);
     *lista=insertarOrdenadoRec(*lista,nuevo);
 }
-void punto6(nodo **lista);
+void punto6(nodo **lista)
+{
+    nodo *resultante=inicNodo();
+    *lista=invertirListaRec(*lista,resultante);
+}
