@@ -41,9 +41,9 @@ typedef struct
 typedef struct
 {
     stRegistroDisfraz registroDisfraz;
-    struct arbol *izq;
-    struct arbol *der;
-}arbol;
+    struct nodoArbol *izq;
+    struct nodoArbol *der;
+}nodoArbol;
 
 stSucursal crearSTSuc(int idSucursal,char nombreSucursal[25]);
 stDisfraz crearSTdisfraz(char nombreDisfraz[25],char generoDisfraz[25],int stockDisfraz);
@@ -64,23 +64,34 @@ void mostrarListaDisfraz(nodoDisfraz *lista);
 void mostrarSucursal(stSucursal dato);
 void mostrarListaSuc(nodoSucursal *lista);
 
-arbol *inicArbol();
-arbol *crearArbol(int idSucursal, char nombreSucursal[25],char nombreDisfraz[25],char generoDisfraz[25], int stockDisfraz);
-arbol *insertarOrdNombRec(arbol *arbol, arbol *nuevo);
-arbol *mostrarArbolRec(arbol *arbol);
+nodoArbol *inicArbol();
+nodoArbol *crearArbol(int idSucursal, char nombreSucursal[25],char nombreDisfraz[25],char generoDisfraz[25], int stockDisfraz);
+nodoArbol *insertarOrdNombRec(nodoArbol *arbol, nodoArbol *nuevo);
+nodoArbol *mostrarArbolRec(nodoArbol *arbol);
+
+nodoArbol *pasarAArbol(nodoSucursal *lista);
+
+void *buscar(nodoArbol *arbol,char nombreDisfraz[25], char generoDisfraz[25]);
 
 void punto1(nodoSucursal **lista,char nombreArchivo[40]);
 void punto2(nodoSucursal *lista);
-void punto3();
-void punto4();
-void punto5();
+void punto3(nodoSucursal *lista, nodoArbol **arbol);
+void punto4(nodoArbol *arbol);
+void punto5(nodoArbol *arbol);
 
 int main()
 {
     nodoSucursal *listaSucursales=inicSucursal();
     char nombreArchivo[]="archivoRegistrosDisfraces.bin";
+
     punto1(&listaSucursales,nombreArchivo);
     punto2(listaSucursales);
+
+    nodoArbol *arbol=inicArbol();
+    punto3(listaSucursales,&arbol);
+    punto4(arbol);
+    punto5(arbol);
+
     return 0;
 }
 
@@ -321,26 +332,28 @@ void punto2(nodoSucursal *lista)
 //}
 
 //Punto 3
-arbol *inicArbol()
+//{
+nodoArbol *inicArbol()
 {
     return NULL;
 }
-arbol *crearArbol(int idSucursal, char nombreSucursal[25],char nombreDisfraz[25],char generoDisfraz[25], int stockDisfraz)
+nodoArbol *crearArbol(int idSucursal, char nombreSucursal[25],char nombreDisfraz[25],char generoDisfraz[25], int stockDisfraz)
 {
-    arbol *nuevo=(arbol*)malloc(sizeof(arbol));
+    nodoArbol *nuevo=(nodoArbol*)malloc(sizeof(nodoArbol));
     stRegistroDisfraz nuevoSTR;
     strcpy(nuevoSTR.nombreDisfraz,nombreDisfraz);
     strcpy(nuevoSTR.generoDisfraz,generoDisfraz);
     strcpy(nuevoSTR.nombreSucursal,nombreSucursal);
     nuevoSTR.idSucursal=idSucursal;
     nuevoSTR.stockDisfraz=stockDisfraz;
+    nuevo->registroDisfraz=nuevoSTR;
     nuevo->izq=NULL;
     nuevo->der=NULL;
 
     return nuevo;
 }
 
-arbol *insertarOrdNombRec(arbol *arbol, arbol *nuevo)
+nodoArbol *insertarOrdNombRec(nodoArbol *arbol, nodoArbol *nuevo)
 {
     if(!arbol)
     {
@@ -350,8 +363,85 @@ arbol *insertarOrdNombRec(arbol *arbol, arbol *nuevo)
     {
         if(strcmpi(arbol->registroDisfraz.nombreDisfraz,nuevo->registroDisfraz.nombreDisfraz)<=0)
         {
-
+            arbol->der=insertarOrdNombRec(arbol->der,nuevo);
+        }
+        else
+        {
+            arbol->izq=insertarOrdNombRec(arbol->izq,nuevo);
         }
     }
 }
-arbol *mostrarArbolRec(arbol *arbol);
+
+
+nodoArbol *pasarAArbol(nodoSucursal *lista)
+{
+    nodoArbol *arbol=inicArbol();
+    if(lista)
+    {
+        nodoSucursal *iterador=lista;
+        while(iterador)
+        {
+            nodoDisfraz *itDisfraz=iterador->listaDisfraces;
+            while(itDisfraz)
+            {
+                nodoArbol *nuevoArbol=crearArbol(iterador->sucursal.idSucursal,iterador->sucursal.nombreSucursal,itDisfraz->disfras.nombreDisfraz,itDisfraz->disfras.generoDisfraz,itDisfraz->disfras.stockDisfraz);
+                arbol=insertarOrdNombRec(arbol,nuevoArbol);
+                itDisfraz=itDisfraz->sig;
+            }
+            iterador=iterador->sig;
+        }
+    }
+    return arbol;
+}
+
+void punto3(nodoSucursal *lista, nodoArbol **arbol)
+{
+    *arbol=pasarAArbol(lista);
+}
+//}
+//Punto 4
+//{
+nodoArbol *mostrarArbolRec(nodoArbol *arbol)
+{
+    if(arbol)
+    {
+        mostrarArbolRec(arbol->izq);
+        printf("SUCURSAL: %s DISFRAZ: %s GENERO: %s STOCK:%i \n",arbol->registroDisfraz.nombreSucursal,arbol->registroDisfraz.nombreDisfraz,arbol->registroDisfraz.generoDisfraz,arbol->registroDisfraz.stockDisfraz);
+        mostrarArbolRec(arbol->der);
+    }
+}
+void punto4(nodoArbol *arbol)
+{
+    mostrarArbolRec(arbol);
+}
+//}
+
+//Punto 5
+//{
+void *buscar(nodoArbol *arbol, char nombreDisfraz[25], char generoDisfraz[25])
+{
+    if(arbol)
+    {
+        buscar(arbol->izq,nombreDisfraz,generoDisfraz);
+        if(strcmpi(arbol->registroDisfraz.nombreDisfraz,nombreDisfraz)==0)
+        {
+            if(strcmpi(arbol->registroDisfraz.generoDisfraz,generoDisfraz)==0)
+            {
+                printf("SUCURSAL: %s DISFRAZ: %s GENERO: %s STOCK: %i\n",arbol->registroDisfraz.nombreSucursal,arbol->registroDisfraz.nombreDisfraz,arbol->registroDisfraz.generoDisfraz,arbol->registroDisfraz.stockDisfraz);
+            }
+        }
+        buscar(arbol->der,nombreDisfraz,generoDisfraz);
+    }
+}
+void punto5(nodoArbol *arbol)
+{
+    char nombreDis[2];
+    char genero[25];
+    printf("Ingrese el nombre del disfraz a buscar: ");
+    gets(nombreDis);
+    fflush(stdin);
+    printf("Ingrese el genero: ");
+    gets(genero);
+    buscar(arbol,nombreDis,genero);
+}
+//}
