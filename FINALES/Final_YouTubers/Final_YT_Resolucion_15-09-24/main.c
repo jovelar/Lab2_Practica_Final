@@ -75,7 +75,7 @@ void punto3(celdaRubro arreglo[], int validos);
 
 //Punto 4
 //{
-int promConBase(nodoArbol *arbol, int sumatoria,int cumple, int base);
+int sumaSi(nodoArbol *arbol, int sumatoria,int *cumple, int base);
 int promedio(celdaRubro arreglo[], int validos,int base);
 void punto4(celdaRubro arreglo[], int validos);
 //}
@@ -101,6 +101,8 @@ int main()
     punto2(arreglo,validos);
     punto3(arreglo,validos);
     punto4(arreglo,validos);
+    nodo2 *listaDoble=inicNodo2();
+    punto5(arreglo,validos,&listaDoble);
     return 0;
 }
 
@@ -278,11 +280,13 @@ void punto3(celdaRubro arreglo[], int validos)
 
 //Punto 4
 //{
-int promConBase(nodoArbol *arbol, int sumatoria,int cumple, int base)
+
+/*
+int sumaSi(nodoArbol *arbol, int sumatoria,int cumple, int base)
 {
     if(arbol)
     {
-        sumatoria=promConBase(arbol->izq,sumatoria,cumple,base);
+        sumatoria=sumaSi(arbol->izq,sumatoria,cumple,base);
         if(arbol->youtubers.cantSuscriptores>base)
         {
 
@@ -290,11 +294,29 @@ int promConBase(nodoArbol *arbol, int sumatoria,int cumple, int base)
             cumple++;
             printf("SUMANDO! sumatoria: %i cumple: %i \n",sumatoria,cumple);
         }
-        sumatoria=promConBase(arbol->der,sumatoria,cumple,base);
+        sumatoria=sumaSi(arbol->der,sumatoria,cumple,base);
     }
     if(sumatoria>0 && cumple>0 &&!arbol)
     {
         sumatoria=sumatoria/cumple;
+    }
+    return sumatoria;
+}
+
+
+*/
+
+int sumaSi(nodoArbol *arbol, int sumatoria,int *cumple, int base)
+{
+    if(arbol)
+    {
+        sumatoria=sumaSi(arbol->izq,sumatoria,cumple,base);
+        if(arbol->youtubers.cantVistasSemestre>=base)
+        {
+            sumatoria+= arbol->youtubers.cantVistasSemestre;
+            (*cumple)++;
+        }
+        sumatoria=sumaSi(arbol->der,sumatoria,cumple,base);
     }
     return sumatoria;
 }
@@ -306,17 +328,11 @@ int promedio(celdaRubro arreglo[], int validos,int base)
     int cumple=0; //Suma los que cumplen con la condicion
     for(int x=0;x<validos;x++)
     {
-        printf("******* RUBRO: %s *******\n",arreglo[x].rubro.rubro);
-        sumatoria=promConBase(arreglo[x].arbol,sumatoria,cumple,base);
-        printf("Sumatoria: %i \n",sumatoria);
-        if(sumatoria>0)
-        {
-            cumple++;
-        }
-        recuento=+ sumatoria;
+        sumatoria=sumaSi(arreglo[x].arbol,sumatoria,&cumple,base);
+        recuento+= sumatoria;
         sumatoria=0;
     }
-    return recuento;
+    return recuento/cumple;
 }
 
 void punto4(celdaRubro arreglo[], int validos)
@@ -355,13 +371,13 @@ nodo2 *crearNodo2(int id, char nombreCanal[40],char rubro[40], int subs, int vis
 
 nodo2 *insertarOrdNodo2(nodo2 *lista, nodo2 *nuevo)
 {
-    if(lista)
+    if(!lista)
     {
         lista=nuevo;
     }
     else
     {
-        if(strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)<0)
+        if(strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)>=0)
         {
             nuevo->sig=lista;
             lista->ante=nuevo;
@@ -371,7 +387,7 @@ nodo2 *insertarOrdNodo2(nodo2 *lista, nodo2 *nuevo)
         {
             nodo2 *ante=NULL;
             nodo2 *iterador=lista;
-            while(iterador && strcmpi(lista->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)<0)
+            while(iterador && strcmpi(iterador->youtuber.nombreCanal,nuevo->youtuber.nombreCanal)<=0)
             {
                 ante=iterador;
                 iterador=iterador->sig;
@@ -414,7 +430,7 @@ nodo2 *mostrarNodo2(nodo2 *lista)
         nodo2 *iterador=lista;
         while(iterador)
         {
-            printf("ID: %i NOMBRE: %s GENERO: %s SUBS: %i VIS.SEM: %i \n",iterador->youtuber.id,
+            printf("ID: %-2i NOMBRE: %-20s GENERO: %-15s SUBS: %-7i VIS.SEM: %i \n",iterador->youtuber.id,
                    iterador->youtuber.nombreCanal,iterador->youtuber.rubro,
                    iterador->youtuber.cantSuscriptores,
                    iterador->youtuber.cantVistasSemestre);
