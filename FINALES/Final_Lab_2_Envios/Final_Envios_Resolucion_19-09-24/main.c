@@ -40,6 +40,9 @@ nodoDestino *insertarAlFinal(nodoDestino *lista,nodoDestino *nuevo);
 
 nodoOrigen *pasarALDL(char nombreArchivo[50]);
 
+void mostrarListaDest(nodoDestino *lista);
+void mostrarListaOrigen(nodoOrigen *lista);
+
 void punto1(char nombreArchivo[50], nodoOrigen **lista);
 //}
 
@@ -198,9 +201,40 @@ nodoOrigen *pasarALDL(char nombreArchivo[50])
     return listaOrigen;
 }
 
+void mostrarListaDest(nodoDestino *lista)
+{
+    if(lista)
+    {
+        nodoDestino *iterador=lista;
+        while(iterador)
+        {
+            printf("Nombre: %-20s Costo: %-6.2f T.Viaje: %i \n",iterador->nombre,iterador->costo,iterador->tiempoViaje);
+            iterador=iterador->sig;
+        }
+    }
+}
+
+void mostrarListaOrigen(nodoOrigen *lista)
+{
+    if(lista)
+    {
+        nodoOrigen *iterador=lista;
+        while(iterador)
+        {
+            printf("ORIGEN: %s \n",iterador->nombre);
+            printf("Destinos Aereos *******\n");
+            mostrarListaDest(iterador->destinosAereos);
+            printf("Destinos Ferro +++++++\n");
+            mostrarListaDest(iterador->destinosFerro);
+            iterador=iterador->sig;
+        }
+    }
+}
+
 void punto1(char nombreArchivo[50], nodoOrigen **lista)
 {
     *lista=pasarALDL(nombreArchivo);
+    mostrarListaOrigen(*lista);
 }
 //}
 
@@ -208,22 +242,21 @@ void punto1(char nombreArchivo[50], nodoOrigen **lista)
 //{
 float promedioDARec(nodoOrigen *lista,nodoDestino *destinos,char nombre[30],int sumatoria,int contador)
 {
-    if(!lista)
+    if(!destinos) //Si la lista destinos esta vacia llego a su final
     {
         if(sumatoria>0 && contador>0)
         {
-            sumatoria=sumatoria/contador;
+            sumatoria=sumatoria/(float)contador;
         }
     }
     else
     {
-        if(strcmpi(lista->nombre,nombre)==0)
+        if(strcmpi(lista->nombre,nombre)==0) //Si el origen es el correcto
         {
-            sumatoria+=destinos->tiempoViaje;
-            contador++;
-            sumatoria=promedioDARec(lista,destinos->sig,nombre,sumatoria,contador);
+            sumatoria=sumatoria + destinos->tiempoViaje;
+            sumatoria=promedioDARec(lista,destinos->sig,nombre,sumatoria,contador+1);
         }
-        else
+        else if(lista->sig) //Si el origen no es el correcto y el proximo nodo de la lista de origenes no esta vacia
         {
             nodoOrigen *aux=lista->sig;
             sumatoria=promedioDARec(aux,aux->destinosAereos,nombre,sumatoria,contador);
