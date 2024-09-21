@@ -27,6 +27,28 @@ typedef struct nodoOrigen
     struct nodoOrigen *sig;
 }nodoOrigen;
 
+typedef struct
+{
+    int cantDestinosAereos;
+    char ciudadOrigen[30];
+    float costoPromedio;
+    float tiempoPromedioAereo;
+}destinosAereos;
+
+typedef struct
+{
+    int cantDestinosFerro;
+    char ciudadOrigen[30];
+    float costoPromedioFerro;
+    float tiempoPromedioFerro;
+}destinosFerro;
+
+typedef struct Pila
+{
+    int tiempoViaje;
+    struct Pila *sig;
+}Pila;
+
 //Punto 1
 //{
 nodoOrigen *inicOrigen();
@@ -51,6 +73,29 @@ void punto1(char nombreArchivo[50], nodoOrigen **lista);
 //{
 float promedioDARec(nodoOrigen *lista,nodoDestino *destinos,char nombre[30],int sumatoria,int contador);
 void punto2(nodoOrigen *lista);
+//}
+
+//Punto 3
+//{
+destinosAereos crearDAereo(nodoDestino *destinoA,char origen[30]);
+destinosFerro crearDFerro(nodoDestino *destinoF,char origen[30]);
+void pasarA2A(nodoOrigen *listaOrigen,char archivoAereo[30],char archivoFerro[30]);
+void punto3(nodoOrigen *lista,char archivoAereos[30],char archivoFerro[30]);
+//}
+
+//Punto 4
+//{
+Pila *inicPila();
+Pila *apilar(Pila *pila,int dato);
+int desapilar(Pila **pila);
+int tope(Pila *pila);
+int pilaVacia(Pila *pila);
+Pila *pilaNueva(int dato);
+//}
+
+//Punto 5
+//{
+
 //}
 
 int main()
@@ -256,7 +301,7 @@ float promedioDARec(nodoOrigen *lista,nodoDestino *destinos,char nombre[30],int 
             sumatoria=sumatoria + destinos->tiempoViaje;
             sumatoria=promedioDARec(lista,destinos->sig,nombre,sumatoria,contador+1);
         }
-        else if(lista->sig) //Si el origen no es el correcto y el proximo nodo de la lista de origenes no esta vacia
+        else if(lista->sig) //Si el origen no es el correcto y el proximo nodo de la lista de origenes no esta vacia, avanza al siguiente origen
         {
             nodoOrigen *aux=lista->sig;
             sumatoria=promedioDARec(aux,aux->destinosAereos,nombre,sumatoria,contador);
@@ -273,5 +318,145 @@ void punto2(nodoOrigen *lista)
     float promedio=0.0;
     promedio=promedioDARec(lista,lista->destinosAereos,palabra,0,0);
     printf("El promedio es de %0.2f\n",promedio);
+}
+//}
+
+//Punto 3
+//{
+destinosAereos crearDAereo(nodoDestino *destinoA,char origen[30])
+{
+    destinosAereos destino;
+    if(destinoA)
+    {
+        int cantDestinos=0;
+        float costoProm=0;
+        int tiempoProm=0;
+        int contador=0;
+
+        nodoDestino *iterador=destinoA;
+        while(iterador)
+        {
+            costoProm+=iterador->costo;
+            tiempoProm+=iterador->tiempoViaje;
+            cantDestinos++;
+        }
+        costoProm=costoProm/cantDestinos;
+        tiempoProm=tiempoProm/cantDestinos;
+        strcpy(destino.ciudadOrigen,origen);
+        destino.cantDestinosAereos=cantDestinos;
+        destino.costoPromedio=costoProm;
+        destino.tiempoPromedioAereo=tiempoProm;
+    }
+    return destino;
+}
+
+destinosFerro crearDFerro(nodoDestino *destinoF,char origen[30])
+{
+    destinosFerro destino;
+    if(destinoF)
+    {
+        int cantDestinos=0;
+        float costoProm=0;
+        int tiempoProm=0;
+        int contador=0;
+
+        nodoDestino *iterador=destinoF;
+        while(iterador)
+        {
+            costoProm+=iterador->costo;
+            tiempoProm+=iterador->tiempoViaje;
+            cantDestinos++;
+        }
+        costoProm=costoProm/cantDestinos;
+        tiempoProm=tiempoProm/cantDestinos;
+        strcpy(destino.ciudadOrigen,origen);
+        destino.cantDestinosFerro=cantDestinos;
+        destino.costoPromedioFerro=costoProm;
+        destino.tiempoPromedioFerro=tiempoProm;
+    }
+    return destino;
+}
+void pasarA2A(nodoOrigen *listaOrigen,char archivoAereo[30],char archivoFerro[30])
+{
+    if(listaOrigen)
+    {
+        nodoOrigen *iterador=listaOrigen;
+        FILE *archivoA=fopen(archivoAereo,"wb");
+        FILE *archivoF=fopen(archivoFerro,"wb");
+
+        while(iterador)
+        {
+            destinosAereos bufferAero=crearDAereo(iterador->destinosAereos,iterador->nombre);
+            destinosFerro bufferFerro=crearDFerro(iterador->destinosFerro,iterador->nombre);
+            fwrite(&bufferAero,sizeof(destinosAereos),1,archivoA);
+            fwrite(&bufferFerro,sizeof(destinosFerro),1,archivoF);
+        }
+        fclose(archivoA);
+        fclose(archivoF);
+    }
+}
+void punto3(nodoOrigen *lista,char archivoAereos[30],char archivoFerro[30])
+{
+    pasarA2A(lista,archivoAereos,archivoFerro);
+}
+//}
+
+//Punto 4
+//{
+Pila *inicPila()
+{
+    return NULL;
+}
+
+Pila *apilar(Pila *pila,int dato)
+{
+    Pila *nueva=pilaNueva(dato);
+    if(!pila)
+    {
+        pila=nueva;
+    }
+    else
+    {
+        nueva->sig=pila;
+        pila=nueva;
+    }
+    return nueva;
+}
+
+int desapilar(Pila **pila)
+{
+    int dato=0;
+    if(*pila)
+    {
+        Pila *aux=(*pila)->sig;
+        dato=(*pila)->tiempoViaje;
+        free(*pila);
+        *pila=aux;
+    }
+    return dato;
+}
+
+int tope(Pila *pila)
+{
+    return pila->tiempoViaje;
+}
+
+int pilaVacia(Pila *pila)
+{
+    int estado=0;
+    if(!pila)
+    {
+        estado=1;
+    }
+    return estado;
+}
+
+Pila *pilaNueva(int dato)
+{
+    Pila *nuevo=(Pila*)malloc(sizeof(Pila));
+    nuevo->tiempoViaje=dato;
+    nuevo->sig=NULL;
+
+    return nuevo;
 }
 //}
