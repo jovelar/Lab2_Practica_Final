@@ -91,11 +91,21 @@ int desapilar(Pila **pila);
 int tope(Pila *pila);
 int pilaVacia(Pila *pila);
 Pila *pilaNueva(int dato);
+void mostrarPila(Pila *pila);
 //}
 
 //Punto 5
 //{
+void exportarAPila(nodoOrigen **lista,Pila **pila);
+void punto5(nodoOrigen **lista,Pila **pila);
+nodoOrigen *borrarNodo(nodoOrigen *lista,nodoOrigen *nodoABorrar);
+//}
 
+//EXT (no forman parte del Final
+//{
+void borrarDestino(nodoDestino **listaDestino);
+void borrarOrigen(nodoOrigen **listaOrigen);
+void borrarPila(Pila **pila);
 //}
 
 int main()
@@ -103,7 +113,9 @@ int main()
     nodoOrigen *listaOrigen=inicOrigen();
     char nombreArchivo[]="registroEnvios.bin";
     punto1(nombreArchivo,&listaOrigen);
-    punto2(listaOrigen);
+    //punto2(listaOrigen);
+    Pila *pila=inicPila();
+    punto5(&listaOrigen,&pila);
     return 0;
 }
 
@@ -111,6 +123,7 @@ int main()
 
 //Punto 1
 //{
+
 nodoOrigen *inicOrigen()
 {
     return NULL;
@@ -312,7 +325,7 @@ float promedioDARec(nodoOrigen *lista,nodoDestino *destinos,char nombre[30],int 
 
 void punto2(nodoOrigen *lista)
 {
-    printf("Ingrese un origen a buscar");
+    printf("Ingrese un origen a buscar: ");
     char palabra[50];
     gets(palabra);
     float promedio=0.0;
@@ -458,5 +471,138 @@ Pila *pilaNueva(int dato)
     nuevo->sig=NULL;
 
     return nuevo;
+}
+
+void mostrarPila(Pila *pila)
+{
+    if(pila)
+    {
+        Pila *iterador=pila;
+        while(iterador)
+        {
+            printf("%i \n",iterador->tiempoViaje);
+            iterador=iterador->sig;
+        }
+    }
+}
+//}
+
+//Punto 5
+//{
+void exportarAPila(nodoOrigen **lista,Pila **pila)
+{
+    if(*lista)
+    {
+        nodoOrigen *ante=NULL;
+        nodoOrigen *iterador=*lista;
+        while(iterador)
+        {
+            printf("\n*************\n");
+            printf("Origen: %s \n\ ",iterador->nombre);
+            printf("\n*************\n");
+            nodoDestino *iteradorDestino=iterador->destinosAereos;
+            nodoDestino *anteDestino=NULL;
+            while(iteradorDestino)
+            {
+                printf("destino: %s \n",iteradorDestino->nombre);
+                if(iteradorDestino->tiempoViaje<300)
+                {
+                    printf("apilando!\n");
+                    *pila=apilar(*pila,iteradorDestino->tiempoViaje);
+                    if(!anteDestino)
+                    {
+                        nodoDestino *auxiliar=iteradorDestino->sig;
+                        free(iteradorDestino);
+                        iteradorDestino=auxiliar;
+                    }
+                    else
+                    {
+                        ante->sig=iteradorDestino->sig;
+                        free(iteradorDestino);
+                        iteradorDestino=ante;
+                    }
+
+                }
+               // anteDestino=iteradorDestino;
+               // iteradorDestino=iteradorDestino->sig;
+            }
+            if(!iterador->destinosAereos && !iterador->destinosFerro)
+            {
+                if(!ante) //Si ante es NULL es por que es la primer iteracion, es decir, el primero.
+                {
+                    nodoOrigen *aux=iterador->sig;
+                    free(iterador);
+                    iterador=aux;
+                }
+                else
+                {
+                    ante->sig=iterador->sig;
+                    free(iterador);
+                    iterador=ante->sig;
+                }
+            }
+            else
+            {
+                ante=iterador;
+                iterador=iterador->sig;
+            }
+        }
+    }
+}
+void punto5(nodoOrigen **lista,Pila **pila)
+{
+    exportarAPila(lista,pila);
+    mostrarPila(*pila);
+    mostrarListaOrigen(*lista);
+    borrarOrigen(lista);
+    borrarPila(pila);
+}
+
+nodoOrigen *borrarNodo(nodoOrigen *lista,nodoOrigen *nodoABorrar)
+{
+    return lista;
+}
+//}
+
+//EXT (no forman parte del Final
+//{
+void borrarDestino(nodoDestino **listaDestino)
+{
+    if(*listaDestino)
+    {
+        nodoDestino *aux=NULL;
+        while(aux)
+        {
+            aux=(*listaDestino)->sig;
+            free(*listaDestino);
+            *listaDestino=aux;
+        }
+    }
+}
+void borrarOrigen(nodoOrigen **listaOrigen)
+{
+    if(*listaOrigen)
+    {
+        while(*listaOrigen)
+        {
+            nodoOrigen *aux=(*listaOrigen)->sig;
+            borrarDestino((*listaOrigen)->destinosAereos);
+            borrarDestino((*listaOrigen)->destinosFerro);
+            free(*listaOrigen);
+            *listaOrigen=aux;
+        }
+    }
+}
+void borrarPila(Pila **pila)
+{
+    if(*pila)
+    {
+        while(*pila)
+        {
+            Pila *aux=(*pila)->sig;
+            free(*pila);
+            *pila=aux;
+        }
+    }
 }
 //}
