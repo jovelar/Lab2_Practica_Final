@@ -48,15 +48,31 @@ nodo2 *buscarDeporte(nodo2 *lista, char nombreDeporte[50]);
 
 nodo2 *pasarAL2DL(char nombreArchivo[50]);
 
+
 void punto2(nodo2 **listaDeportes,char nombreArchivo[70]);
 //}
 
 //Punto 3
 //{
 nodo *altaSocio(nodo *lista, int idsocio, char nya[50], int edad, int ultimaCuota);
-nodo2 *altaDeporte(nodo2 *lista, int idDeporte, char nombreDeporte[50], float valorCuota);
 void ultimoIds(nodo2 *listaDeportes,int *ultimoIDDepo, int *ultimoIDSoc);
 void punto3(nodo2 *listaDeportes);
+//}
+
+//Punto 4
+//{
+void mostrarSocio(nodo *socio);
+void mostrarSocios(nodo *lista);
+void mostrarDeporte(nodo2 *listaDeportes);
+void mostrarLDL(nodo2 *listaDeportes);
+nodo2 *deporteMasPopular(nodo2 *listaDeportes);
+void punto4(nodo2 *listaDeportes);
+//}
+
+//Punto 5
+//{
+void volcarABin(nodo2 *lista,char archivoDep[50],char archivoSoc[50]);
+void punto5(nodo2 *lista);
 //}
 
 int main()
@@ -207,11 +223,6 @@ nodo *altaSocio(nodo *lista, int idsocio, char nya[50], int edad, int ultimaCuot
     return lista;
 }
 
-nodo2 *altaDeporte(nodo2 *lista, int idDeporte, char nombreDeporte[50], float valorCuota)
-{
-
-}
-
 void ultimoIds(nodo2 *listaDeportes,int *ultimoIDDepo, int *ultimoIDSoc)
 {
     nodo2 *iterador=listaDeportes;
@@ -251,5 +262,110 @@ void punto3(nodo2 *listaDeportes)
     gets(nya);
     printf("Ingrese la edad: ");
     scanf("%d",&edad);
+    printf("Ingrese el deporte que practica: ");
+    gets(nombreDeporte);
+    nodo *nuevoSocio=crearNodo(ultimoIDSoc+1,nya,0,edad);//Cuota 0, se asume que aun no pago ninguna por ser nuevo.
+    nodo2 *posDeporte=buscarDeporte(listaDeportes,nombreDeporte);
+    if(!posDeporte)
+    {
+        printf("El deporte no existe, se solicitaran datos adicionales para darlo de alta\n");
+        printf("Ingrese el valor de la cuota: ");
+        scanf("%f",&valorCuota);
+        nodo2 *nuevoDeporte=crearNodo2(ultimoIDDepo+1,nombreDeporte,valorCuota);
+        listaDeportes=insertarAlFinal(listaDeportes,nuevoDeporte);
+        posDeporte=nuevoDeporte;
+    }
+    posDeporte->listaSocios=insertarOrdenado(posDeporte->listaSocios,nuevoSocio);
 }
 //}
+
+
+//Punto 4
+//{
+void mostrarSocio(nodo *socio)
+{
+    printf("ID: %i NYA: %s EDAD: %i ULTIMA CUOTA PAGA: %i \n ",socio->idSocio,socio->nya,socio->edad,socio->ultimaCuotaPaga);
+}
+
+void mostrarSocios(nodo *lista)
+{
+    if(lista)
+    {
+        nodo *iterador=lista;
+        while(iterador)
+        {
+            mostrarSocio(iterador);
+        }
+    }
+}
+
+void mostrarDeporte(nodo2 *listaDeportes)
+{
+    printf("**********\n");
+    printf("IDDEPORTE: %i DEPORTE: %s VALOR CUOTA: %0.2f \n",listaDeportes->idDeporte,listaDeportes->nombreDeporte,listaDeportes->valorCuota);
+    printf("**********\n");
+}
+void mostrarLDL(nodo2 *listaDeportes)
+{
+    if(listaDeportes)
+    {
+        nodo2 *iterador=listaDeportes;
+        while(iterador)
+        {
+            mostrarDeporte(iterador);
+            mostrarSocios(iterador->listaSocios);
+        }
+    }
+}
+nodo2 *deporteMasPopular(nodo2 *listaDeportes)
+{
+    nodo2 *masPopular=NULL;
+    if(listaDeportes)
+    {
+        int maxPopular=0;
+        int contador=0;
+        nodo2 *iterador=listaDeportes;
+        while(iterador)
+        {
+            nodo *iterSocio=iterador->listaSocios;
+            while(iterSocio)
+            {
+                contador++;
+                iterSocio=iterSocio->sig;
+            }
+            if(contador>maxPopular)
+            {
+                maxPopular=contador;
+                masPopular=iterador;
+                contador=0;
+            }
+            iterador=iterador->sig;
+        }
+    }
+    return masPopular;
+}
+void punto4(nodo2 *listaDeportes)
+{
+    mostrarLDL(listaDeportes);
+    nodo2 *masPopular=deporteMasPopular(listaDeportes);
+    if(masPopular)
+    {
+        printf("El deporte mas popular es ID: %i %s \n",masPopular->idDeporte,masPopular->nombreDeporte);
+    }
+}
+//}
+
+
+//Punto 5
+//{
+void volcarABin(nodo2 *lista,char archivoDep[50],char archivoSoc[50])
+{
+    if(lista)
+    {
+        nodo2 *iterador=lista;
+
+    }
+}
+void punto5(nodo2 *lista);
+//}
+
