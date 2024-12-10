@@ -82,7 +82,9 @@ void punto3(Arbol **arbol,nodo2 *lista);
 
 //Punto4
 //{
-
+void mostrarSTReg(stRegistroDisfraz registro);
+void mostrarArbol(Arbol *arbol);
+void punto4(Arbol *arbol);
 //}
 
 int main()
@@ -91,6 +93,9 @@ int main()
     char nombreArchivo[]="archivoRegistrosDisfraces.bin";
     punto1(nombreArchivo,&lista);
     punto2(lista);
+    Arbol *arbol=inicArbol();
+    punto3(&arbol,lista);
+    punto4(arbol);
     return 0;
 }
 
@@ -327,7 +332,7 @@ Arbol *insertarOrdArbol(Arbol *arbol,Arbol *nuevo)
     }
     else
     {
-        if(strcmpi(arbol->registro.nombreDisfraz,nuevo->registro.nombreDisfraz)>=0)
+        if(strcmpi(arbol->registro.nombreDisfraz,nuevo->registro.nombreDisfraz)<=0)
         {
             arbol->der=insertarOrdArbol(arbol->der,nuevo);
         }
@@ -362,5 +367,31 @@ Arbol *pasarAArbol(Arbol *arbol,nodo2 *lista)
     }
     return arbol;
 }
-void punto3(Arbol **Arbol,nodo2 *lista);
+void punto3(Arbol **arbol,nodo2 *lista)
+{
+    *arbol=pasarAArbol(*arbol,lista);
+}
+//}
+
+//Punto4
+//{
+void mostrarSTReg(stRegistroDisfraz registro)
+{
+    printf("\n ID:%-3i SUC: %-10s DIZ: %-20s GEN: %-10s STOCK: %-10i \n",registro.idSucursal,registro.nombreSucursal,registro.nombreDisfraz,registro.generoDisfraz,registro.stockDisfraz);
+}
+
+void mostrarArbol(Arbol *arbol)
+{
+    if(arbol)
+    {
+        mostrarArbol(arbol->izq);
+        mostrarSTReg(arbol->registro);
+        mostrarArbol(arbol->der);
+    }
+}
+
+void punto4(Arbol *arbol)
+{
+    mostrarArbol(arbol);
+}
 //}
