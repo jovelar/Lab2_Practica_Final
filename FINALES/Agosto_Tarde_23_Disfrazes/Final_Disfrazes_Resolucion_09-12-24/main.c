@@ -87,6 +87,12 @@ void mostrarArbol(Arbol *arbol);
 void punto4(Arbol *arbol);
 //}
 
+//Punto 5
+//{
+void buscarDisfraz(Arbol *arbol,char nombre[25],char genero[25]);
+void punto5(Arbol *arbol);
+//}
+
 int main()
 {
     nodo2 *lista=inicNodo2();
@@ -96,6 +102,7 @@ int main()
     Arbol *arbol=inicArbol();
     punto3(&arbol,lista);
     punto4(arbol);
+    punto5(arbol);
     return 0;
 }
 
@@ -393,5 +400,31 @@ void mostrarArbol(Arbol *arbol)
 void punto4(Arbol *arbol)
 {
     mostrarArbol(arbol);
+}
+//}
+
+//Punto 5
+//{
+void buscarDisfraz(Arbol *arbol,char nombre[25],char genero[25])
+{
+    if(arbol)
+    {
+        buscarDisfraz(arbol->izq,nombre,genero);
+        if(strcmpi(arbol->registro.nombreDisfraz,nombre)==0 && strcmpi(arbol->registro.generoDisfraz,genero)==0)
+        {
+            mostrarSTReg(arbol->registro);
+        }
+        buscarDisfraz(arbol->der,nombre,genero);
+    }
+}
+void punto5(Arbol *arbol)
+{
+    char nombre[25];
+    char genero[25];
+    printf("\n ingrese el nombre del disfraz: ");
+    gets(nombre);
+    printf("\n Ingrese el genero del disfraz ");
+    gets(genero);
+    buscarDisfraz(arbol,nombre,genero);
 }
 //}
