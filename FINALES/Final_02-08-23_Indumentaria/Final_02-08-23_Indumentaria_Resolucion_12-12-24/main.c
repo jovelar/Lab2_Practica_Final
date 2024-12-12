@@ -89,11 +89,23 @@ void punto4(celda arreglo[],int validos);
 //Punto 5
 //{
 int stockRecursivo(producto *lista,int sumatoria,char nombre[25],char deporte[25]);
+int buscaSucPNombre(celda arreglo[],char nombre[25],int validos);
 void punto5(celda arreglo[],int validos);
 //}
 
 int main()
 {
+    Fila fila;
+    inicFila(&fila);
+    celda arreglo[1000];
+    int validos=0;
+    char nombreArchivo[]="archivoRegistrosIndumentaria.bin";
+    punto1(nombreArchivo,&fila);
+    punto2(&fila);
+    punto3(&fila,arreglo,&validos);
+    printf(" Validos %i ",validos);
+    punto4(arreglo,validos);
+    punto5(arreglo,validos);
     return 0;
 }
 
@@ -201,6 +213,7 @@ celda crearCelda(int idSucursal,char nombreSucursal[25])
     celda nuevo;
     nuevo.suc.idSucursal=idSucursal;
     strcpy(nuevo.suc.nombreSucursal,nombreSucursal);
+    nuevo.listaProd=NULL;
     return nuevo;
 }
 
@@ -244,15 +257,25 @@ producto *agregarOrdProd(producto *lista,producto *nuevo)
     }
     else
     {
-        producto *ante;
-        producto *iterador=lista;
-        while(iterador && strcmpi(iterador->prod.nombreProducto,nuevo->prod.nombreProducto)>=0)
+        if(strcmpi(lista->prod.nombreProducto,nuevo->prod.nombreProducto)>=0)
         {
-            ante=iterador;
-            iterador=iterador->sig;
+            nuevo->sig=lista;
+            lista=nuevo;
         }
-        ante->sig=nuevo;
-        nuevo->sig=iterador;
+        else
+
+        {
+            producto *ante;
+            producto *iterador=lista;
+            while(iterador && strcmpi(iterador->prod.nombreProducto,nuevo->prod.nombreProducto)<=0)
+            {
+                ante=iterador;
+                iterador=iterador->sig;
+            }
+            ante->sig=nuevo;
+            nuevo->sig=iterador;
+
+        }
     }
     return lista;
 }
@@ -278,7 +301,7 @@ int pasarAADL(Fila *fila,celda arreglo[],int validos)
 }
 void punto3(Fila *fila,celda arreglo[],int *validos)
 {
-  *validos=pasarAADL(fila,arreglo,validos);
+  *validos=pasarAADL(fila,arreglo,*validos);
 }
 //}
 
@@ -328,6 +351,7 @@ void punto4(celda arreglo[],int validos)
 
 //Punto 5
 //{
+/*
 int stockRecursivo(producto *lista,int sumatoria,char nombre[25],char deporte[25])
 {
     if(lista)
@@ -340,9 +364,66 @@ int stockRecursivo(producto *lista,int sumatoria,char nombre[25],char deporte[25
     }
     return sumatoria;
 }
+*/
+
+int stockRecursivo(producto *lista,int sumatoria,char nombre[25],char deporte[25])
+{
+    if(lista)
+    {
+        if(strstr(lista->prod.nombreProducto,nombre)!=NULL && strstr(lista->prod.deporte,deporte)!=NULL)
+        {
+            sumatoria=sumatoria + lista->prod.stockProducto;
+        }
+        sumatoria=stockRecursivo(lista->sig,sumatoria,nombre,deporte);
+    }
+    return sumatoria;
+}
+
+int buscaSucPNombre(celda arreglo[],char nombre[25],int validos)
+{
+    int posicion=-1;
+    int contador=0;
+    while(contador<validos && posicion==-1)
+    {
+        if(strcmpi(arreglo[contador].suc.nombreSucursal,nombre)==0)
+        {
+            posicion=contador;
+        }
+        contador++;
+    }
+    return posicion;
+}
 
 void punto5(celda arreglo[],int validos)
 {
+    char sucursal[25];
+    char nombre[25];
+    char deporte[25];
 
+    printf("Ingrese el nombre de la sucursal: ");
+    gets(sucursal);
+    printf("Ingrese el nombre del producto: ");
+    gets(nombre);
+    printf("Ingrese el deporte: ");
+    gets(deporte);
+
+    int stock=-1;
+    int posSucursal=buscaSucPNombre(arreglo,sucursal,validos);
+    if(posSucursal!=-1)
+    {
+        stock=stockRecursivo(arreglo[posSucursal].listaProd,0,nombre,deporte);
+        if(stock!=0)
+        {
+            printf("Stock es de %i unidades \n",stock);
+        }
+        else
+        {
+            printf("Productos no encontrados! \n");
+        }
+    }
+    else
+    {
+        printf("\n\n\tSucursal no encontrada! \n ");
+    }
 }
 //}
