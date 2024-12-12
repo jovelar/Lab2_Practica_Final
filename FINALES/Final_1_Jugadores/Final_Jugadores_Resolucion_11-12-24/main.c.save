@@ -52,7 +52,7 @@ nodoListaJugador *insertarJugRec(nodoListaJugador *lista, nodoListaJugador *nuev
 //Punto 2
 //{
 int buscarEquipo(arregloEquipo equipos[],int validos,char nombreEquipo[30]);
-arregloEquipo nuevoEquipo(int id, char nombre[30], int puntos);
+arregloEquipo nuevoEquipo(int id, char nombre, int puntos);
 void altaJugador(arregloEquipo equipos[],char nombreEquipo[30],int *validos,int nroJugador,char nombre[30],char apellido[30],int clase,char puesto[30]);
 void alta(arregloEquipo arreglo[],int *validos);
 //}
@@ -77,17 +77,13 @@ void punto4(arregloEquipo arreglo[],int validos);
 int buscarJugador(char apellido[30],char nombre[30],char equipo[30],arregloEquipo arreglo[],int validos);
 void punto5(arregloEquipo arreglo[],int validos);
 //}
-
-
 int main()
 {
     arregloEquipo equipo[200];
     int validos=0;
-    char nombreArchivo[]="registroJugador.dat";
-
-    punto3(equipo,nombreArchivo,&validos);
-    punto4(equipo,validos);
-    punto5(equipo,validos);
+    char nombreArc
+    
+    punto3(equipo,)
     return 0;
 }
 
@@ -111,13 +107,12 @@ nodoListaJugador *nuevoJugador(int nroJugador,char nombre[30],char apellido[30],
 }
 nodoListaJugador *insertarJugRec(nodoListaJugador *lista, nodoListaJugador *nuevo)
 {
-    if(!lista)
+    if(lista)
     {
         lista=nuevo;
     }
     else
     {
-        printf("\n %s %s \n",lista->j.apellidoJugador,nuevo->j.apellidoJugador);
         if(strcmpi(lista->j.apellidoJugador,nuevo->j.apellidoJugador)>=0)
         {
             nuevo->sig=lista;
@@ -149,7 +144,7 @@ int buscarEquipo(arregloEquipo equipos[],int validos,char nombreEquipo[30])
     return posicion;
 }
 
-arregloEquipo nuevoEquipo(int id, char nombre[30], int puntos)
+arregloEquipo nuevoEquipo(int id, char nombre, int puntos)
 {
     arregloEquipo nuevo;
     nuevo.e.idEquipo=id;
@@ -202,7 +197,7 @@ void alta(arregloEquipo arreglo[],int *validos)
 //{
 int pasarAADL(arregloEquipo arreglo[],char nombreArchivo[30],int validos)
 {
-    FILE *archivo=fopen(nombreArchivo,"rb");
+    FILE *archivo=fopen(archivo,"rb");
     if(archivo)
     {
         stRegistroJugador buffer;
@@ -303,8 +298,6 @@ void punto5(arregloEquipo arreglo[],int validos)
     gets(equipo);
     printf("ingrese el apellido: ");
     gets(apellido);
-    printf("Ingrese el nombre: ");
-    gets(nombre);
 
     numero=buscarJugador(apellido,nombre,equipo,arreglo,validos);
 
